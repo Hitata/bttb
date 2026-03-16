@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun --version)",
+      "Bash(powershell -c \"irm bun.sh/install.ps1 | iex\")",
+      "Bash(export PATH=\"$HOME/.bun/bin:$PATH\")",
+      "Bash(bunx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-bun)",
+      "Bash(export PATH=\"/c/Program Files/Volta:$HOME/.bun/bin:$PATH\")",
+      "Bash(volta install:*)",
+      "Bash(export VOLTA_HOME=\"$HOME/.volta\")",
+      "Bash(export PATH=\"$VOLTA_HOME/bin:$HOME/.bun/bin:$PATH\")",
+      "Bash(mkdir -p /c/Users/admin/Code/bbtb-app)",
+      "Bash(bunx create-next-app@latest /c/Users/admin/Code/bbtb-app --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-bun)",
+      "Bash(rm -rf /c/Users/admin/Code/bbtb-app)",
+      "Bash(export VOLTA_HOME=$HOME/.volta)",
+      "Bash(export PATH=$VOLTA_HOME/bin:$HOME/.bun/bin:$PATH)",
+      "Bash(bunx create-next-app@latest /c/Users/admin/Code/bbtb-app --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-bun --no-turbopack)",
+      "Bash(export PATH=\"$VOLTA_HOME/bin:$HOME/.bun/bin:/c/Users/admin/.bun/bin:$PATH\")",
+      "Bash(export PATH=$VOLTA_HOME/bin:/c/Users/admin/.bun/bin:$PATH)",
+      "Bash(bun x:*)",
+      "Bash(cp -r /c/Users/admin/Code/bbtb-app/* /c/Users/admin/Code/bbtb/)",
+      "Bash(cp /c/Users/admin/Code/bbtb-app/.gitignore /c/Users/admin/Code/bbtb/)",
+      "Bash(cp /c/Users/admin/Code/bbtb-app/.eslintrc* /c/Users/admin/Code/bbtb/)",
+      "Bash(cp /c/Users/admin/Code/bbtb-app/bun.lock /c/Users/admin/Code/bbtb/)",
+      "Bash(bun add:*)"
+    ]
+  }
+}
