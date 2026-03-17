@@ -48,6 +48,11 @@
 }
 
 :root {
+  --element-wood: #16a34a;
+  --element-fire: #dc2626;
+  --element-earth: #b45309;
+  --element-metal: #9ca3af;
+  --element-water: #2563eb;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);

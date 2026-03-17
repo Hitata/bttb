@@ -8,15 +8,59 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?        @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  readings      BaziReading[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model BaziReading {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  gender      String
+  birthYear   Int
+  birthMonth  Int
+  birthDay    Int
+  birthHour   Int?
+  birthMinute Int?
+  result      String   // JSON BaziResult
+  slug        String?  @unique
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model BaziCase {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  birthDate   String
+  birthTime   String?
+  gender      String
+  location    String?
+  description String?
+  categories  String    // JSON string[]
+  tags        String    // JSON string[]
+  chartData   String    // JSON BaziResult
+  coreAnalysis String?
+  traits      String    // JSON TraitItem[]
+  timeline    String    // JSON TimelineEvent[]
+  luckPillars String
+  faq         String
+  isPublished Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Account {

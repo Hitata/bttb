@@ -16,8 +16,10 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
+// Only protect admin/dashboard routes — public pages handle auth client-side
 export const config = {
   matcher: [
-    "/((?!api/auth|signin|_next/static|_next/image|favicon.ico).*)",
+    "/admin/:path*",
+    "/dashboard/:path*",
   ],
 };

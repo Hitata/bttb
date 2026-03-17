@@ -31,7 +31,14 @@ export default function RootLayout({
       >
         <SessionProvider>
           <header className="flex items-center justify-between border-b px-6 py-3">
-            <h1 className="text-lg font-semibold">BBTB</h1>
+            <div className="flex items-center gap-6">
+              <a href="/" className="text-lg font-semibold">BBTB</a>
+              <nav className="hidden sm:flex items-center gap-4 text-sm">
+                <a href="/bazi" className="text-muted-foreground hover:text-foreground transition-colors">Bát Tự</a>
+                <a href="/bazi/cases" className="text-muted-foreground hover:text-foreground transition-colors">Cases</a>
+                <a href="/readings" className="text-muted-foreground hover:text-foreground transition-colors">Lá Số</a>
+              </nav>
+            </div>
             <UserButton />
           </header>
           <main>{children}</main>
