@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { ImageDropZone } from '@/components/iching/ImageDropZone'
-import { CoinCastAnimation } from '@/components/iching/CoinCastAnimation'
-import { HexagramResult } from '@/components/iching/HexagramResult'
+import ImageDropZone from '@/components/iching/ImageDropZone'
+import CoinCastAnimation from '@/components/iching/CoinCastAnimation'
+import HexagramResult from '@/components/iching/HexagramResult'
 import type { CastingResponse } from '@/lib/iching/types'
 
 type PageState = 'idle' | 'casting' | 'result'
