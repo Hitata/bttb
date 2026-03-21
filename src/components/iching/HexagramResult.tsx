@@ -1,6 +1,9 @@
 'use client'
 
-import type { CastingResponse, HexagramInfo, LineValue } from '@/lib/iching/types'
+import { useState, useEffect } from 'react'
+import { InterpretationDisplay } from '@/components/iching/InterpretationDisplay'
+import { PromptGenerator } from '@/components/iching/PromptGenerator'
+import type { CastingResponse, HexagramInfo, LineValue, HexagramData } from '@/lib/iching/types'
 
 interface HexagramResultProps {
   result: CastingResponse
@@ -295,6 +298,30 @@ export function HexagramResult({ result, onCastAgain }: HexagramResultProps) {
   const { primary, changed, lines } = result
   const changedLineValues = changed ? getChangedLineValues(lines) : null
 
+  const [primaryData, setPrimaryData] = useState<HexagramData | null>(null)
+  const [changedData, setChangedData] = useState<HexagramData | null>(null)
+  const [nuclearData, setNuclearData] = useState<HexagramData | null>(null)
+
+  useEffect(() => {
+    const numbers = new Set<number>()
+    numbers.add(primary.number)
+    numbers.add(primary.nuclearNumber)
+    if (changed) {
+      numbers.add(changed.number)
+      numbers.add(changed.nuclearNumber)
+    }
+
+    fetch(`/api/iching/hexagrams?numbers=${[...numbers].join(',')}`)
+      .then(res => res.json())
+      .then((data: HexagramData[]) => {
+        const map = new Map(data.map(h => [h.number, h]))
+        setPrimaryData(map.get(primary.number) ?? null)
+        setChangedData(changed ? (map.get(changed.number) ?? null) : null)
+        setNuclearData(map.get(primary.nuclearNumber) ?? null)
+      })
+      .catch(() => {}) // silently fail — interpretation is supplementary
+  }, [primary, changed])
+
 
 
   return (
@@ -368,6 +395,23 @@ export function HexagramResult({ result, onCastAgain }: HexagramResultProps) {
             </div>
           </div>
         )}
+
+        {/* Interpretation */}
+        <InterpretationDisplay
+          primaryNumber={primary.number}
+          changedNumber={changed?.number ?? null}
+          nuclearNumber={primary.nuclearNumber}
+        />
+
+        {/* Prompt Generator */}
+        <div style={{ textAlign: 'center', marginTop: '24px' }}>
+          <PromptGenerator
+            result={result}
+            primaryData={primaryData}
+            changedData={changedData}
+            nuclearData={nuclearData}
+          />
+        </div>
 
         {/* Cast Again button */}
         <div style={{ textAlign: 'center', marginTop: '24px' }}>
