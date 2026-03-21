@@ -121,6 +121,17 @@ export function linesToTrigramIndex(line1: number, line2: number, line3: number)
 }
 
 /**
+ * Compute the nuclear hexagram (Hỗ quái) number from 6 lines.
+ * Lower nuclear trigram = lines[1], lines[2], lines[3] (0-indexed: lines 2,3,4 in 1-indexed)
+ * Upper nuclear trigram = lines[2], lines[3], lines[4] (0-indexed: lines 3,4,5 in 1-indexed)
+ */
+export function computeNuclearNumber(lines: LineValue[]): number {
+  const lowerIdx = linesToTrigramIndex(lines[1], lines[2], lines[3])
+  const upperIdx = linesToTrigramIndex(lines[2], lines[3], lines[4])
+  return KING_WEN[upperIdx][lowerIdx]
+}
+
+/**
  * Look up full hexagram info from 6 line values (bottom to top).
  */
 export function lookupHexagram(lines: LineValue[]): HexagramInfo {
@@ -143,5 +154,6 @@ export function lookupHexagram(lines: LineValue[]): HexagramInfo {
     name,
     upperTrigram: { symbol: upper.symbol, name: upper.name },
     lowerTrigram: { symbol: lower.symbol, name: lower.name },
+    nuclearNumber: computeNuclearNumber(lines),
   }
 }
