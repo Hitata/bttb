@@ -2,16 +2,16 @@ import type { Stem, Branch, NaYin, TenGodInfo, FiveElement } from './types'
 
 // ===== 10 Heavenly Stems (Thiên Can) =====
 export const HEAVENLY_STEMS: Stem[] = [
-  { index: 0, name: 'Giáp', romaji: 'Jia',  zh: '甲', element: 'Mộc',  polarity: '+', color: 'text-green-600' },
-  { index: 1, name: 'Ất',   romaji: 'Yi',   zh: '乙', element: 'Mộc',  polarity: '-', color: 'text-green-500' },
-  { index: 2, name: 'Bính', romaji: 'Bing', zh: '丙', element: 'Hỏa',  polarity: '+', color: 'text-red-600' },
-  { index: 3, name: 'Đinh', romaji: 'Ding', zh: '丁', element: 'Hỏa',  polarity: '-', color: 'text-red-500' },
-  { index: 4, name: 'Mậu',  romaji: 'Wu',   zh: '戊', element: 'Thổ',  polarity: '+', color: 'text-amber-700' },
-  { index: 5, name: 'Kỷ',   romaji: 'Ji',   zh: '己', element: 'Thổ',  polarity: '-', color: 'text-amber-600' },
-  { index: 6, name: 'Canh', romaji: 'Geng', zh: '庚', element: 'Kim',  polarity: '+', color: 'text-gray-500' },
-  { index: 7, name: 'Tân',  romaji: 'Xin',  zh: '辛', element: 'Kim',  polarity: '-', color: 'text-gray-400' },
-  { index: 8, name: 'Nhâm', romaji: 'Ren',  zh: '壬', element: 'Thủy', polarity: '+', color: 'text-blue-600' },
-  { index: 9, name: 'Quý',  romaji: 'Gui',  zh: '癸', element: 'Thủy', polarity: '-', color: 'text-blue-500' },
+  { index: 0, name: 'Giáp', romaji: 'Jia',  zh: '甲', element: 'Mộc',  polarity: '+', color: 'text-[var(--element-wood)]' },
+  { index: 1, name: 'Ất',   romaji: 'Yi',   zh: '乙', element: 'Mộc',  polarity: '-', color: 'text-[var(--element-wood-light)]' },
+  { index: 2, name: 'Bính', romaji: 'Bing', zh: '丙', element: 'Hỏa',  polarity: '+', color: 'text-[var(--element-fire)]' },
+  { index: 3, name: 'Đinh', romaji: 'Ding', zh: '丁', element: 'Hỏa',  polarity: '-', color: 'text-[var(--element-fire-light)]' },
+  { index: 4, name: 'Mậu',  romaji: 'Wu',   zh: '戊', element: 'Thổ',  polarity: '+', color: 'text-[var(--element-earth)]' },
+  { index: 5, name: 'Kỷ',   romaji: 'Ji',   zh: '己', element: 'Thổ',  polarity: '-', color: 'text-[var(--element-earth-light)]' },
+  { index: 6, name: 'Canh', romaji: 'Geng', zh: '庚', element: 'Kim',  polarity: '+', color: 'text-[var(--element-metal)]' },
+  { index: 7, name: 'Tân',  romaji: 'Xin',  zh: '辛', element: 'Kim',  polarity: '-', color: 'text-[var(--element-metal-light)]' },
+  { index: 8, name: 'Nhâm', romaji: 'Ren',  zh: '壬', element: 'Thủy', polarity: '+', color: 'text-[var(--element-water)]' },
+  { index: 9, name: 'Quý',  romaji: 'Gui',  zh: '癸', element: 'Thủy', polarity: '-', color: 'text-[var(--element-water-light)]' },
 ]
 
 // ===== 12 Earthly Branches (Địa Chi) =====
@@ -256,19 +256,19 @@ export const TEN_GOD_DESCRIPTIONS: TenGodInfo[] = [
 
 // ===== Five Element Colors =====
 export const ELEMENT_COLORS: Record<FiveElement, string> = {
-  'Mộc': 'text-green-600',
-  'Hỏa': 'text-red-600',
-  'Thổ': 'text-amber-700',
-  'Kim': 'text-gray-500',
-  'Thủy': 'text-blue-600',
+  'Mộc': 'text-[var(--element-wood)]',
+  'Hỏa': 'text-[var(--element-fire)]',
+  'Thổ': 'text-[var(--element-earth)]',
+  'Kim': 'text-[var(--element-metal)]',
+  'Thủy': 'text-[var(--element-water)]',
 }
 
 export const ELEMENT_BG_COLORS: Record<FiveElement, string> = {
-  'Mộc': 'bg-green-100',
-  'Hỏa': 'bg-red-100',
-  'Thổ': 'bg-amber-100',
-  'Kim': 'bg-gray-100',
-  'Thủy': 'bg-blue-100',
+  'Mộc': 'bg-[var(--element-wood-light)]/20',
+  'Hỏa': 'bg-[var(--element-fire-light)]/20',
+  'Thổ': 'bg-[var(--element-earth-light)]/20',
+  'Kim': 'bg-[var(--element-metal-light)]/20',
+  'Thủy': 'bg-[var(--element-water-light)]/20',
 }
 
 // ===== Nông Lịch Solar Terms =====

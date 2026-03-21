@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { Copy, Check } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import type { BirthInput } from '@/lib/bazi'
 
 interface ShareLinkBarProps {
@@ -31,19 +33,23 @@ export function ShareLinkBar({ input }: ShareLinkBarProps) {
   }
 
   return (
-    <div className="flex items-center gap-2">
-      <input
-        readOnly
-        value={url}
-        className="flex-1 rounded-md border bg-muted/50 px-3 py-2 text-sm font-mono"
-        onClick={e => (e.target as HTMLInputElement).select()}
-      />
-      <button
-        onClick={handleCopy}
-        className="rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground hover:bg-primary/90 whitespace-nowrap"
-      >
-        {copied ? 'Đã copy!' : 'Copy link'}
-      </button>
-    </div>
+    <Button
+      onClick={handleCopy}
+      variant="outline"
+      size="sm"
+      className="w-full"
+    >
+      {copied ? (
+        <>
+          <Check className="size-3.5" />
+          Đã copy link!
+        </>
+      ) : (
+        <>
+          <Copy className="size-3.5" />
+          Copy link chia sẻ
+        </>
+      )}
+    </Button>
   )
 }

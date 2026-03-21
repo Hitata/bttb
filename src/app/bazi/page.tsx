@@ -12,11 +12,18 @@ import { ThanSatTable } from '@/components/bazi/ThanSatTable'
 import { ThaiMenhCungDisplay } from '@/components/bazi/ThaiMenhCung'
 import { RawDataExport } from '@/components/bazi/RawDataExport'
 import { ShareLinkBar } from '@/components/bazi/ShareLinkBar'
+import { Save, Check, Loader2, CalendarDays } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import type { BaziResult, BirthInput } from '@/lib/bazi'
 
 export default function BaziPage() {
   return (
-    <Suspense fallback={<div className="container mx-auto max-w-6xl px-4 py-8 text-center text-muted-foreground">Đang tải...</div>}>
+    <Suspense fallback={
+      <div className="flex min-h-[60vh] items-center justify-center text-muted-foreground">
+        <Loader2 className="mr-2 size-4 animate-spin" />
+        Đang tải...
+      </div>
+    }>
       <BaziPageContent />
     </Suspense>
   )
@@ -31,6 +38,7 @@ function BaziPageContent() {
   const [error, setError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [formCollapsed, setFormCollapsed] = useState(false)
 
   const handleSubmit = useCallback(async (data: BirthInput) => {
     setIsLoading(true)
@@ -52,6 +60,7 @@ function BaziPageContent() {
 
       const baziResult: BaziResult = await res.json()
       setResult(baziResult)
+      setFormCollapsed(true)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
     } finally {
@@ -135,76 +144,128 @@ function BaziPageContent() {
     minute: Number(searchParams.get('min') || 0),
   } : undefined
 
+  const hasResult = result && input
+
   return (
-    <div className="container mx-auto max-w-6xl px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Lập Lá Số Bát Tự (Tứ Trụ)</h1>
-
-      <div className="rounded-lg border p-6 mb-8">
-        <BirthInputForm
-          onSubmit={handleSubmit}
-          isLoading={isLoading}
-          initialValues={initialValues}
-        />
-      </div>
-
-      {error && (
-        <div className="rounded-lg border border-red-300 bg-red-50 p-4 mb-8 text-red-700 dark:bg-red-950/20 dark:text-red-400">
-          {error}
-        </div>
-      )}
-
-      {result && input && (
-        <div className="space-y-8">
-          {/* Share + Save */}
-          <div className="space-y-3">
-            <ShareLinkBar input={input} />
-            {session?.user && (
-              <button
-                onClick={handleSave}
-                disabled={saving || saved}
-                className="rounded-md border px-4 py-2 text-sm hover:bg-muted disabled:opacity-50"
-              >
-                {saved ? 'Đã lưu!' : saving ? 'Đang lưu...' : 'Lưu lá số'}
-              </button>
-            )}
-          </div>
-
-          {/* Four Pillars + Current Year */}
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_300px]">
-            <BaziPillarTable
-              tuTru={result.tutru}
-              solarDate={result.date.solar}
-              lunarDate={result.date.lunar}
-              nongLichDate={result.date.nongLich}
-              hour={input.hour}
-              minute={input.minute}
+    <div className="mx-auto max-w-[1400px] px-4 py-6 lg:px-6">
+      <div className="flex flex-col gap-6 lg:flex-row">
+        {/* Left sidebar - Form */}
+        <aside className={`shrink-0 ${hasResult ? 'lg:w-[180px]' : 'lg:w-[200px]'} transition-all duration-300`}>
+          <div className="lg:sticky lg:top-[72px]">
+            <h1 className="mb-4 text-lg font-semibold tracking-tight lg:text-xl">
+              Lá Số Bát Tự
+            </h1>
+            <BirthInputForm
+              onSubmit={handleSubmit}
+              isLoading={isLoading}
+              initialValues={initialValues}
+              collapsed={formCollapsed}
+              onExpand={() => setFormCollapsed(false)}
+              currentInput={input}
             />
-            <CurrentYearPanel data={result.daivan.currentYear} />
-          </div>
 
-          {/* Dai Van */}
-          <DaiVanSection
-            cycles={result.daivan.cycles}
-            chuKy={result.daivan.chuKy}
-            startAge={result.daivan.startAge}
-            onYearClick={handleYearClick}
-          />
-
-          {/* Feng Shui + Than Sat + Thai Menh Cung */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {result.compass.length > 0 && (
-              <FengShuiCompass data={result.compass[0]} />
+            {error && (
+              <div className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/20 dark:text-red-400">
+                {error}
+              </div>
             )}
-            <ThanSatTable data={result.thansat} />
-            {result.thaiMenhCung && (
-              <ThaiMenhCungDisplay data={result.thaiMenhCung} />
+
+            {/* Actions when result is available */}
+            {hasResult && (
+              <div className="mt-3 space-y-2">
+                <ShareLinkBar input={input} />
+                {session?.user && (
+                  <Button
+                    onClick={handleSave}
+                    disabled={saving || saved}
+                    variant={saved ? 'secondary' : 'outline'}
+                    size="sm"
+                    className="w-full"
+                  >
+                    {saved ? (
+                      <>
+                        <Check className="size-3.5" />
+                        Đã lưu
+                      </>
+                    ) : saving ? (
+                      <>
+                        <Loader2 className="size-3.5 animate-spin" />
+                        Đang lưu...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="size-3.5" />
+                        Lưu lá số
+                      </>
+                    )}
+                  </Button>
+                )}
+              </div>
             )}
           </div>
+        </aside>
 
-          {/* Raw Data Export */}
-          <RawDataExport result={result} input={input} />
-        </div>
-      )}
+        {/* Right content - Results */}
+        <main className="min-w-0 flex-1">
+          {!hasResult && !isLoading && (
+            <div className="flex min-h-[40vh] flex-col items-center justify-center text-center">
+              <div className="rounded-full bg-muted p-4">
+                <CalendarDays className="size-8 text-muted-foreground" />
+              </div>
+              <p className="mt-4 text-sm text-muted-foreground">
+                Nhập thông tin ngày sinh để lập lá số
+              </p>
+            </div>
+          )}
+
+          {isLoading && (
+            <div className="flex min-h-[40vh] flex-col items-center justify-center">
+              <Loader2 className="size-8 animate-spin text-muted-foreground" />
+              <p className="mt-3 text-sm text-muted-foreground">Đang tính toán...</p>
+            </div>
+          )}
+
+          {hasResult && (
+            <div className="space-y-6">
+              {/* Four Pillars + Current Year */}
+              <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1fr_280px]">
+                <BaziPillarTable
+                  tuTru={result.tutru}
+                  solarDate={result.date.solar}
+                  lunarDate={result.date.lunar}
+                  nongLichDate={result.date.nongLich}
+                  hour={input.hour}
+                  minute={input.minute}
+                />
+                <CurrentYearPanel data={result.daivan.currentYear} />
+              </div>
+
+              {/* Dai Van */}
+              <DaiVanSection
+                cycles={result.daivan.cycles}
+                chuKy={result.daivan.chuKy}
+                startAge={result.daivan.startAge}
+                onYearClick={handleYearClick}
+              />
+
+              {/* Feng Shui + Than Sat + Thai Menh Cung */}
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+                {result.compass.length > 0 && (
+                  <FengShuiCompass data={result.compass[0]} />
+                )}
+                <ThanSatTable data={result.thansat} />
+                {result.thaiMenhCung && (
+                  <ThaiMenhCungDisplay data={result.thaiMenhCung} />
+                )}
+              </div>
+
+              {/* Raw Data Export */}
+              <RawDataExport result={result} input={input} />
+            </div>
+          )}
+        </main>
+      </div>
     </div>
   )
 }
+
