@@ -295,7 +295,7 @@ export function HexagramResult({ result, onCastAgain }: HexagramResultProps) {
   const { primary, changed, lines } = result
   const changedLineValues = changed ? getChangedLineValues(lines) : null
 
-  const movingCount = lines.filter(isMoving).length
+
 
   return (
     <div
@@ -342,35 +342,6 @@ export function HexagramResult({ result, onCastAgain }: HexagramResultProps) {
             }}
             className="gap-3 sm:gap-4"
           >
-            {/* Arrow behind both cards */}
-            <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '2px',
-                opacity: 0.06,
-                pointerEvents: 'none',
-                zIndex: 0,
-              }}
-            >
-              <span style={{ fontSize: '28px', color: '#FBBF24' }}>→</span>
-              <span
-                style={{
-                  fontSize: '8px',
-                  color: 'rgba(255,255,255,0.6)',
-                  whiteSpace: 'nowrap',
-                  letterSpacing: '0.05em',
-                }}
-              >
-                {movingCount} hào biến
-              </span>
-            </div>
-
             <HexagramDiagram
               info={primary}
               lineValues={lines}
