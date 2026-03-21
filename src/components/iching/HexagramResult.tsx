@@ -342,7 +342,7 @@ export function HexagramResult({ result, onCastAgain }: HexagramResultProps) {
       }}
       className="[--line-width:68px] sm:[--line-width:88px] [--line-height:6px] sm:[--line-height:7px] [--yin-gap:8px] sm:[--yin-gap:10px] [--label-size:8px] sm:[--label-size:10px] [--trigram-label-size:8px] sm:[--trigram-label-size:9px] [--num-size:8px] sm:[--num-size:9px] [--zh-size:24px] sm:[--zh-size:28px] [--vi-size:12px] sm:[--vi-size:13px]"
     >
-      <div style={{ padding: '20px 14px 40px' }}>
+      <div style={{ padding: '20px 16px 40px', maxWidth: '720px', margin: '0 auto' }}>
         {/* Page title */}
         <div
           style={{
@@ -422,7 +422,7 @@ export function HexagramResult({ result, onCastAgain }: HexagramResultProps) {
               border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: '10px',
               padding: '12px 32px',
-              fontSize: '13px',
+              fontSize: '15px',
               color: 'rgba(255,255,255,0.45)',
               cursor: 'pointer',
               minHeight: '48px',

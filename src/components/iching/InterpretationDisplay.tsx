@@ -18,24 +18,26 @@ interface TextBlockProps {
 
 function TextBlock({ label, text }: TextBlockProps) {
   return (
-    <div style={{ marginBottom: '14px' }}>
+    <div style={{ marginBottom: '18px' }}>
       <div
         style={{
-          fontSize: '10px',
+          fontSize: '12px',
           textTransform: 'uppercase',
-          letterSpacing: '0.12em',
-          color: 'rgba(255,255,255,0.3)',
-          marginBottom: '5px',
+          letterSpacing: '0.1em',
+          color: 'rgba(255,255,255,0.35)',
+          marginBottom: '6px',
+          fontWeight: 500,
         }}
       >
         {label}
       </div>
       <div
         style={{
-          fontSize: '14px',
-          color: 'rgba(255,255,255,0.7)',
+          fontSize: '16px',
+          color: 'rgba(255,255,255,0.75)',
           lineHeight: 1.7,
           whiteSpace: 'pre-line',
+          maxWidth: '640px',
         }}
       >
         {text}
@@ -77,16 +79,16 @@ function Section({ sectionKey, title, data, expanded, onToggle }: SectionProps) 
       >
         <div
           style={{
-            fontSize: '14px',
+            fontSize: '16px',
             color: 'rgba(255,255,255,0.85)',
             textAlign: 'left',
           }}
         >
-          <span style={{ color: 'rgba(255,255,255,0.35)', marginRight: '6px' }}>{title}</span>
-          <span>
+          <span style={{ color: 'rgba(255,255,255,0.4)', marginRight: '6px', fontSize: '13px' }}>{title}</span>
+          <span style={{ fontWeight: 500 }}>
             #{data.number} {data.nameVi}{' '}
-            <span style={{ color: 'rgba(255,255,255,0.4)' }}>({data.nameZh})</span>{' '}
-            <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: '13px' }}>
+            <span style={{ color: 'rgba(255,255,255,0.5)' }}>({data.nameZh})</span>{' '}
+            <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '14px', fontWeight: 400 }}>
               — {data.nameEn}
             </span>
           </span>
@@ -111,10 +113,10 @@ function Section({ sectionKey, title, data, expanded, onToggle }: SectionProps) 
           {/* Structure line */}
           <div
             style={{
-              fontSize: '12px',
-              color: 'rgba(255,255,255,0.3)',
-              marginBottom: '18px',
-              letterSpacing: '0.04em',
+              fontSize: '14px',
+              color: 'rgba(255,255,255,0.4)',
+              marginBottom: '20px',
+              letterSpacing: '0.03em',
             }}
           >
             {data.structure}
