@@ -48,6 +48,7 @@
 }
 
 :root {
+  /* Ngũ Hành element colors — light mode */
   --element-wood: #2D6A4F;
   --element-wood-light: #52B788;
   --element-fire: #D62828;
@@ -93,6 +94,18 @@
 }
 
 .dark {
+  /* Ngũ Hành element colors — dark mode (desaturated/lighter for contrast) */
+  --element-wood: #40916C;
+  --element-wood-light: #74C69D;
+  --element-fire: #EF4444;
+  --element-fire-light: #FBBF24;
+  --element-earth: #D4A017;
+  --element-earth-light: #E9C46A;
+  --element-water: #3B82F6;
+  --element-water-light: #93C5FD;
+  --element-metal: #9CA3AF;
+  --element-metal-light: #E5E7EB;
+
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);

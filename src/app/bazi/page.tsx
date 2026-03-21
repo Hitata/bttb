@@ -18,6 +18,7 @@ const FengShuiCompass = dynamic(() => import('@/components/bazi/FengShuiCompass'
 const ThanSatTable = dynamic(() => import('@/components/bazi/ThanSatTable').then(m => ({ default: m.ThanSatTable })))
 const ThaiMenhCungDisplay = dynamic(() => import('@/components/bazi/ThaiMenhCung').then(m => ({ default: m.ThaiMenhCungDisplay })))
 const RawDataExport = dynamic(() => import('@/components/bazi/RawDataExport').then(m => ({ default: m.RawDataExport })))
+const EnergyColorProfile = dynamic(() => import('@/components/bazi/EnergyColorProfile').then(m => ({ default: m.EnergyColorProfile })))
 
 export default function BaziPage() {
   return (
@@ -259,6 +260,9 @@ function BaziPageContent() {
                   <ThaiMenhCungDisplay data={result.thaiMenhCung} />
                 )}
               </div>
+
+              {/* Energy Color Profile */}
+              <EnergyColorProfile result={result} input={input} />
 
               {/* Raw Data Export */}
               <RawDataExport result={result} input={input} />
