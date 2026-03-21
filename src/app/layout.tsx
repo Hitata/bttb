@@ -40,6 +40,7 @@ export default function RootLayout({
                 <a href="/bazi" className="rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Bát Tự</a>
                 <a href="/bazi/cases" className="rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Cases</a>
                 <a href="/readings" className="rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Lá Số</a>
+                <a href="/iching" className="rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Kinh Dịch</a>
               </nav>
             </div>
             <div className="flex items-center gap-2">
