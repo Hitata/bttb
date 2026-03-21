@@ -26,6 +26,7 @@ export interface HexagramInfo {
   name: HexagramName
   upperTrigram: { symbol: string; name: string }
   lowerTrigram: { symbol: string; name: string }
+  nuclearNumber: number
 }
 
 export interface CastingResponse {
@@ -40,4 +41,18 @@ export interface CastingRequest {
   imageHash: string
   /** giờ động tâm — the moment of intention (ms since epoch). Defaults to server time if omitted. */
   intentionTime?: number
+}
+
+export interface HexagramData {
+  number: number
+  nameVi: string
+  nameZh: string
+  nameEn: string
+  structure: string
+  nuclearNumber: number
+  energyState: string
+  physicist: string
+  sage: string
+  advisor: string
+  balance: string
 }
