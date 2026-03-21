@@ -4,7 +4,7 @@ import { castHexagram, isValidImageHash } from '@/lib/iching/casting'
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { imageHash } = body
+    const { imageHash, intentionTime } = body
 
     if (!isValidImageHash(imageHash)) {
       return NextResponse.json(
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const result = castHexagram(imageHash)
+    const result = castHexagram(imageHash, intentionTime)
     return NextResponse.json(result)
   } catch (error) {
     console.error('I Ching casting error:', error)

@@ -38,4 +38,6 @@ export interface CastingResponse {
 
 export interface CastingRequest {
   imageHash: string
+  /** giờ động tâm — the moment of intention (ms since epoch). Defaults to server time if omitted. */
+  intentionTime?: number
 }

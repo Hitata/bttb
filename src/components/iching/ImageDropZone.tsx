@@ -27,10 +27,16 @@ async function hashImageFile(file: File): Promise<string> {
     .join('')
 }
 
+function toLocalDatetimeString(date: Date): string {
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`
+}
+
 export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [state, setState] = useState<State>({ status: 'idle' })
   const [isDragOver, setIsDragOver] = useState(false)
+  const [intentionTime, setIntentionTime] = useState(() => toLocalDatetimeString(new Date()))
 
   const processFile = useCallback(
     async (file: File) => {
@@ -48,7 +54,10 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
         const res = await fetch('/api/iching/cast', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ imageHash }),
+          body: JSON.stringify({
+            imageHash,
+            intentionTime: new Date(intentionTime).getTime(),
+          }),
         })
 
         if (!res.ok) {
@@ -69,7 +78,7 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
         setState({ status: 'error', message: 'Casting failed, please try again' })
       }
     },
-    [onCasted],
+    [onCasted, intentionTime],
   )
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -106,6 +115,20 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#0a0a0a] px-4">
+      {/* Giờ động tâm — moment of intention */}
+      <div className="mb-6 flex flex-col items-center gap-1.5">
+        <label htmlFor="intention-time" className="text-[10px] uppercase tracking-[0.18em] text-white/25">
+          Giờ động tâm · 動心時
+        </label>
+        <input
+          id="intention-time"
+          type="datetime-local"
+          value={intentionTime}
+          onChange={(e) => setIntentionTime(e.target.value)}
+          className="rounded-md border border-white/10 bg-white/[0.03] px-3 py-1.5 text-center text-sm text-white/60 outline-none transition-colors focus:border-white/25 [color-scheme:dark]"
+        />
+      </div>
+
       {/* Error message — rendered above the drop zone */}
       {state.status === 'error' && (
         <p className="mb-4 text-sm text-red-400/80">{state.message}</p>

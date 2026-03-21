@@ -12,9 +12,11 @@ import type { LineValue, CoinFace, CoinThrow, CastingResponse } from './types'
  * 4. Look up primary hexagram from King Wen table
  * 5. If moving lines exist, flip them and look up changed hexagram
  */
-export function castHexagram(imageHash: string): CastingResponse {
+export function castHexagram(imageHash: string, intentionTime?: number): CastingResponse {
   const timestamp = Date.now()
-  const seedString = `${imageHash}:${TRUNG}:${timestamp}`
+  // giờ động tâm: use the time difference between intention and upload as extra entropy
+  const timeDelta = intentionTime ? timestamp - intentionTime : 0
+  const seedString = `${imageHash}:${TRUNG}:${timeDelta}:${timestamp}`
   const buffer = createHash('sha256').update(seedString).digest()
 
   const lines: LineValue[] = []
