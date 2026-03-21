@@ -1,20 +1,23 @@
 'use client'
 
 import { Suspense, useState, useEffect, useCallback } from 'react'
+import dynamic from 'next/dynamic'
 import { useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { BirthInputForm } from '@/components/bazi/BirthInputForm'
-import { BaziPillarTable } from '@/components/bazi/BaziPillarTable'
-import { CurrentYearPanel } from '@/components/bazi/CurrentYearPanel'
-import { DaiVanSection } from '@/components/bazi/DaiVanSection'
-import { FengShuiCompass } from '@/components/bazi/FengShuiCompass'
-import { ThanSatTable } from '@/components/bazi/ThanSatTable'
-import { ThaiMenhCungDisplay } from '@/components/bazi/ThaiMenhCung'
-import { RawDataExport } from '@/components/bazi/RawDataExport'
+import { BirthInputSummary } from '@/components/bazi/BirthInputSummary'
 import { ShareLinkBar } from '@/components/bazi/ShareLinkBar'
 import { Save, Check, Loader2, CalendarDays } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import type { BaziResult, BirthInput } from '@/lib/bazi'
+
+const BaziPillarTable = dynamic(() => import('@/components/bazi/BaziPillarTable').then(m => ({ default: m.BaziPillarTable })))
+const CurrentYearPanel = dynamic(() => import('@/components/bazi/CurrentYearPanel').then(m => ({ default: m.CurrentYearPanel })))
+const DaiVanSection = dynamic(() => import('@/components/bazi/DaiVanSection').then(m => ({ default: m.DaiVanSection })))
+const FengShuiCompass = dynamic(() => import('@/components/bazi/FengShuiCompass').then(m => ({ default: m.FengShuiCompass })))
+const ThanSatTable = dynamic(() => import('@/components/bazi/ThanSatTable').then(m => ({ default: m.ThanSatTable })))
+const ThaiMenhCungDisplay = dynamic(() => import('@/components/bazi/ThaiMenhCung').then(m => ({ default: m.ThaiMenhCungDisplay })))
+const RawDataExport = dynamic(() => import('@/components/bazi/RawDataExport').then(m => ({ default: m.RawDataExport })))
 
 export default function BaziPage() {
   return (
@@ -67,6 +70,8 @@ function BaziPageContent() {
       setIsLoading(false)
     }
   }, [])
+
+  const handleExpand = useCallback(() => setFormCollapsed(false), [])
 
   // Auto-load from URL params
   useEffect(() => {
@@ -155,14 +160,10 @@ function BaziPageContent() {
             <h1 className="mb-4 text-lg font-semibold tracking-tight lg:text-xl">
               Lá Số Bát Tự
             </h1>
-            <BirthInputForm
-              onSubmit={handleSubmit}
-              isLoading={isLoading}
-              initialValues={initialValues}
-              collapsed={formCollapsed}
-              onExpand={() => setFormCollapsed(false)}
-              currentInput={input}
-            />
+            {formCollapsed && input
+              ? <BirthInputSummary input={input} onEdit={handleExpand} />
+              : <BirthInputForm onSubmit={handleSubmit} isLoading={isLoading} initialValues={initialValues} />
+            }
 
             {error && (
               <div className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/20 dark:text-red-400">
