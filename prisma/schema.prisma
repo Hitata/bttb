@@ -96,3 +96,17 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Hexagram {
+  number        Int     @id
+  nameVi        String
+  nameZh        String
+  nameEn        String
+  structure     String
+  nuclearNumber Int
+  energyState   String
+  physicist     String
+  sage          String
+  advisor       String
+  balance       String
+}
