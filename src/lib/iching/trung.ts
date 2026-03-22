@@ -3,4 +3,4 @@
  * to seed hexagram generation. The spelling "eterenity" is intentional.
  * Server-only: this file should never be imported by client components.
  */
-export const TRUNG = 'in eterenity out infinity'
+export const TRUNG = '- eternal + impermanence | in-hale ex-hale'
