@@ -7,7 +7,8 @@ import { useSession } from 'next-auth/react'
 import { BirthInputForm } from '@/components/bazi/BirthInputForm'
 import { BirthInputSummary } from '@/components/bazi/BirthInputSummary'
 import { ShareLinkBar } from '@/components/bazi/ShareLinkBar'
-import { Save, Check, Loader2, CalendarDays } from 'lucide-react'
+import { Save, Check, Loader2, CalendarDays, Users } from 'lucide-react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import type { BaziResult, BirthInput } from '@/lib/bazi'
 
@@ -184,9 +185,18 @@ function BaziPageContent() {
         {/* Left sidebar - Form */}
         <aside className={`shrink-0 ${hasResult ? 'lg:w-[180px]' : 'lg:w-[200px]'} transition-all duration-300`}>
           <div className="lg:sticky lg:top-[72px]">
-            <h1 className="mb-4 text-lg font-semibold tracking-tight lg:text-xl">
-              Lá Số Bát Tự
-            </h1>
+            <div className="mb-4 flex items-center justify-between">
+              <h1 className="text-lg font-semibold tracking-tight lg:text-xl">
+                Lá Số Bát Tự
+              </h1>
+              <Link
+                href="/bazi/clients"
+                className="flex items-center gap-1 rounded-md border border-white/10 px-2 py-1 text-[11px] text-muted-foreground transition-colors hover:bg-muted"
+              >
+                <Users className="size-3" />
+                Khách
+              </Link>
+            </div>
             {formCollapsed && input
               ? <BirthInputSummary input={input} onEdit={handleExpand} />
               : <BirthInputForm onSubmit={handleSubmit} isLoading={isLoading} initialValues={initialValues} />
