@@ -1,12 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { InterpretationDisplay } from '@/components/iching/InterpretationDisplay'
 import { PromptGenerator } from '@/components/iching/PromptGenerator'
 import type { CastingResponse, HexagramInfo, LineValue, HexagramData } from '@/lib/iching/types'
 
 interface HexagramResultProps {
   result: CastingResponse
+  question: string
   onCastAgain: () => void
 }
 
@@ -294,7 +296,7 @@ function HexagramDiagram({ info, lineValues, label, showMoving }: HexagramDiagra
   )
 }
 
-export function HexagramResult({ result, onCastAgain }: HexagramResultProps) {
+export function HexagramResult({ result, question, onCastAgain }: HexagramResultProps) {
   const { primary, changed, lines } = result
   const changedLineValues = changed ? getChangedLineValues(lines) : null
 
@@ -410,11 +412,12 @@ export function HexagramResult({ result, onCastAgain }: HexagramResultProps) {
             primaryData={primaryData}
             changedData={changedData}
             nuclearData={nuclearData}
+            question={question}
           />
         </div>
 
-        {/* Cast Again button */}
-        <div style={{ textAlign: 'center', marginTop: '24px' }}>
+        {/* Action buttons */}
+        <div style={{ textAlign: 'center', marginTop: '24px', display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
           <button
             onClick={onCastAgain}
             style={{
@@ -431,6 +434,23 @@ export function HexagramResult({ result, onCastAgain }: HexagramResultProps) {
           >
             Gieo lại · Cast Again
           </button>
+          <Link
+            href="/iching/history"
+            style={{
+              background: 'none',
+              border: '1px solid rgba(255,255,255,0.06)',
+              borderRadius: '10px',
+              padding: '12px 24px',
+              fontSize: '13px',
+              color: 'rgba(255,255,255,0.3)',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              minHeight: '48px',
+            }}
+          >
+            Lịch sử
+          </Link>
         </div>
       </div>
     </div>

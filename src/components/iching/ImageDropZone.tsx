@@ -4,7 +4,7 @@ import { useRef, useState, useCallback, DragEvent, ChangeEvent } from 'react'
 import type { CastingResponse } from '@/lib/iching/types'
 
 interface ImageDropZoneProps {
-  onCasted: (result: CastingResponse) => void
+  onCasted: (result: CastingResponse, question: string) => void
 }
 
 type State =
@@ -37,6 +37,7 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
   const [state, setState] = useState<State>({ status: 'idle' })
   const [isDragOver, setIsDragOver] = useState(false)
   const [intentionTime, setIntentionTime] = useState(() => toLocalDatetimeString(new Date()))
+  const [question, setQuestion] = useState('')
 
   const processFile = useCallback(
     async (file: File) => {
@@ -71,14 +72,14 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
 
         // Small delay lets the opacity transition play before parent unmounts this
         setTimeout(() => {
-          onCasted(result)
+          onCasted(result, question)
         }, 400)
       } catch {
         URL.revokeObjectURL(previewUrl)
         setState({ status: 'error', message: 'Casting failed, please try again' })
       }
     },
-    [onCasted, intentionTime],
+    [onCasted, intentionTime, question],
   )
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -115,6 +116,21 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#0a0a0a] px-4">
+      {/* Câu hỏi — question */}
+      <div className="mb-6 flex w-full max-w-sm flex-col items-center gap-1.5">
+        <label htmlFor="question" className="text-[10px] uppercase tracking-[0.18em] text-white/25">
+          Câu hỏi · 問題
+        </label>
+        <textarea
+          id="question"
+          rows={2}
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          placeholder="Điều bạn muốn hỏi..."
+          className="w-full resize-none rounded-md border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-white/60 placeholder:text-white/20 outline-none transition-colors focus:border-white/25"
+        />
+      </div>
+
       {/* Giờ động tâm — moment of intention */}
       <div className="mb-6 flex flex-col items-center gap-1.5">
         <label htmlFor="intention-time" className="text-[10px] uppercase tracking-[0.18em] text-white/25">

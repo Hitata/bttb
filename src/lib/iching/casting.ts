@@ -72,6 +72,8 @@ export function castHexagram(imageHash: string, intentionTime?: number): Casting
     primary,
     changed,
     timestamp,
+    imageHash,
+    intentionTime: intentionTime ?? timestamp,
   }
 }
 

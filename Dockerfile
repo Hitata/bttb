@@ -17,6 +17,12 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/src/generated ./src/generated
 COPY . .
+
+ARG DATABASE_URL="file:./prod.db"
+ARG AUTH_SECRET="build-time-placeholder"
+ENV DATABASE_URL=${DATABASE_URL}
+ENV AUTH_SECRET=${AUTH_SECRET}
+
 RUN bun run build
 
 # Production

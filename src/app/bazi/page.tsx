@@ -42,6 +42,8 @@ function BaziPageContent() {
   const [error, setError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [savingClient, setSavingClient] = useState(false)
+  const [savedClient, setSavedClient] = useState(false)
   const [formCollapsed, setFormCollapsed] = useState(false)
 
   const handleSubmit = useCallback(async (data: BirthInput) => {
@@ -49,6 +51,7 @@ function BaziPageContent() {
     setError(null)
     setInput(data)
     setSaved(false)
+    setSavedClient(false)
 
     try {
       const res = await fetch('/api/bazi/calculate', {
@@ -121,6 +124,29 @@ function BaziPageContent() {
     }
   }
 
+  const handleSaveClient = async () => {
+    if (!result || !input) return
+    setSavingClient(true)
+    try {
+      const res = await fetch('/api/bazi/clients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: input.name,
+          gender: input.gender,
+          year: input.year,
+          month: input.month,
+          day: input.day,
+          hour: input.hour,
+          minute: input.minute,
+        }),
+      })
+      if (res.ok) setSavedClient(true)
+    } finally {
+      setSavingClient(false)
+    }
+  }
+
   const handleYearClick = async (year: number) => {
     if (!result) return
     try {
@@ -176,6 +202,30 @@ function BaziPageContent() {
             {hasResult && (
               <div className="mt-3 space-y-2">
                 <ShareLinkBar input={input} />
+                <Button
+                  onClick={handleSaveClient}
+                  disabled={savingClient || savedClient}
+                  variant={savedClient ? 'secondary' : 'outline'}
+                  size="sm"
+                  className="w-full"
+                >
+                  {savedClient ? (
+                    <>
+                      <Check className="size-3.5" />
+                      Đã lưu khách
+                    </>
+                  ) : savingClient ? (
+                    <>
+                      <Loader2 className="size-3.5 animate-spin" />
+                      Đang lưu...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="size-3.5" />
+                      Lưu khách hàng
+                    </>
+                  )}
+                </Button>
                 {session?.user && (
                   <Button
                     onClick={handleSave}

@@ -32,19 +32,21 @@ jobs:
           DATABASE_URL: "file:./dev.db"
           AUTH_SECRET: "ci-build-secret-not-for-production"
 
-  # Uncomment and configure for your deployment target:
-  #
-  # deploy-docker:
-  #   needs: build
-  #   if: github.ref == 'refs/heads/main'
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Build & push Docker image
-  #       run: |
-  #         docker build -t your-registry/bbtb-app .
-  #         docker push your-registry/bbtb-app
-  #
-  # deploy-vercel:
-  #   Note: If using Vercel, connect your repo at vercel.com
-  #   No GitHub Action needed - Vercel deploys automatically on push.
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Hetzner
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ~/bttb
+            git pull origin main
+            docker compose up -d --build --remove-orphans
+            docker image prune -f

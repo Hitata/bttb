@@ -11,9 +11,11 @@ type PageState = 'idle' | 'casting' | 'result'
 export default function IChing() {
   const [state, setState] = useState<PageState>('idle')
   const [result, setResult] = useState<CastingResponse | null>(null)
+  const [question, setQuestion] = useState('')
 
-  const handleCasted = (res: CastingResponse) => {
+  const handleCasted = (res: CastingResponse, q: string) => {
     setResult(res)
+    setQuestion(q)
     setState('casting')
   }
 
@@ -21,6 +23,7 @@ export default function IChing() {
 
   const handleCastAgain = () => {
     setResult(null)
+    setQuestion('')
     setState('idle')
   }
 
@@ -33,7 +36,7 @@ export default function IChing() {
         <CoinCastAnimation result={result} onComplete={handleAnimationComplete} />
       )}
       {state === 'result' && result && (
-        <HexagramResult result={result} onCastAgain={handleCastAgain} />
+        <HexagramResult result={result} question={question} onCastAgain={handleCastAgain} />
       )}
     </div>
   )
