@@ -106,7 +106,7 @@ function HexDetail({
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
-            <div className="text-4xl font-serif" style={{ color }}>
+            <div className="text-3xl sm:text-4xl font-serif" style={{ color }}>
               {hex.cn}
             </div>
             <div>
@@ -171,7 +171,7 @@ function GridView({
 
   return (
     <div className="overflow-x-auto">
-      <div className="grid grid-cols-9 gap-0.5 min-w-[400px]">
+      <div className="grid grid-cols-9 gap-0.5 min-w-[360px]">
         <div className="flex items-end justify-end p-1">
           <span className="text-[10px] text-muted-foreground leading-tight text-right">
             Ngoại↓<br />Nội→
@@ -194,7 +194,7 @@ function GridView({
                 <button
                   key={`cell-${i}-${j}`}
                   onClick={() => onSelectHex(hex)}
-                  className={`flex flex-col items-center justify-center gap-0.5 p-1.5 rounded border text-center transition-all min-h-[72px] ${
+                  className={`flex flex-col items-center justify-center gap-0.5 p-1 sm:p-1.5 rounded border text-center transition-all min-h-[56px] sm:min-h-[72px] ${
                     isHighlighted(hex)
                       ? 'hover:bg-muted/70 border-border cursor-pointer'
                       : 'opacity-25 border-transparent cursor-pointer'
@@ -208,7 +208,7 @@ function GridView({
                   >
                     {hex.cn}
                   </span>
-                  <span className="text-[10px] text-muted-foreground leading-none">{hex.vn}</span>
+                  <span className="hidden sm:inline text-[10px] text-muted-foreground leading-none">{hex.vn}</span>
                 </button>
               ) : (
                 <div key={`empty-${i}-${j}`} />
@@ -304,8 +304,8 @@ export default function HexagramsPage() {
   return (
     <div className="container mx-auto max-w-5xl px-4 py-8">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold">64 Quẻ Kinh Dịch</h1>
-        <p className="text-muted-foreground mt-1">Lục Thập Tứ Quái · 64 Hexagrams of the I Ching</p>
+        <h1 className="text-2xl sm:text-3xl font-bold">64 Quẻ Kinh Dịch</h1>
+        <p className="text-muted-foreground mt-1 text-sm sm:text-base">Lục Thập Tứ Quái · 64 Hexagrams of the I Ching</p>
       </div>
 
       <div className="flex flex-wrap items-center gap-2 mb-4">
