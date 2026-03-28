@@ -16,6 +16,30 @@ import {
   type Hexagram,
 } from '@/lib/hexagrams-data'
 
+function LineBar({
+  isYang,
+  color,
+  w,
+  h,
+  gap,
+}: {
+  isYang: number
+  color: string
+  w: number
+  h: number
+  gap: number
+}) {
+  return isYang ? (
+    <div style={{ width: w, height: h, background: color, borderRadius: h / 2 }} />
+  ) : (
+    <div style={{ width: w, display: 'flex', gap }}>
+      <div style={{ flex: 1, height: h, background: color, borderRadius: h / 2 }} />
+      <div style={{ flex: 1, height: h, background: color, borderRadius: h / 2 }} />
+    </div>
+  )
+}
+
+// Renders all 6 lines of a hexagram (upper + lower trigram)
 function HexLines({
   upperIdx,
   lowerIdx,
@@ -34,19 +58,32 @@ function HexLines({
 
   return (
     <div className="flex flex-col gap-[3px] items-center">
-      {lines.map((isYang, i) =>
-        isYang ? (
-          <div
-            key={i}
-            style={{ width: w, height: h, background: color, borderRadius: h / 2 }}
-          />
-        ) : (
-          <div key={i} style={{ width: w, display: 'flex', gap: gap }}>
-            <div style={{ flex: 1, height: h, background: color, borderRadius: h / 2 }} />
-            <div style={{ flex: 1, height: h, background: color, borderRadius: h / 2 }} />
-          </div>
-        )
-      )}
+      {lines.map((isYang, i) => (
+        <LineBar key={i} isYang={isYang} color={color} w={w} h={h} gap={gap} />
+      ))}
+    </div>
+  )
+}
+
+// Renders just 3 lines of a single trigram
+function TrigramLines({
+  trigramIdx,
+  size = 'lg',
+}: {
+  trigramIdx: number
+  size?: 'sm' | 'lg'
+}) {
+  const trigram = TRIGRAMS[trigramIdx]
+  const color = ELEMENT_COLORS[trigram.el]
+  const w = size === 'sm' ? 22 : 32
+  const h = size === 'sm' ? 2 : 3
+  const gap = size === 'sm' ? 4 : 6
+
+  return (
+    <div className="flex flex-col gap-[3px] items-center">
+      {trigram.lines.map((isYang, i) => (
+        <LineBar key={i} isYang={isYang} color={color} w={w} h={h} gap={gap} />
+      ))}
     </div>
   )
 }
@@ -87,13 +124,13 @@ function HexDetail({
         <div className="flex justify-center gap-8">
           <div className="text-center">
             <div className="text-xs text-muted-foreground mb-1">Ngoại quái</div>
-            <HexLines upperIdx={hex.upperTriIdx} lowerIdx={hex.upperTriIdx} size="lg" />
+            <TrigramLines trigramIdx={hex.upperTriIdx} />
             <div className="mt-1 font-semibold text-sm">{upper.cn} {upper.vn}</div>
             <div className="text-xs text-muted-foreground">{upper.nature}</div>
           </div>
           <div className="text-center">
             <div className="text-xs text-muted-foreground mb-1">Nội quái</div>
-            <HexLines upperIdx={hex.lowerTriIdx} lowerIdx={hex.lowerTriIdx} size="lg" />
+            <TrigramLines trigramIdx={hex.lowerTriIdx} />
             <div className="mt-1 font-semibold text-sm">{lower.cn} {lower.vn}</div>
             <div className="text-xs text-muted-foreground">{lower.nature}</div>
           </div>
@@ -215,9 +252,17 @@ function CircleView({ onSelectHex }: { onSelectHex: (hex: Hexagram) => void }) {
           const labelR = midR + 12
           const lx = cx + labelR * Math.cos(rad)
           const ly = cy + labelR * Math.sin(rad)
-          const rotation = (angle > 90 || angle < -90) ? angle + 180 : angle
+          const rotation = (angle > 90 && angle < 270) ? angle + 180 : angle
           return (
-            <g key={idx} onClick={() => onSelectHex(hex)} style={{ cursor: 'pointer' }}>
+            <g
+              key={idx}
+              onClick={() => onSelectHex(hex)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelectHex(hex) } }}
+              role="button"
+              tabIndex={0}
+              aria-label={`${hex.cn} ${hex.vnFull}`}
+              style={{ cursor: 'pointer' }}
+            >
               <path
                 d={`M${x1o},${y1o} A${r2},${r2} 0 0,1 ${x2o},${y2o} L${x2i},${y2i} A${r1},${r1} 0 0,0 ${x1i},${y1i} Z`}
                 fill={color}
@@ -267,20 +312,22 @@ export default function HexagramsPage() {
         <div className="flex rounded-md border overflow-hidden mr-2">
           <button
             onClick={() => setView('grid')}
+            aria-pressed={view === 'grid'}
             className={`flex items-center gap-1.5 px-3 py-1.5 text-sm transition-colors ${
               view === 'grid' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
             }`}
           >
-            <Grid2x2 className="w-3.5 h-3.5" />
+            <Grid2x2 className="w-3.5 h-3.5" aria-hidden="true" />
             Ma trận
           </button>
           <button
             onClick={() => setView('circle')}
+            aria-pressed={view === 'circle'}
             className={`flex items-center gap-1.5 px-3 py-1.5 text-sm transition-colors ${
               view === 'circle' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
             }`}
           >
-            <Circle className="w-3.5 h-3.5" />
+            <Circle className="w-3.5 h-3.5" aria-hidden="true" />
             Vòng tròn
           </button>
         </div>
