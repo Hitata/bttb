@@ -54,6 +54,17 @@ export function AppNav() {
                   </p>
                 </NavigationMenuLink>
               </li>
+              <li>
+                <NavigationMenuLink
+                  render={<Link href="/human-design" />}
+                  className="block rounded-md px-3 py-2 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                >
+                  <div className="font-medium mb-0.5">Human Design</div>
+                  <p className="text-xs text-muted-foreground">
+                    Thiết Kế Con Người
+                  </p>
+                </NavigationMenuLink>
+              </li>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
