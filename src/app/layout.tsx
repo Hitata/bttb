@@ -5,6 +5,7 @@ import { SessionProvider } from "@/components/auth/session-provider";
 import { UserButton } from "@/components/auth/user-button";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { AppNav } from "@/components/app-nav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,12 +37,9 @@ export default function RootLayout({
           <header className="sticky top-0 z-40 flex h-12 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm lg:px-6">
             <div className="flex items-center gap-6">
               <a href="/" className="text-sm font-bold tracking-tight">BBTB</a>
-              <nav className="hidden items-center gap-1 sm:flex">
-                <a href="/bazi" className="rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Bát Tự</a>
-                <a href="/bazi/cases" className="rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Cases</a>
-                <a href="/readings" className="rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Lá Số</a>
-                <a href="/iching" className="rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Kinh Dịch</a>
-              </nav>
+              <div className="hidden sm:flex">
+                <AppNav />
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <ThemeToggle />
