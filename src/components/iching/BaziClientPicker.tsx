@@ -61,15 +61,15 @@ export function BaziClientPicker({ selected, onChange }: BaziClientPickerProps) 
           gap: '8px',
           padding: '8px 12px',
           borderRadius: '8px',
-          border: '1px solid rgba(255,255,255,0.12)',
-          background: 'rgba(255,255,255,0.04)',
+          border: '1px solid hsl(var(--foreground) / 0.12)',
+          background: 'hsl(var(--foreground) / 0.04)',
         }}
       >
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)' }}>
+          <div style={{ fontSize: '12px', color: 'hsl(var(--foreground) / 0.7)' }}>
             {selected.name}
           </div>
-          <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)' }}>
+          <div style={{ fontSize: '10px', color: 'hsl(var(--foreground) / 0.35)' }}>
             {selected.dayMaster} · {selected.chartSummary}
           </div>
         </div>
@@ -78,7 +78,7 @@ export function BaziClientPicker({ selected, onChange }: BaziClientPickerProps) 
           style={{
             background: 'none',
             border: 'none',
-            color: 'rgba(255,255,255,0.3)',
+            color: 'hsl(var(--foreground) / 0.3)',
             cursor: 'pointer',
             fontSize: '14px',
             padding: '2px 4px',
@@ -97,11 +97,11 @@ export function BaziClientPicker({ selected, onChange }: BaziClientPickerProps) 
         style={{
           width: '100%',
           background: 'none',
-          border: '1px solid rgba(255,255,255,0.08)',
+          border: '1px solid hsl(var(--foreground) / 0.08)',
           borderRadius: '8px',
           padding: '8px 12px',
           fontSize: '11px',
-          color: 'rgba(255,255,255,0.35)',
+          color: 'hsl(var(--foreground) / 0.35)',
           cursor: 'pointer',
           textAlign: 'left',
           WebkitTapHighlightColor: 'transparent',
@@ -118,12 +118,12 @@ export function BaziClientPicker({ selected, onChange }: BaziClientPickerProps) 
             left: 0,
             right: 0,
             marginTop: '4px',
-            background: '#141414',
-            border: '1px solid rgba(255,255,255,0.1)',
+            background: 'var(--card)',
+            border: '1px solid hsl(var(--foreground) / 0.1)',
             borderRadius: '10px',
             overflow: 'hidden',
             zIndex: 50,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+            boxShadow: '0 8px 32px hsl(var(--foreground) / 0.15)',
           }}
         >
           <input
@@ -133,22 +133,22 @@ export function BaziClientPicker({ selected, onChange }: BaziClientPickerProps) 
             placeholder="Tìm theo tên..."
             style={{
               width: '100%',
-              background: 'rgba(255,255,255,0.03)',
+              background: 'hsl(var(--foreground) / 0.03)',
               border: 'none',
-              borderBottom: '1px solid rgba(255,255,255,0.06)',
+              borderBottom: '1px solid hsl(var(--foreground) / 0.06)',
               padding: '10px 12px',
               fontSize: '12px',
-              color: 'rgba(255,255,255,0.7)',
+              color: 'hsl(var(--foreground) / 0.7)',
               outline: 'none',
             }}
           />
           <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
             {loading ? (
-              <div style={{ padding: '12px', fontSize: '11px', color: 'rgba(255,255,255,0.25)', textAlign: 'center' }}>
+              <div style={{ padding: '12px', fontSize: '11px', color: 'hsl(var(--foreground) / 0.25)', textAlign: 'center' }}>
                 Đang tìm...
               </div>
             ) : clients.length === 0 ? (
-              <div style={{ padding: '12px', fontSize: '11px', color: 'rgba(255,255,255,0.25)', textAlign: 'center' }}>
+              <div style={{ padding: '12px', fontSize: '11px', color: 'hsl(var(--foreground) / 0.25)', textAlign: 'center' }}>
                 {query ? 'Không tìm thấy' : 'Chưa có khách hàng'}
               </div>
             ) : (
@@ -164,19 +164,19 @@ export function BaziClientPicker({ selected, onChange }: BaziClientPickerProps) 
                     width: '100%',
                     background: 'none',
                     border: 'none',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    borderBottom: '1px solid hsl(var(--foreground) / 0.04)',
                     padding: '8px 12px',
                     cursor: 'pointer',
                     textAlign: 'left',
                     WebkitTapHighlightColor: 'transparent',
                   }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = 'hsl(var(--foreground) / 0.04)' }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = 'none' }}
                 >
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.65)' }}>
+                  <div style={{ fontSize: '12px', color: 'hsl(var(--foreground) / 0.65)' }}>
                     {c.name}
                   </div>
-                  <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)', marginTop: '1px' }}>
+                  <div style={{ fontSize: '10px', color: 'hsl(var(--foreground) / 0.3)', marginTop: '1px' }}>
                     {c.dayMaster} · {c.birthDay}/{c.birthMonth}/{c.birthYear}
                   </div>
                 </button>

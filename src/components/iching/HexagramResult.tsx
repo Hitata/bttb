@@ -51,9 +51,9 @@ function LineGraphic({ value, isMovingLine }: LineGraphicProps) {
             height: 'var(--line-height)',
             borderRadius: '2px',
             background: isMovingLine
-              ? 'linear-gradient(90deg, #FBBF24, #F59E0B)'
+              ? 'linear-gradient(90deg, var(--iching-moving), color-mix(in oklch, var(--iching-moving) 80%, black))'
               : 'hsl(var(--foreground) / 0.75)',
-            boxShadow: isMovingLine ? '0 0 8px rgba(251,191,36,0.3)' : undefined,
+            boxShadow: isMovingLine ? `0 0 8px var(--iching-moving-glow)` : undefined,
           }}
         />
         {isMovingLine && (
@@ -64,7 +64,7 @@ function LineGraphic({ value, isMovingLine }: LineGraphicProps) {
               top: '50%',
               transform: 'translateY(-50%)',
               fontSize: '7px',
-              color: '#FBBF24',
+              color: 'var(--iching-moving)',
             }}
           >
             ○
@@ -93,9 +93,9 @@ function LineGraphic({ value, isMovingLine }: LineGraphicProps) {
             height: 'var(--line-height)',
             borderRadius: '2px',
             background: isMovingLine
-              ? 'linear-gradient(90deg, #FBBF24, #F59E0B)'
+              ? 'linear-gradient(90deg, var(--iching-moving), color-mix(in oklch, var(--iching-moving) 80%, black))'
               : 'hsl(var(--foreground) / 0.75)',
-            boxShadow: isMovingLine ? '0 0 8px rgba(251,191,36,0.3)' : undefined,
+            boxShadow: isMovingLine ? `0 0 8px var(--iching-moving-glow)` : undefined,
           }}
         />
         <div
@@ -104,9 +104,9 @@ function LineGraphic({ value, isMovingLine }: LineGraphicProps) {
             height: 'var(--line-height)',
             borderRadius: '2px',
             background: isMovingLine
-              ? 'linear-gradient(90deg, #FBBF24, #F59E0B)'
+              ? 'linear-gradient(90deg, var(--iching-moving), color-mix(in oklch, var(--iching-moving) 80%, black))'
               : 'hsl(var(--foreground) / 0.75)',
-            boxShadow: isMovingLine ? '0 0 8px rgba(251,191,36,0.3)' : undefined,
+            boxShadow: isMovingLine ? `0 0 8px var(--iching-moving-glow)` : undefined,
           }}
         />
       </div>
@@ -118,7 +118,7 @@ function LineGraphic({ value, isMovingLine }: LineGraphicProps) {
             top: '50%',
             transform: 'translateY(-50%)',
             fontSize: '7px',
-            color: '#FBBF24',
+            color: 'var(--iching-moving)',
           }}
         >
           ○
@@ -212,7 +212,7 @@ function HexagramDiagram({ info, lineValues, label, showMoving }: HexagramDiagra
               <span
                 style={{
                   fontSize: 'var(--num-size)',
-                  color: moving ? '#FBBF24' : 'hsl(var(--foreground) / 0.12)',
+                  color: moving ? 'var(--iching-moving)' : 'hsl(var(--foreground) / 0.12)',
                   width: '10px',
                   fontVariantNumeric: 'tabular-nums',
                 }}
@@ -268,7 +268,7 @@ function HexagramDiagram({ info, lineValues, label, showMoving }: HexagramDiagra
               <span
                 style={{
                   fontSize: 'var(--num-size)',
-                  color: moving ? '#FBBF24' : 'hsl(var(--foreground) / 0.12)',
+                  color: moving ? 'var(--iching-moving)' : 'hsl(var(--foreground) / 0.12)',
                   width: '10px',
                   fontVariantNumeric: 'tabular-nums',
                 }}
@@ -435,11 +435,11 @@ export function HexagramResult({ result, question, onCastAgain }: HexagramResult
             href="/iching/history"
             style={{
               background: 'none',
-              border: '1px solid rgba(255,255,255,0.06)',
+              border: '1px solid hsl(var(--foreground) / 0.08)',
               borderRadius: '10px',
               padding: '12px 24px',
               fontSize: '13px',
-              color: 'rgba(255,255,255,0.3)',
+              color: 'hsl(var(--foreground) / 0.4)',
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',

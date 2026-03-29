@@ -48,95 +48,137 @@
 }
 
 :root {
-  /* Ngũ Hành element colors — light mode */
-  --element-wood: #2D6A4F;
-  --element-wood-light: #52B788;
-  --element-fire: #D62828;
-  --element-fire-light: #F77F00;
-  --element-earth: #8B6914;
-  --element-earth-light: #DDA15E;
-  --element-water: #1B4965;
-  --element-water-light: #5FA8D3;
-  --element-metal: #6C757D;
-  --element-metal-light: #DEE2E6;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  /* ── Claude-inspired warm palette ── */
+
+  /* Ngũ Hành element colors — light mode (warm tones for cream bg) */
+  --element-wood: #2F7855;
+  --element-wood-light: #5BAA7E;
+  --element-fire: #C04838;
+  --element-fire-light: #E08058;
+  --element-earth: #946820;
+  --element-earth-light: #C89C4A;
+  --element-water: #28687E;
+  --element-water-light: #5A9CB2;
+  --element-metal: #74706A;
+  --element-metal-light: #B8B0A2;
+
+  /* I Ching moving-line accent */
+  --iching-moving: #BD5D3A;
+  --iching-moving-glow: rgba(189, 93, 58, 0.3);
+
+  /* Surfaces — warm cream (Claude chat background) */
+  --background: oklch(0.965 0.007 85);
+  --foreground: oklch(0.30 0.025 80);
+  --card: oklch(0.993 0.004 85);
+  --card-foreground: oklch(0.30 0.025 80);
+  --popover: oklch(0.993 0.004 85);
+  --popover-foreground: oklch(0.30 0.025 80);
+
+  /* Primary — terracotta / Claude accent */
+  --primary: oklch(0.58 0.14 42);
+  --primary-foreground: oklch(0.99 0.003 85);
+
+  /* Secondary & muted — warm off-whites */
+  --secondary: oklch(0.945 0.01 85);
+  --secondary-foreground: oklch(0.30 0.025 80);
+  --muted: oklch(0.925 0.01 85);
+  --muted-foreground: oklch(0.52 0.012 80);
+
+  /* Accent */
+  --accent: oklch(0.945 0.01 85);
+  --accent-foreground: oklch(0.30 0.025 80);
+
+  /* Feedback */
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
+
+  /* Borders & inputs — warm gray */
+  --border: oklch(0.885 0.012 85);
+  --input: oklch(0.885 0.012 85);
+  --ring: oklch(0.58 0.14 42);
+
+  /* Charts — Claude semantic palette */
+  --chart-1: oklch(0.60 0.16 40);
+  --chart-2: oklch(0.62 0.14 165);
+  --chart-3: oklch(0.58 0.16 290);
+  --chart-4: oklch(0.60 0.15 245);
+  --chart-5: oklch(0.58 0.12 75);
+
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  /* Sidebar */
+  --sidebar: oklch(0.955 0.008 85);
+  --sidebar-foreground: oklch(0.30 0.025 80);
+  --sidebar-primary: oklch(0.58 0.14 42);
+  --sidebar-primary-foreground: oklch(0.99 0.003 85);
+  --sidebar-accent: oklch(0.935 0.01 85);
+  --sidebar-accent-foreground: oklch(0.30 0.025 80);
+  --sidebar-border: oklch(0.885 0.012 85);
+  --sidebar-ring: oklch(0.58 0.14 42);
 }
 
 .dark {
-  /* Ngũ Hành element colors — dark mode (desaturated/lighter for contrast) */
-  --element-wood: #40916C;
-  --element-wood-light: #74C69D;
-  --element-fire: #EF4444;
-  --element-fire-light: #FBBF24;
-  --element-earth: #D4A017;
-  --element-earth-light: #E9C46A;
-  --element-water: #3B82F6;
-  --element-water-light: #93C5FD;
-  --element-metal: #9CA3AF;
-  --element-metal-light: #E5E7EB;
+  /* Ngũ Hành element colors — dark mode (lifted warm tones for dark bg) */
+  --element-wood: #4A9E72;
+  --element-wood-light: #78C49E;
+  --element-fire: #D86050;
+  --element-fire-light: #F0A080;
+  --element-earth: #C89E3C;
+  --element-earth-light: #E0C070;
+  --element-water: #4896AE;
+  --element-water-light: #7ABECE;
+  --element-metal: #98908A;
+  --element-metal-light: #CBC4B8;
 
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  /* I Ching moving-line accent — brighter on dark */
+  --iching-moving: #DA7756;
+  --iching-moving-glow: rgba(218, 119, 86, 0.35);
+
+  /* Surfaces — warm near-black (Claude dark mode) */
+  --background: oklch(0.155 0.005 85);
+  --foreground: oklch(0.955 0.008 85);
+  --card: oklch(0.20 0.005 85);
+  --card-foreground: oklch(0.955 0.008 85);
+  --popover: oklch(0.20 0.005 85);
+  --popover-foreground: oklch(0.955 0.008 85);
+
+  /* Primary — terracotta, slightly lifted for dark bg */
+  --primary: oklch(0.65 0.14 42);
+  --primary-foreground: oklch(0.155 0.005 85);
+
+  /* Secondary & muted — warm dark grays */
+  --secondary: oklch(0.26 0.006 85);
+  --secondary-foreground: oklch(0.955 0.008 85);
+  --muted: oklch(0.26 0.006 85);
+  --muted-foreground: oklch(0.62 0.008 85);
+
+  /* Accent */
+  --accent: oklch(0.26 0.006 85);
+  --accent-foreground: oklch(0.955 0.008 85);
+
+  /* Feedback */
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+
+  /* Borders & inputs */
+  --border: oklch(1 0.005 85 / 10%);
+  --input: oklch(1 0.005 85 / 15%);
+  --ring: oklch(0.65 0.14 42);
+
+  /* Charts — same hues, adjusted lightness for dark */
+  --chart-1: oklch(0.70 0.14 40);
+  --chart-2: oklch(0.68 0.12 165);
+  --chart-3: oklch(0.65 0.14 290);
+  --chart-4: oklch(0.68 0.13 245);
+  --chart-5: oklch(0.65 0.10 75);
+
+  /* Sidebar */
+  --sidebar: oklch(0.20 0.005 85);
+  --sidebar-foreground: oklch(0.955 0.008 85);
+  --sidebar-primary: oklch(0.65 0.14 42);
+  --sidebar-primary-foreground: oklch(0.955 0.008 85);
+  --sidebar-accent: oklch(0.26 0.006 85);
+  --sidebar-accent-foreground: oklch(0.955 0.008 85);
+  --sidebar-border: oklch(1 0.005 85 / 10%);
+  --sidebar-ring: oklch(0.65 0.14 42);
 }
 
 @layer base {
