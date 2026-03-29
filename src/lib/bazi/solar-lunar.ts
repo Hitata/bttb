@@ -131,70 +131,60 @@ export function solarToLunar(year: number, month: number, day: number): {
 }
 
 // ===== Solar Term Calculations =====
-// Approximate dates for solar terms using the sun's ecliptic longitude
-// Each term is 15° apart, starting from 315° (Lập Xuân ≈ Feb 4)
+// Uses astronomy-engine (VSOP87 high-precision) for exact solar term dates.
+// Each solar term corresponds to the Sun reaching a specific ecliptic longitude.
+// The 24 terms are spaced 15° apart starting from 285° (Tiểu Hàn).
 
-// More accurate: use a small perturbation formula
-// For simplicity, use a lookup-based approach with average dates
+import { SearchSunLongitude, MakeTime } from 'astronomy-engine'
 
 /**
- * Calculate approximate Julian Day Number for a solar term
- * termIndex: 0=Tiểu Hàn, 1=Đại Hàn, 2=Lập Xuân, ...23=Đông Chí
- * year: Gregorian year
+ * Ecliptic longitudes for the 24 solar terms.
+ * Index 0 = Tiểu Hàn (285°), ..., 23 = Đông Chí (270°)
  */
-function solarTermJD(year: number, termIndex: number): number {
-  // Use the VSOP87 simplified formula
-  const y = year + (termIndex * 15 + 285) / 360
-  const jd = 2451259.428 + 365.2422 * (y - 2000)
+const SOLAR_TERM_LONGITUDES = [
+  285, 300, 315, 330, 345, 0,
+  15, 30, 45, 60, 75, 90,
+  105, 120, 135, 150, 165, 180,
+  195, 210, 225, 240, 255, 270,
+]
 
-  // Apply perturbation corrections
-  const T = (y - 2000) / 100
-  const L = 279.9348 + 360.00769 * (y - 2000)
-  const radian = Math.PI / 180
-  const correction =
-    -0.0001 +
-    0.16 * Math.sin((L + 109) * radian) +
-    -0.01 * Math.sin(2 * L * radian)
-
-  return jd + correction
-}
+// Cache computed solar term dates by year
+const solarTermCache = new Map<number, { month: number; day: number }[]>()
 
 /**
- * Convert Julian Day Number to Gregorian date
- */
-function jdToGregorian(jd: number): { year: number; month: number; day: number } {
-  const z = Math.floor(jd + 0.5)
-  const a = Math.floor((z - 1867216.25) / 36524.25)
-  const A = z + 1 + a - Math.floor(a / 4)
-  const B = A + 1524
-  const C = Math.floor((B - 122.1) / 365.25)
-  const D = Math.floor(365.25 * C)
-  const E = Math.floor((B - D) / 30.6001)
-
-  const day = B - D - Math.floor(30.6001 * E)
-  const month = E < 14 ? E - 1 : E - 13
-  const year = month > 2 ? C - 4716 : C - 4715
-
-  return { year, month, day }
-}
-
-/**
- * Get all 24 solar term dates for a year
- * Returns array of {month, day} for terms starting from Tiểu Hàn
+ * Get all 24 solar term dates for a year using astronomy-engine.
+ * Returns array of {month, day} for terms starting from Tiểu Hàn (index 0).
+ * Uses high-precision VSOP87 planetary theory (sub-minute accuracy).
  */
 export function getSolarTermDates(year: number): { month: number; day: number }[] {
+  const cached = solarTermCache.get(year)
+  if (cached) return cached
+
   const terms: { month: number; day: number }[] = []
 
-  // Terms 0-1 (Tiểu Hàn, Đại Hàn) belong to previous year's cycle
-  // but calendar year = this year
   for (let i = 0; i < 24; i++) {
-    // Adjust: terms 0-5 use the current year,
-    // terms 6-23 also current year
-    const jd = solarTermJD(year, i)
-    const { month, day } = jdToGregorian(jd)
-    terms.push({ month, day })
+    const longitude = SOLAR_TERM_LONGITUDES[i]
+    // Start searching ~20 days before the approximate date
+    // Term 0 (Tiểu Hàn) is around Jan 6, so start from Dec 15 of prev year
+    // Other terms: roughly (i * 15.22) days after Jan 1
+    const approxMonth = i < 2 ? 0 : Math.floor(i / 2)
+    const searchStart = MakeTime(new Date(year, approxMonth, 1))
+    const result = SearchSunLongitude(longitude, searchStart, 60)
+
+    if (result) {
+      // Convert to East Asian local time (UTC+8) for date determination.
+      // Bazi uses local time; solar terms in Chinese/Vietnamese tradition
+      // are dated by the local calendar day when the Sun crosses the longitude.
+      const localMs = result.date.getTime() + 8 * 3600_000
+      const local = new Date(localMs)
+      terms.push({ month: local.getUTCMonth() + 1, day: local.getUTCDate() })
+    } else {
+      // Fallback: should never happen for valid years
+      terms.push({ month: 1, day: 1 })
+    }
   }
 
+  solarTermCache.set(year, terms)
   return terms
 }
 

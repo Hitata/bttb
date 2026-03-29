@@ -97,6 +97,42 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model IChingReading {
+  id             String   @id @default(cuid())
+  imageHash      String
+  question       String   @default("")
+  intentionTime  DateTime
+  lines          String   // JSON array [6,7,8,9,...]
+  coins          String   // JSON array of coin throws
+  primaryNumber  Int
+  changedNumber  Int?
+  nuclearNumber  Int
+  prompt         String   // the generated text prompt
+  analysisMode   String   @default("standard") // deep | standard | simple
+  createdAt      DateTime @default(now())
+
+  @@index([imageHash])
+  @@index([createdAt])
+}
+
+model BaziClient {
+  id            String   @id @default(cuid())
+  name          String
+  gender        String   // "male" | "female"
+  birthYear     Int
+  birthMonth    Int
+  birthDay      Int
+  birthHour     Int      @default(0)
+  birthMinute   Int      @default(0)
+  dayMaster     String   // e.g. "Đinh Hỏa" — Day Master stem + element
+  chartSummary  String   // Short text summary of the chart for display
+  fullChart     String   // JSON BaziResult
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([name])
+}
+
 model Hexagram {
   number        Int     @id
   nameVi        String

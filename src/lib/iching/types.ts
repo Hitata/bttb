@@ -35,6 +35,8 @@ export interface CastingResponse {
   primary: HexagramInfo
   changed: HexagramInfo | null
   timestamp: number
+  imageHash: string
+  intentionTime: number
 }
 
 export interface CastingRequest {

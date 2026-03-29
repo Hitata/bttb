@@ -2,11 +2,13 @@
 
 import { Suspense, useState, useEffect, useCallback } from 'react'
 import dynamic from 'next/dynamic'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import { BirthInputForm } from '@/components/bazi/BirthInputForm'
 import { BirthInputSummary } from '@/components/bazi/BirthInputSummary'
 import { ShareLinkBar } from '@/components/bazi/ShareLinkBar'
-import { Save, Check, Loader2, CalendarDays } from 'lucide-react'
+import { Save, Check, Loader2, CalendarDays, Users } from 'lucide-react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import type { BaziResult, BirthInput } from '@/lib/bazi'
 
@@ -34,13 +36,15 @@ export default function BaziPage() {
 
 function BaziPageContent() {
   const searchParams = useSearchParams()
-  const router = useRouter()
+  const { data: session } = useSession()
   const [result, setResult] = useState<BaziResult | null>(null)
   const [input, setInput] = useState<BirthInput | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [savingClient, setSavingClient] = useState(false)
+  const [savedClient, setSavedClient] = useState(false)
   const [formCollapsed, setFormCollapsed] = useState(false)
 
   const handleSubmit = useCallback(async (data: BirthInput) => {
@@ -48,6 +52,7 @@ function BaziPageContent() {
     setError(null)
     setInput(data)
     setSaved(false)
+    setSavedClient(false)
 
     try {
       const res = await fetch('/api/bazi/calculate', {
@@ -98,7 +103,7 @@ function BaziPageContent() {
   }, [searchParams, handleSubmit])
 
   const handleSave = async () => {
-    if (!result || !input) return
+    if (!session?.user || !result || !input) return
     setSaving(true)
     try {
       const res = await fetch('/api/bazi/readings', {
@@ -114,12 +119,32 @@ function BaziPageContent() {
           result,
         }),
       })
-      if (res.ok) {
-        setSaved(true)
-        router.push('/readings')
-      }
+      if (res.ok) setSaved(true)
     } finally {
       setSaving(false)
+    }
+  }
+
+  const handleSaveClient = async () => {
+    if (!result || !input) return
+    setSavingClient(true)
+    try {
+      const res = await fetch('/api/bazi/clients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: input.name,
+          gender: input.gender,
+          year: input.year,
+          month: input.month,
+          day: input.day,
+          hour: input.hour,
+          minute: input.minute,
+        }),
+      })
+      if (res.ok) setSavedClient(true)
+    } finally {
+      setSavingClient(false)
     }
   }
 
@@ -160,9 +185,18 @@ function BaziPageContent() {
         {/* Left sidebar - Form */}
         <aside className={`shrink-0 ${hasResult ? 'lg:w-[180px]' : 'lg:w-[200px]'} transition-all duration-300`}>
           <div className="lg:sticky lg:top-[72px]">
-            <h1 className="mb-4 text-lg font-semibold tracking-tight lg:text-xl">
-              Lá Số Bát Tự
-            </h1>
+            <div className="mb-4 flex items-center justify-between">
+              <h1 className="text-lg font-semibold tracking-tight lg:text-xl">
+                Lá Số Bát Tự
+              </h1>
+              <Link
+                href="/bazi/clients"
+                className="flex items-center gap-1 rounded-md border border-white/10 px-2 py-1 text-[11px] text-muted-foreground transition-colors hover:bg-muted"
+              >
+                <Users className="size-3" />
+                Khách
+              </Link>
+            </div>
             {formCollapsed && input
               ? <BirthInputSummary input={input} onEdit={handleExpand} />
               : <BirthInputForm onSubmit={handleSubmit} isLoading={isLoading} initialValues={initialValues} />
@@ -178,7 +212,31 @@ function BaziPageContent() {
             {hasResult && (
               <div className="mt-3 space-y-2">
                 <ShareLinkBar input={input} />
-                {(
+                <Button
+                  onClick={handleSaveClient}
+                  disabled={savingClient || savedClient}
+                  variant={savedClient ? 'secondary' : 'outline'}
+                  size="sm"
+                  className="w-full"
+                >
+                  {savedClient ? (
+                    <>
+                      <Check className="size-3.5" />
+                      Đã lưu khách
+                    </>
+                  ) : savingClient ? (
+                    <>
+                      <Loader2 className="size-3.5 animate-spin" />
+                      Đang lưu...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="size-3.5" />
+                      Lưu khách hàng
+                    </>
+                  )}
+                </Button>
+                {session?.user && (
                   <Button
                     onClick={handleSave}
                     disabled={saving || saved}
@@ -205,7 +263,6 @@ function BaziPageContent() {
                   </Button>
                 )}
               </div>
-
             )}
           </div>
         </aside>
