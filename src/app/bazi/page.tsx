@@ -2,8 +2,7 @@
 
 import { Suspense, useState, useEffect, useCallback } from 'react'
 import dynamic from 'next/dynamic'
-import { useSearchParams } from 'next/navigation'
-import { useSession } from 'next-auth/react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { BirthInputForm } from '@/components/bazi/BirthInputForm'
 import { BirthInputSummary } from '@/components/bazi/BirthInputSummary'
 import { ShareLinkBar } from '@/components/bazi/ShareLinkBar'
@@ -35,7 +34,7 @@ export default function BaziPage() {
 
 function BaziPageContent() {
   const searchParams = useSearchParams()
-  const { data: session } = useSession()
+  const router = useRouter()
   const [result, setResult] = useState<BaziResult | null>(null)
   const [input, setInput] = useState<BirthInput | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -99,7 +98,7 @@ function BaziPageContent() {
   }, [searchParams, handleSubmit])
 
   const handleSave = async () => {
-    if (!session?.user || !result || !input) return
+    if (!result || !input) return
     setSaving(true)
     try {
       const res = await fetch('/api/bazi/readings', {
@@ -115,7 +114,10 @@ function BaziPageContent() {
           result,
         }),
       })
-      if (res.ok) setSaved(true)
+      if (res.ok) {
+        setSaved(true)
+        router.push('/readings')
+      }
     } finally {
       setSaving(false)
     }
@@ -176,7 +178,7 @@ function BaziPageContent() {
             {hasResult && (
               <div className="mt-3 space-y-2">
                 <ShareLinkBar input={input} />
-                {session?.user && (
+                {(
                   <Button
                     onClick={handleSave}
                     disabled={saving || saved}
@@ -203,6 +205,7 @@ function BaziPageContent() {
                   </Button>
                 )}
               </div>
+
             )}
           </div>
         </aside>

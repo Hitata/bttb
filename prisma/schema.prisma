@@ -22,8 +22,8 @@ model User {
 
 model BaziReading {
   id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   name        String
   gender      String
   birthYear   Int

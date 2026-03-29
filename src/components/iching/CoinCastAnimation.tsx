@@ -98,7 +98,7 @@ export default function CoinCastAnimation({ result, onComplete }: CoinCastAnimat
   return (
     <div
       style={{
-        backgroundColor: '#0a0a0a',
+        backgroundColor: 'hsl(var(--background))',
         minHeight: '100vh',
         width: '100%',
         display: 'flex',
@@ -117,9 +117,9 @@ export default function CoinCastAnimation({ result, onComplete }: CoinCastAnimat
           top: '1.25rem',
           right: '1.5rem',
           background: 'transparent',
-          border: '1px solid rgba(255,255,255,0.15)',
+          border: '1px solid hsl(var(--foreground) / 0.15)',
           borderRadius: '6px',
-          color: 'rgba(255,255,255,0.35)',
+          color: 'hsl(var(--foreground) / 0.35)',
           fontSize: '0.75rem',
           letterSpacing: '0.1em',
           padding: '0.35rem 0.8rem',
@@ -127,12 +127,12 @@ export default function CoinCastAnimation({ result, onComplete }: CoinCastAnimat
           transition: 'color 0.2s, border-color 0.2s',
         }}
         onMouseEnter={(e) => {
-          ;(e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.7)'
-          ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.35)'
+          ;(e.currentTarget as HTMLButtonElement).style.color = 'hsl(var(--foreground) / 0.7)'
+          ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'hsl(var(--foreground) / 0.35)'
         }}
         onMouseLeave={(e) => {
-          ;(e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.35)'
-          ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.15)'
+          ;(e.currentTarget as HTMLButtonElement).style.color = 'hsl(var(--foreground) / 0.35)'
+          ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'hsl(var(--foreground) / 0.15)'
         }}
       >
         SKIP
@@ -141,7 +141,7 @@ export default function CoinCastAnimation({ result, onComplete }: CoinCastAnimat
       {/* Round label */}
       <p
         style={{
-          color: 'rgba(255,255,255,0.25)',
+          color: 'hsl(var(--foreground) / 0.25)',
           fontSize: '0.7rem',
           letterSpacing: '0.2em',
           marginBottom: '2rem',
@@ -307,7 +307,7 @@ const HALF_GAP = 8
 
 function HexLine({ visible, isYang, isMoving, fadeDuration }: HexLineProps) {
   const goldGradient = 'linear-gradient(90deg, #b8860b, #ffd700, #b8860b)'
-  const solidColor = 'rgba(255,255,255,0.75)'
+  const solidColor = 'hsl(var(--foreground) / 0.75)'
 
   const barStyle = (side: 'left' | 'right' | 'full'): React.CSSProperties => {
     let width: number

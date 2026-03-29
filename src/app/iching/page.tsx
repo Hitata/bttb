@@ -25,7 +25,7 @@ export default function IChing() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-48px)] bg-[#0a0a0a]">
+    <div className="min-h-[calc(100vh-48px)] bg-background">
       {state === 'idle' && (
         <ImageDropZone onCasted={handleCasted} />
       )}

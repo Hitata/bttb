@@ -17,6 +17,14 @@ export function AppNav() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuLink
+            render={<Link href="/iching" />}
+            className={navigationMenuTriggerStyle()}
+          >
+            Kinh Dịch
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink
             render={<Link href="/bazi" />}
             className={navigationMenuTriggerStyle()}
           >

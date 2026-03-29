@@ -108,16 +108,41 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
     e.target.value = ''
   }
 
+  const handleCoinToss = useCallback(async () => {
+    setState({ status: 'loading', previewUrl: '' })
+    try {
+      const randomBytes = crypto.getRandomValues(new Uint8Array(32))
+      const imageHash = Array.from(randomBytes).map(b => b.toString(16).padStart(2, '0')).join('')
+
+      const res = await fetch('/api/iching/cast', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          imageHash,
+          intentionTime: new Date(intentionTime).getTime(),
+        }),
+      })
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+
+      const result: CastingResponse = await res.json()
+      setState({ status: 'done', previewUrl: '' })
+      setTimeout(() => onCasted(result), 400)
+    } catch {
+      setState({ status: 'error', message: 'Casting failed, please try again' })
+    }
+  }, [onCasted, intentionTime])
+
   const isLoading = state.status === 'loading'
   const isDone = state.status === 'done'
   const hasPreview = state.status === 'loading' || state.status === 'done'
   const previewUrl = hasPreview ? (state as { previewUrl: string }).previewUrl : null
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#0a0a0a] px-4">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-background px-4">
       {/* Giờ động tâm — moment of intention */}
       <div className="mb-6 flex flex-col items-center gap-1.5">
-        <label htmlFor="intention-time" className="text-[10px] uppercase tracking-[0.18em] text-white/25">
+        <label htmlFor="intention-time" className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground/50">
           Giờ động tâm · 動心時
         </label>
         <input
@@ -125,13 +150,13 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
           type="datetime-local"
           value={intentionTime}
           onChange={(e) => setIntentionTime(e.target.value)}
-          className="rounded-md border border-white/10 bg-white/[0.03] px-3 py-1.5 text-center text-sm text-white/60 outline-none transition-colors focus:border-white/25 [color-scheme:dark]"
+          className="rounded-md border border-border bg-muted/30 px-3 py-1.5 text-center text-sm text-muted-foreground outline-none transition-colors focus:border-ring"
         />
       </div>
 
       {/* Error message — rendered above the drop zone */}
       {state.status === 'error' && (
-        <p className="mb-4 text-sm text-red-400/80">{state.message}</p>
+        <p className="mb-4 text-sm text-destructive">{state.message}</p>
       )}
 
       {/* Drop zone */}
@@ -151,10 +176,10 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
           'h-72 w-full max-w-sm rounded-xl',
           'border-2 border-dashed transition-colors duration-300',
           isDragOver
-            ? 'border-white/40 bg-white/5'
-            : 'border-white/15 bg-white/[0.02] hover:border-white/25 hover:bg-white/[0.04]',
+            ? 'border-foreground/40 bg-foreground/5'
+            : 'border-border hover:border-foreground/25 hover:bg-muted/40',
           !isLoading && !isDone ? 'cursor-pointer' : 'cursor-default',
-          'select-none outline-none focus-visible:ring-1 focus-visible:ring-white/30',
+          'select-none outline-none focus-visible:ring-1 focus-visible:ring-ring',
         ].join(' ')}
       >
         {/* Thumbnail preview */}
@@ -195,7 +220,7 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
                 />
               </svg>
-              <span className="text-sm tracking-widest text-white/40">Casting…</span>
+              <span className="text-sm tracking-widest text-muted-foreground">Casting…</span>
             </>
           ) : (
             <>
@@ -210,21 +235,38 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
                 strokeWidth="1"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="text-white/25"
+                className="text-muted-foreground/50"
                 aria-hidden="true"
               >
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="17 8 12 3 7 8" />
                 <line x1="12" y1="3" x2="12" y2="15" />
               </svg>
-              <p className="text-base font-light tracking-wide text-white/50">
+              <p className="text-base font-light tracking-wide text-muted-foreground">
                 Drop your image to cast
               </p>
-              <p className="text-xs tracking-widest text-white/25">or click to browse</p>
+              <p className="text-xs tracking-widest text-muted-foreground/50">or click to browse</p>
             </>
           )}
         </div>
       </div>
+
+      {/* Divider */}
+      <div className="my-6 flex w-full max-w-sm items-center gap-3">
+        <div className="h-px flex-1 bg-border" />
+        <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground/50">hoặc</span>
+        <div className="h-px flex-1 bg-border" />
+      </div>
+
+      {/* Coin toss button */}
+      <button
+        onClick={handleCoinToss}
+        disabled={isLoading || isDone}
+        className="flex items-center gap-2.5 rounded-xl border border-border bg-muted/30 px-6 py-3 text-sm tracking-wide text-muted-foreground transition-colors hover:border-foreground/25 hover:bg-muted/60 hover:text-foreground disabled:opacity-40 disabled:cursor-default"
+      >
+        <span className="text-lg">☰</span>
+        Gieo quẻ · Coin Toss
+      </button>
 
       {/* Hidden file input */}
       <input

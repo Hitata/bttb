@@ -50,7 +50,7 @@ function LineGraphic({ value, isMovingLine }: LineGraphicProps) {
             borderRadius: '2px',
             background: isMovingLine
               ? 'linear-gradient(90deg, #FBBF24, #F59E0B)'
-              : 'rgba(255,255,255,0.75)',
+              : 'hsl(var(--foreground) / 0.75)',
             boxShadow: isMovingLine ? '0 0 8px rgba(251,191,36,0.3)' : undefined,
           }}
         />
@@ -92,7 +92,7 @@ function LineGraphic({ value, isMovingLine }: LineGraphicProps) {
             borderRadius: '2px',
             background: isMovingLine
               ? 'linear-gradient(90deg, #FBBF24, #F59E0B)'
-              : 'rgba(255,255,255,0.75)',
+              : 'hsl(var(--foreground) / 0.75)',
             boxShadow: isMovingLine ? '0 0 8px rgba(251,191,36,0.3)' : undefined,
           }}
         />
@@ -103,7 +103,7 @@ function LineGraphic({ value, isMovingLine }: LineGraphicProps) {
             borderRadius: '2px',
             background: isMovingLine
               ? 'linear-gradient(90deg, #FBBF24, #F59E0B)'
-              : 'rgba(255,255,255,0.75)',
+              : 'hsl(var(--foreground) / 0.75)',
             boxShadow: isMovingLine ? '0 0 8px rgba(251,191,36,0.3)' : undefined,
           }}
         />
@@ -166,7 +166,7 @@ function HexagramDiagram({ info, lineValues, label, showMoving }: HexagramDiagra
       <div
         style={{
           fontSize: 'var(--label-size)',
-          color: 'rgba(255,255,255,0.35)',
+          color: 'hsl(var(--foreground) / 0.35)',
           textTransform: 'uppercase',
           letterSpacing: '0.12em',
           marginBottom: '10px',
@@ -179,7 +179,7 @@ function HexagramDiagram({ info, lineValues, label, showMoving }: HexagramDiagra
       <div
         style={{
           fontSize: 'var(--trigram-label-size)',
-          color: 'rgba(255,255,255,0.2)',
+          color: 'hsl(var(--foreground) / 0.2)',
           marginBottom: '4px',
         }}
       >
@@ -198,7 +198,7 @@ function HexagramDiagram({ info, lineValues, label, showMoving }: HexagramDiagra
               <span
                 style={{
                   fontSize: 'var(--num-size)',
-                  color: 'rgba(255,255,255,0.12)',
+                  color: 'hsl(var(--foreground) / 0.12)',
                   width: '10px',
                   textAlign: 'right',
                   fontVariantNumeric: 'tabular-nums',
@@ -210,7 +210,7 @@ function HexagramDiagram({ info, lineValues, label, showMoving }: HexagramDiagra
               <span
                 style={{
                   fontSize: 'var(--num-size)',
-                  color: moving ? '#FBBF24' : 'rgba(255,255,255,0.12)',
+                  color: moving ? '#FBBF24' : 'hsl(var(--foreground) / 0.12)',
                   width: '10px',
                   fontVariantNumeric: 'tabular-nums',
                 }}
@@ -227,7 +227,7 @@ function HexagramDiagram({ info, lineValues, label, showMoving }: HexagramDiagra
         style={{
           width: 'var(--line-width)',
           margin: '4px auto',
-          borderTop: '1px dashed rgba(255,255,255,0.06)',
+          borderTop: '1px dashed hsl(var(--foreground) / 0.06)',
         }}
       />
 
@@ -235,7 +235,7 @@ function HexagramDiagram({ info, lineValues, label, showMoving }: HexagramDiagra
       <div
         style={{
           fontSize: 'var(--trigram-label-size)',
-          color: 'rgba(255,255,255,0.2)',
+          color: 'hsl(var(--foreground) / 0.2)',
           marginBottom: '4px',
         }}
       >
@@ -254,7 +254,7 @@ function HexagramDiagram({ info, lineValues, label, showMoving }: HexagramDiagra
               <span
                 style={{
                   fontSize: 'var(--num-size)',
-                  color: 'rgba(255,255,255,0.12)',
+                  color: 'hsl(var(--foreground) / 0.12)',
                   width: '10px',
                   textAlign: 'right',
                   fontVariantNumeric: 'tabular-nums',
@@ -266,7 +266,7 @@ function HexagramDiagram({ info, lineValues, label, showMoving }: HexagramDiagra
               <span
                 style={{
                   fontSize: 'var(--num-size)',
-                  color: moving ? '#FBBF24' : 'rgba(255,255,255,0.12)',
+                  color: moving ? '#FBBF24' : 'hsl(var(--foreground) / 0.12)',
                   width: '10px',
                   fontVariantNumeric: 'tabular-nums',
                 }}
@@ -280,13 +280,13 @@ function HexagramDiagram({ info, lineValues, label, showMoving }: HexagramDiagra
 
       {/* Hexagram name */}
       <div style={{ marginTop: '12px' }}>
-        <div style={{ fontSize: 'var(--zh-size)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.2 }}>
+        <div style={{ fontSize: 'var(--zh-size)', color: 'hsl(var(--foreground) / 0.85)', lineHeight: 1.2 }}>
           {info.name.zh}
         </div>
-        <div style={{ fontSize: 'var(--vi-size)', color: 'rgba(255,255,255,0.55)', marginTop: '2px' }}>
+        <div style={{ fontSize: 'var(--vi-size)', color: 'hsl(var(--foreground) / 0.55)', marginTop: '2px' }}>
           {info.name.vi} · #{info.number}
         </div>
-        <div style={{ fontSize: '9px', color: 'rgba(255,255,255,0.3)', marginTop: '1px' }}>
+        <div style={{ fontSize: '9px', color: 'hsl(var(--foreground) / 0.3)', marginTop: '1px' }}>
           {info.name.en}
         </div>
       </div>
@@ -327,10 +327,7 @@ export function HexagramResult({ result, onCastAgain }: HexagramResultProps) {
   return (
     <div
       style={{
-        background: '#0a0a0a',
-        color: 'rgba(255,255,255,0.8)',
         minHeight: '100%',
-        // CSS custom properties for responsive sizing (mobile defaults)
         ['--line-width' as string]: '68px',
         ['--line-height' as string]: '6px',
         ['--yin-gap' as string]: '8px',
@@ -340,7 +337,7 @@ export function HexagramResult({ result, onCastAgain }: HexagramResultProps) {
         ['--zh-size' as string]: '24px',
         ['--vi-size' as string]: '12px',
       }}
-      className="[--line-width:68px] sm:[--line-width:88px] [--line-height:6px] sm:[--line-height:7px] [--yin-gap:8px] sm:[--yin-gap:10px] [--label-size:8px] sm:[--label-size:10px] [--trigram-label-size:8px] sm:[--trigram-label-size:9px] [--num-size:8px] sm:[--num-size:9px] [--zh-size:24px] sm:[--zh-size:28px] [--vi-size:12px] sm:[--vi-size:13px]"
+      className="bg-background text-foreground [--line-width:68px] sm:[--line-width:88px] [--line-height:6px] sm:[--line-height:7px] [--yin-gap:8px] sm:[--yin-gap:10px] [--label-size:8px] sm:[--label-size:10px] [--trigram-label-size:8px] sm:[--trigram-label-size:9px] [--num-size:8px] sm:[--num-size:9px] [--zh-size:24px] sm:[--zh-size:28px] [--vi-size:12px] sm:[--vi-size:13px]"
     >
       <div style={{ padding: '20px 16px 40px', maxWidth: '720px', margin: '0 auto' }}>
         {/* Page title */}
@@ -349,7 +346,7 @@ export function HexagramResult({ result, onCastAgain }: HexagramResultProps) {
             textAlign: 'center',
             fontSize: '10px',
             letterSpacing: '0.2em',
-            color: 'rgba(255,255,255,0.25)',
+            color: 'hsl(var(--foreground) / 0.25)',
             textTransform: 'uppercase',
             marginBottom: '20px',
           }}
@@ -419,11 +416,11 @@ export function HexagramResult({ result, onCastAgain }: HexagramResultProps) {
             onClick={onCastAgain}
             style={{
               background: 'none',
-              border: '1px solid rgba(255,255,255,0.1)',
+              border: '1px solid hsl(var(--foreground) / 0.1)',
               borderRadius: '10px',
               padding: '12px 32px',
               fontSize: '15px',
-              color: 'rgba(255,255,255,0.45)',
+              color: 'hsl(var(--foreground) / 0.45)',
               cursor: 'pointer',
               minHeight: '48px',
               WebkitTapHighlightColor: 'transparent',

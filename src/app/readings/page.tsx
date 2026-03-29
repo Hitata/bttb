@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 
 interface ReadingSummary {
@@ -19,27 +18,15 @@ interface ReadingSummary {
 }
 
 export default function ReadingsPage() {
-  const { data: session, status } = useSession()
   const [readings, setReadings] = useState<ReadingSummary[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (status !== 'authenticated') return
     fetch('/api/bazi/readings')
       .then(res => res.json())
       .then(setReadings)
       .finally(() => setLoading(false))
-  }, [status])
-
-  if (status === 'loading') return <div className="container mx-auto max-w-4xl px-4 py-8 text-center text-muted-foreground">Đang tải...</div>
-  if (status === 'unauthenticated') {
-    return (
-      <div className="container mx-auto max-w-4xl px-4 py-8 text-center">
-        <h1 className="text-2xl font-bold mb-4">Lá Số Đã Lưu</h1>
-        <p className="text-muted-foreground">Vui lòng đăng nhập để xem lá số đã lưu.</p>
-      </div>
-    )
-  }
+  }, [])
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-8">
