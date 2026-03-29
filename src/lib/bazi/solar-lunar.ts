@@ -90,14 +90,13 @@ export function solarToLunar(year: number, month: number, day: number): {
   let temp = 0
 
   // Find lunar year
-  for (let y = LUNAR_BASE_YEAR; y < 2101 && offset > 0; y++) {
+  for (let y = LUNAR_BASE_YEAR; y < 2101; y++) {
     temp = lunarYearDays(y)
+    if (offset < temp) {
+      lunarYear = y
+      break
+    }
     offset -= temp
-    lunarYear = y
-  }
-  if (offset < 0) {
-    offset += temp
-    lunarYear--
   }
 
   // Find lunar month
