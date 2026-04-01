@@ -13,6 +13,21 @@ export default function HumanDesignPage() {
         </p>
       </div>
 
+      <Link
+        href="/human-design/calculator"
+        className="mb-6 block rounded-lg border-2 border-primary/30 bg-primary/5 p-5 hover:bg-primary/10 transition-colors"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xl bg-primary/15 text-primary">
+            ◎
+          </div>
+          <div>
+            <h3 className="font-semibold text-sm">Tính Biểu Đồ Của Bạn</h3>
+            <p className="text-xs text-muted-foreground italic">Calculate your Human Design chart</p>
+          </div>
+        </div>
+      </Link>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {HD_CHAPTERS.map((ch) => (
           <Link
