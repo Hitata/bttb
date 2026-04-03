@@ -117,10 +117,10 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
   const hasImage = !!selectedFile && (status === 'ready' || status === 'casting' || status === 'done')
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#0a0a0a] px-4 py-8">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-background px-4 py-8">
       {/* Câu hỏi — question */}
       <div className="mb-5 flex w-full max-w-sm flex-col items-center gap-1.5">
-        <label htmlFor="question" className="text-[10px] uppercase tracking-[0.18em] text-white/25">
+        <label htmlFor="question" className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground/50">
           Câu hỏi · 問題
         </label>
         <textarea
@@ -130,13 +130,13 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
           onChange={(e) => setQuestion(e.target.value)}
           placeholder="Điều bạn muốn hỏi..."
           disabled={isCasting || isDone}
-          className="w-full resize-none rounded-md border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-white/60 placeholder:text-white/20 outline-none transition-colors focus:border-white/25 disabled:opacity-40"
+          className="w-full resize-none rounded-md border border-border bg-card/50 px-3 py-1.5 text-sm text-foreground/70 placeholder:text-muted-foreground/40 outline-none transition-colors focus:border-primary/40 disabled:opacity-40"
         />
       </div>
 
       {/* Giờ động tâm — moment of intention */}
       <div className="mb-5 flex flex-col items-center gap-1.5">
-        <label htmlFor="intention-time" className="text-[10px] uppercase tracking-[0.18em] text-white/25">
+        <label htmlFor="intention-time" className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground/50">
           Giờ động tâm · 動心時
         </label>
         <input
@@ -145,13 +145,13 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
           value={intentionTime}
           onChange={(e) => setIntentionTime(e.target.value)}
           disabled={isCasting || isDone}
-          className="rounded-md border border-white/10 bg-white/[0.03] px-3 py-1.5 text-center text-sm text-white/60 outline-none transition-colors focus:border-white/25 [color-scheme:dark] disabled:opacity-40"
+          className="rounded-md border border-border bg-card/50 px-3 py-1.5 text-center text-sm text-foreground/70 outline-none transition-colors focus:border-primary/40 disabled:opacity-40"
         />
       </div>
 
       {/* Image selection */}
       <div className="mb-5 flex flex-col items-center gap-1.5">
-        <label className="text-[10px] uppercase tracking-[0.18em] text-white/25">
+        <label className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground/50">
           Hình ảnh · 圖像
         </label>
 
@@ -160,7 +160,7 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
           <div className="relative w-full max-w-sm">
             <div
               className={[
-                'relative overflow-hidden rounded-xl border border-white/10',
+                'relative overflow-hidden rounded-xl border border-border',
                 'h-44 w-full',
                 isDone ? 'opacity-30' : '',
                 'transition-opacity duration-400',
@@ -175,7 +175,7 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
             {!isCasting && !isDone && (
               <button
                 onClick={handleRemoveImage}
-                className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full border border-white/10 bg-[#1a1a1a] text-xs text-white/40 transition-colors hover:bg-white/10 hover:text-white/70"
+                className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               >
                 ×
               </button>
@@ -199,9 +199,9 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
               'h-44 w-full max-w-sm rounded-xl',
               'border-2 border-dashed transition-colors duration-300',
               isDragOver
-                ? 'border-white/40 bg-white/5'
-                : 'border-white/15 bg-white/[0.02] hover:border-white/25 hover:bg-white/[0.04]',
-              'cursor-pointer select-none outline-none focus-visible:ring-1 focus-visible:ring-white/30',
+                ? 'border-primary/40 bg-primary/5'
+                : 'border-border hover:border-primary/30 hover:bg-muted/50',
+              'cursor-pointer select-none outline-none focus-visible:ring-1 focus-visible:ring-ring/30',
             ].join(' ')}
           >
             <div className="flex flex-col items-center gap-2 px-6 text-center">
@@ -215,17 +215,17 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
                 strokeWidth="1"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="text-white/25"
+                className="text-muted-foreground/40"
                 aria-hidden="true"
               >
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="17 8 12 3 7 8" />
                 <line x1="12" y1="3" x2="12" y2="15" />
               </svg>
-              <p className="text-sm font-light tracking-wide text-white/45">
+              <p className="text-sm font-light tracking-wide text-muted-foreground/70">
                 Chọn hình ảnh
               </p>
-              <p className="text-[10px] tracking-widest text-white/20">kéo thả hoặc bấm chọn</p>
+              <p className="text-[10px] tracking-widest text-muted-foreground/40">kéo thả hoặc bấm chọn</p>
             </div>
           </div>
         )}
@@ -233,7 +233,7 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
 
       {/* Error message */}
       {status === 'error' && (
-        <p className="mb-4 text-sm text-red-400/80">{errorMsg}</p>
+        <p className="mb-4 text-sm text-destructive/80">{errorMsg}</p>
       )}
 
       {/* Cast button */}
@@ -245,8 +245,8 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
           'text-sm font-medium tracking-wide transition-all duration-200',
           'min-h-[52px] min-w-[200px]',
           hasImage && !isCasting && !isDone
-            ? 'border border-amber-500/30 bg-amber-500/10 text-amber-300/90 hover:bg-amber-500/15 hover:border-amber-500/40 cursor-pointer'
-            : 'border border-white/8 bg-white/[0.02] text-white/20 cursor-not-allowed',
+            ? 'border border-primary/30 bg-primary/10 text-primary hover:bg-primary/15 hover:border-primary/40 cursor-pointer'
+            : 'border border-border bg-muted/30 text-muted-foreground/40 cursor-not-allowed',
         ].join(' ')}
       >
         {isCasting ? (

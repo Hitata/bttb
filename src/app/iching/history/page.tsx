@@ -72,57 +72,57 @@ export default function HistoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white/80">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-sm uppercase tracking-[0.2em] text-white/30">
+          <h1 className="text-sm uppercase tracking-[0.2em] text-muted-foreground/60">
             Lịch sử gieo quẻ
           </h1>
           <Link
             href="/iching"
-            className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-white/40 transition-colors hover:border-white/20 hover:text-white/60"
+            className="rounded-lg border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground/60"
           >
             Gieo quẻ mới
           </Link>
         </div>
 
         {loading ? (
-          <div className="py-20 text-center text-sm text-white/20">Loading…</div>
+          <div className="py-20 text-center text-sm text-muted-foreground/50">Loading…</div>
         ) : readings.length === 0 ? (
-          <div className="py-20 text-center text-sm text-white/20">Chưa có quẻ nào</div>
+          <div className="py-20 text-center text-sm text-muted-foreground/50">Chưa có quẻ nào</div>
         ) : (
           <div className="flex flex-col gap-2">
             {readings.map((r) => (
               <Link
                 key={r.id}
                 href={`/iching/history/${r.id}`}
-                className="group rounded-xl border border-white/6 bg-white/[0.02] p-4 transition-all hover:border-white/12 hover:bg-white/[0.04]"
+                className="group rounded-xl border border-border/60 bg-card/50 p-4 transition-all hover:border-border hover:bg-card"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0 flex-1">
-                    <div className="text-sm text-white/70">
-                      <span className="text-white/40">#{r.primaryNumber}</span>{' '}
+                    <div className="text-sm text-foreground/70">
+                      <span className="text-muted-foreground">#{r.primaryNumber}</span>{' '}
                       {getName(r.primaryNumber)}
                       {r.changedNumber && (
                         <>
-                          <span className="mx-1.5 text-white/15">→</span>
-                          <span className="text-white/40">#{r.changedNumber}</span>{' '}
+                          <span className="mx-1.5 text-muted-foreground/30">→</span>
+                          <span className="text-muted-foreground">#{r.changedNumber}</span>{' '}
                           {getName(r.changedNumber)}
                         </>
                       )}
                     </div>
                     {r.question && (
-                      <div className="mt-1 truncate text-xs text-white/30 italic">
+                      <div className="mt-1 truncate text-xs text-muted-foreground/70 italic">
                         {r.question}
                       </div>
                     )}
-                    <div className="mt-1 text-xs text-white/25">
+                    <div className="mt-1 text-xs text-muted-foreground/50">
                       {formatDate(r.createdAt)}
-                      <span className="mx-1.5 text-white/10">·</span>
+                      <span className="mx-1.5 text-muted-foreground/20">·</span>
                       {MODE_LABELS[r.analysisMode] ?? r.analysisMode}
                     </div>
                   </div>
-                  <div className="shrink-0 text-xs text-white/15 transition-colors group-hover:text-white/30">
+                  <div className="shrink-0 text-xs text-muted-foreground/30 transition-colors group-hover:text-muted-foreground/60">
                     →
                   </div>
                 </div>

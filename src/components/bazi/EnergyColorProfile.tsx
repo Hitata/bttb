@@ -190,7 +190,7 @@ function ComparisonCard({
           return (
             <div key={element} className="flex items-center gap-1.5">
               <div
-                className="size-2.5 shrink-0 rounded-full border border-white/10"
+                className="size-2.5 shrink-0 rounded-full border border-foreground/10"
                 style={{ background: cssVar.light }}
               />
               <span className="text-[11px] text-muted-foreground">

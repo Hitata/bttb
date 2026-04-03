@@ -16,6 +16,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   readings      BaziReading[]
+  hdReadings    HumanDesignReading[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 }
@@ -36,6 +37,31 @@ model BaziReading {
   isPublic    Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model HumanDesignReading {
+  id               String   @id @default(cuid())
+  userId           String?
+  user             User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name             String
+  gender           String?
+  birthYear        Int
+  birthMonth       Int
+  birthDay         Int
+  birthHour        Int?
+  birthMinute      Int?
+  birthTimeUnknown Boolean  @default(false)
+  birthPlace       String
+  latitude         Float
+  longitude        Float
+  timezone         String   // IANA timezone string
+  result           String   // JSON HumanDesignChart
+  slug             String?  @unique
+  isPublic         Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@index([userId])
 }

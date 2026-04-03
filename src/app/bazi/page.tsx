@@ -191,7 +191,7 @@ function BaziPageContent() {
               </h1>
               <Link
                 href="/bazi/clients"
-                className="flex items-center gap-1 rounded-md border border-white/10 px-2 py-1 text-[11px] text-muted-foreground transition-colors hover:bg-muted"
+                className="flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground transition-colors hover:bg-muted"
               >
                 <Users className="size-3" />
                 Khách

@@ -62,17 +62,17 @@ export default function ReadingDetailPage({ params }: { params: Promise<{ id: st
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-        <div className="text-sm text-white/20">Loading…</div>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-sm text-muted-foreground/50">Loading…</div>
       </div>
     )
   }
 
   if (!reading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center gap-4">
-        <div className="text-sm text-white/30">Không tìm thấy quẻ</div>
-        <Link href="/iching/history" className="text-xs text-white/20 underline hover:text-white/40">
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-4">
+        <div className="text-sm text-muted-foreground/60">Không tìm thấy quẻ</div>
+        <Link href="/iching/history" className="text-xs text-muted-foreground/40 underline hover:text-muted-foreground/70">
           Quay lại danh sách
         </Link>
       </div>
@@ -80,53 +80,49 @@ export default function ReadingDetailPage({ params }: { params: Promise<{ id: st
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white/80">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-2xl px-4 py-8">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between">
           <Link
             href="/iching/history"
-            className="text-xs text-white/30 transition-colors hover:text-white/50"
+            className="text-xs text-muted-foreground/60 transition-colors hover:text-muted-foreground"
           >
             ← Danh sách
           </Link>
-          <div className="text-xs text-white/20">
+          <div className="text-xs text-muted-foreground/40">
             {MODE_LABELS[reading.analysisMode] ?? reading.analysisMode}
           </div>
         </div>
 
         {/* Meta info */}
         <div className="mb-6 space-y-1 text-center">
-          <div className="text-[10px] uppercase tracking-[0.2em] text-white/25">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50">
             Quẻ #{reading.primaryNumber}
             {reading.changedNumber ? ` → #${reading.changedNumber}` : ''}
           </div>
-          <div className="text-xs text-white/20">
+          <div className="text-xs text-muted-foreground/40">
             {formatDate(reading.createdAt)}
           </div>
-          <div className="text-[10px] text-white/15">
+          <div className="text-[10px] text-muted-foreground/30">
             Giờ động tâm: {formatDate(reading.intentionTime)}
           </div>
-          <div className="text-[10px] font-mono text-white/10 break-all">
+          <div className="text-[10px] font-mono text-muted-foreground/20 break-all">
             {reading.imageHash.slice(0, 16)}…
           </div>
         </div>
 
         {/* Question */}
         {reading.question && (
-          <div className="mb-4 rounded-xl border border-white/8 bg-white/[0.03] px-4 py-3 text-center">
-            <div className="text-[10px] uppercase tracking-[0.15em] text-white/25 mb-1">Câu hỏi</div>
-            <div className="text-sm text-white/60 italic">{reading.question}</div>
+          <div className="mb-4 rounded-xl border border-border/80 bg-card/50 px-4 py-3 text-center">
+            <div className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground/50 mb-1">Câu hỏi</div>
+            <div className="text-sm text-foreground/60 italic">{reading.question}</div>
           </div>
         )}
 
         {/* Prompt text */}
-        <div
-          className="rounded-xl border border-white/6 bg-white/[0.02] p-4"
-        >
-          <pre
-            className="m-0 whitespace-pre-wrap break-words font-mono text-[11px] leading-relaxed text-white/55"
-          >
+        <div className="rounded-xl border border-border/60 bg-card/30 p-4">
+          <pre className="m-0 whitespace-pre-wrap break-words font-mono text-[11px] leading-relaxed text-foreground/55">
             {reading.prompt}
           </pre>
         </div>
@@ -135,12 +131,12 @@ export default function ReadingDetailPage({ params }: { params: Promise<{ id: st
         <div className="mt-6 flex justify-center gap-3">
           <button
             onClick={handleCopy}
-            className="rounded-lg border px-5 py-2.5 text-[13px] transition-all"
-            style={{
-              background: copied ? 'rgba(74,222,128,0.1)' : 'rgba(255,255,255,0.04)',
-              borderColor: copied ? 'rgba(74,222,128,0.3)' : 'rgba(255,255,255,0.12)',
-              color: copied ? 'rgba(74,222,128,0.9)' : 'rgba(255,255,255,0.5)',
-            }}
+            className={[
+              'rounded-lg border px-5 py-2.5 text-[13px] transition-all',
+              copied
+                ? 'border-green-500/30 bg-green-500/10 text-green-600 dark:text-green-400'
+                : 'border-border bg-card/50 text-muted-foreground hover:bg-card hover:text-foreground/70',
+            ].join(' ')}
           >
             {copied ? '✓ Đã copy' : 'Copy prompt'}
           </button>

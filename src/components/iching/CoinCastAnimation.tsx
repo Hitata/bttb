@@ -306,7 +306,7 @@ const LINE_HEIGHT = 10
 const HALF_GAP = 8
 
 function HexLine({ visible, isYang, isMoving, fadeDuration }: HexLineProps) {
-  const goldGradient = 'linear-gradient(90deg, #b8860b, #ffd700, #b8860b)'
+  const goldGradient = 'linear-gradient(90deg, color-mix(in oklch, var(--iching-moving) 70%, black), var(--iching-moving), color-mix(in oklch, var(--iching-moving) 70%, black))'
   const solidColor = 'hsl(var(--foreground) / 0.75)'
 
   const barStyle = (side: 'left' | 'right' | 'full'): React.CSSProperties => {
@@ -326,7 +326,7 @@ function HexLine({ visible, isYang, isMoving, fadeDuration }: HexLineProps) {
       height: LINE_HEIGHT,
       borderRadius: LINE_HEIGHT / 2,
       background: isMoving ? goldGradient : solidColor,
-      boxShadow: isMoving ? '0 0 8px rgba(255,200,50,0.6), 0 0 16px rgba(255,180,0,0.25)' : 'none',
+      boxShadow: isMoving ? '0 0 8px var(--iching-moving-glow), 0 0 16px var(--iching-moving-glow)' : 'none',
       marginLeft,
       flexShrink: 0,
     }
