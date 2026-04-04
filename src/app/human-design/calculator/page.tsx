@@ -4,21 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-
-// Curated Vietnamese cities with timezone + coordinates
-const CITIES = [
-  { label: 'TP. Hồ Chí Minh', tz: 'Asia/Ho_Chi_Minh', lat: 10.8231, lng: 106.6297 },
-  { label: 'Hà Nội', tz: 'Asia/Ho_Chi_Minh', lat: 21.0285, lng: 105.8542 },
-  { label: 'Đà Nẵng', tz: 'Asia/Ho_Chi_Minh', lat: 16.0544, lng: 108.2022 },
-  { label: 'Huế', tz: 'Asia/Ho_Chi_Minh', lat: 16.4637, lng: 107.5909 },
-  { label: 'Cần Thơ', tz: 'Asia/Ho_Chi_Minh', lat: 10.0452, lng: 105.7469 },
-  { label: 'Hải Phòng', tz: 'Asia/Ho_Chi_Minh', lat: 20.8449, lng: 106.6881 },
-  { label: 'Nha Trang', tz: 'Asia/Ho_Chi_Minh', lat: 12.2388, lng: 109.1967 },
-  { label: 'Đà Lạt', tz: 'Asia/Ho_Chi_Minh', lat: 11.9404, lng: 108.4583 },
-  { label: 'Vũng Tàu', tz: 'Asia/Ho_Chi_Minh', lat: 10.346, lng: 107.0843 },
-  { label: 'Quy Nhon', tz: 'Asia/Ho_Chi_Minh', lat: 13.776, lng: 109.2237 },
-  { label: '— Khác / Other —', tz: '', lat: 0, lng: 0 },
-] as const
+import { CITIES, CUSTOM_CITY_INDEX } from '@/lib/shared/city-presets'
 
 const inputClass = 'h-8 w-full rounded-md border bg-background px-2.5 text-sm outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary/30'
 
@@ -40,7 +26,7 @@ export default function CalculatorPage() {
   const [customLat, setCustomLat] = useState('')
   const [customLng, setCustomLng] = useState('')
 
-  const isCustomCity = cityIndex === CITIES.length - 1
+  const isCustomCity = cityIndex === CUSTOM_CITY_INDEX
   const timezone = isCustomCity ? customTz : CITIES[cityIndex].tz
   const latitude = isCustomCity ? Number(customLat) : CITIES[cityIndex].lat
   const longitude = isCustomCity ? Number(customLng) : CITIES[cityIndex].lng

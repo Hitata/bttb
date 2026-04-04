@@ -73,6 +73,17 @@ export function AppNav() {
                   </p>
                 </NavigationMenuLink>
               </li>
+              <li>
+                <NavigationMenuLink
+                  render={<Link href="/tu-vi" />}
+                  className="block rounded-md px-3 py-2 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                >
+                  <div className="font-medium mb-0.5">Tử Vi</div>
+                  <p className="text-xs text-muted-foreground">
+                    Tử Vi Đẩu Số
+                  </p>
+                </NavigationMenuLink>
+              </li>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
