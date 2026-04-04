@@ -14,10 +14,14 @@ import { getNaYin } from './pillars'
 import { getVongTruongSinh } from './life-cycle'
 import { getThanSatForPillar } from './spirit-stars'
 import { HEAVENLY_STEMS, EARTHLY_BRANCHES } from './constants'
+import { analyzeRelationships } from './relationships'
+import { getSeasonalStrength, getStemRootedness, analyzeFactions } from './strength'
 import type { BaziResult, BirthInput, CurrentYearData, TangCanItem } from './types'
 
 export { generateRawDataForAI, getRandomQuestions, DESTINY_QUESTIONS } from './raw-data-generator'
 export { HEAVENLY_STEMS, EARTHLY_BRANCHES, ELEMENT_COLORS, ELEMENT_BG_COLORS, TEN_GOD_DESCRIPTIONS } from './constants'
+export { analyzeRelationships } from './relationships'
+export { getSeasonalStrength, getStemRootedness, analyzeFactions } from './strength'
 export type * from './types'
 
 /**
@@ -58,6 +62,19 @@ export function computeBazi(input: BirthInput): BaziResult {
   // 7. Thai Menh Cung
   const thaiMenhCung = getThaiMenhCung(monthChiIndex, tuTru.thoiTru.chiIndex, yearCanIndex)
 
+  // 8. Chart Analysis — relationships & strength
+  const hourCanIndex = tuTru.thoiTru.canIndex
+  const hourChiIndex = tuTru.thoiTru.chiIndex
+  const stemIndices = [yearCanIndex, monthCanIndex, dayMasterIndex, hourCanIndex]
+  const branchIndices = [yearChiIndex, monthChiIndex, dayChiIndex, hourChiIndex]
+
+  const analysis = {
+    relationships: analyzeRelationships(stemIndices, branchIndices),
+    seasonalStrength: getSeasonalStrength(monthChiIndex),
+    stemRootedness: getStemRootedness(stemIndices, branchIndices),
+    factions: analyzeFactions(stemIndices, branchIndices, monthChiIndex),
+  }
+
   return {
     date: {
       solar: solarDate,
@@ -75,6 +92,7 @@ export function computeBazi(input: BirthInput): BaziResult {
     compass,
     thansat,
     thaiMenhCung,
+    analysis,
   }
 }
 

@@ -180,6 +180,7 @@ export interface BaziResult {
   compass: CompassData[]
   thansat: ThanSatAnnual[]
   thaiMenhCung?: ThaiMenhCung
+  analysis?: ChartAnalysis
 }
 
 // ===== Input =====
