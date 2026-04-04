@@ -217,3 +217,73 @@ export interface FAQItem {
   question: string
   answer: string
 }
+
+// ===== Can/Chi Relationships =====
+
+export type RelationshipType =
+  | 'canHop'      // Stem combination (5 pairs)
+  | 'chiXung'     // Branch clash (6 pairs)
+  | 'chiHinh'     // Branch punishment (3 groups)
+  | 'chiLucHop'   // Branch six harmony (6 pairs)
+  | 'tamHop'      // Three harmony (4 groups)
+  | 'tamHoi'      // Three meeting (4 groups)
+  | 'banHop'      // Half harmony (partial tam hop)
+  | 'banHoi'      // Half meeting (partial tam hoi)
+
+export interface ChartRelationship {
+  type: RelationshipType
+  label: string           // Vietnamese display name
+  indices: number[]       // Pillar indices involved (0=year, 1=month, 2=day, 3=hour)
+  element?: FiveElement   // Resulting element for hợp/hội groups
+  strength?: 'strong' | 'medium' | 'weak'  // For bán hợp/hội
+  description?: string
+}
+
+// ===== Seasonal Strength =====
+
+export type SeasonalState = 'Vượng' | 'Tướng' | 'Hưu' | 'Tù' | 'Tử'
+
+export interface ElementStrength {
+  element: FiveElement
+  state: SeasonalState
+  score: number  // 5=Vượng, 4=Tướng, 3=Hưu, 2=Tù, 1=Tử
+}
+
+// ===== Stem Rootedness =====
+
+export interface StemRoot {
+  pillarIndex: number     // Which pillar contains the root (0-3)
+  chiIndex: number        // Branch index containing root
+  hiddenStemIndex: number // Which hidden stem is the root
+  isChinhKhi: boolean     // Is this the main qi of the branch?
+  proximity: 'near' | 'medium' | 'far'
+}
+
+export interface StemRootedness {
+  canIndex: number
+  pillarIndex: number     // Which pillar this stem is in
+  canName: string
+  element: FiveElement
+  roots: StemRoot[]
+  isRooted: boolean       // Has at least one root
+  rootStrength: 'strong' | 'medium' | 'weak' | 'none'
+}
+
+// ===== Factions =====
+
+export interface Faction {
+  element: FiveElement
+  leaders: { canIndex: number; pillarIndex: number; name: string }[]
+  supporters: { chiIndex: number; pillarIndex: number; name: string; type: string }[]
+  strength: number        // Computed strength score
+  rank: number            // 1 = strongest faction
+}
+
+// ===== Chart Analysis =====
+
+export interface ChartAnalysis {
+  relationships: ChartRelationship[]
+  seasonalStrength: ElementStrength[]
+  stemRootedness: StemRootedness[]
+  factions: Faction[]
+}
