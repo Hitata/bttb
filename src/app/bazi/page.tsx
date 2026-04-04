@@ -20,6 +20,8 @@ const ThanSatTable = dynamic(() => import('@/components/bazi/ThanSatTable').then
 const ThaiMenhCungDisplay = dynamic(() => import('@/components/bazi/ThaiMenhCung').then(m => ({ default: m.ThaiMenhCungDisplay })))
 const RawDataExport = dynamic(() => import('@/components/bazi/RawDataExport').then(m => ({ default: m.RawDataExport })))
 const EnergyColorProfile = dynamic(() => import('@/components/bazi/EnergyColorProfile').then(m => ({ default: m.EnergyColorProfile })))
+const RelationshipsPanel = dynamic(() => import('@/components/bazi/RelationshipsPanel'))
+const StrengthPanel = dynamic(() => import('@/components/bazi/StrengthPanel'))
 
 export default function BaziPage() {
   return (
@@ -320,6 +322,18 @@ function BaziPageContent() {
                   <ThaiMenhCungDisplay data={result.thaiMenhCung} />
                 )}
               </div>
+
+              {/* Relationships & Strength Analysis */}
+              {result.analysis && (
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <RelationshipsPanel relationships={result.analysis.relationships} />
+                  <StrengthPanel
+                    seasonalStrength={result.analysis.seasonalStrength}
+                    stemRootedness={result.analysis.stemRootedness}
+                    factions={result.analysis.factions}
+                  />
+                </div>
+              )}
 
               {/* Energy Color Profile */}
               <EnergyColorProfile result={result} input={input} />
