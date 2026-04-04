@@ -74,6 +74,34 @@ export function generateRawDataForAI(result: BaziResult, input: BirthInput): str
   lines.push('5. Sức khỏe')
   lines.push('6. Phân tích đại vận hiện tại và tương lai')
 
+  // Chart Analysis
+  if (result.analysis) {
+    lines.push('')
+    lines.push('=== QUAN HỆ CAN CHI ===')
+    for (const rel of result.analysis.relationships) {
+      lines.push(`${rel.label}${rel.strength ? ` (${rel.strength})` : ''}`)
+    }
+
+    lines.push('')
+    lines.push('=== VƯỢNG SUY THEO THÁNG ===')
+    for (const s of result.analysis.seasonalStrength) {
+      lines.push(`${s.element}: ${s.state}`)
+    }
+
+    lines.push('')
+    lines.push('=== GỐC RỄ THIÊN CAN ===')
+    const pillarNames = ['Năm', 'Tháng', 'Ngày', 'Giờ']
+    for (const sr of result.analysis.stemRootedness) {
+      lines.push(`${pillarNames[sr.pillarIndex]} ${sr.canName}: ${sr.isRooted ? `có gốc (${sr.rootStrength})` : 'hư phù'}`)
+    }
+
+    lines.push('')
+    lines.push('=== ĐẢNG THẾ NGŨ HÀNH ===')
+    for (const f of result.analysis.factions.filter(f => f.strength > 0)) {
+      lines.push(`#${f.rank} ${f.element}: ${f.leaders.length} lãnh đạo, ${f.supporters.length} chi hỗ trợ, sức mạnh ${f.strength}`)
+    }
+  }
+
   return lines.join('\n')
 }
 
