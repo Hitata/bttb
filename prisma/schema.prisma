@@ -17,6 +17,7 @@ model User {
   sessions      Session[]
   readings      BaziReading[]
   hdReadings    HumanDesignReading[]
+  tuViReadings  TuViReading[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 }
@@ -171,4 +172,28 @@ model Hexagram {
   sage          String
   advisor       String
   balance       String
+}
+
+model TuViReading {
+  id               String   @id @default(cuid())
+  userId           String?
+  user             User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name             String
+  gender           String
+  birthYear        Int
+  birthMonth       Int
+  birthDay         Int
+  birthHour        Int?
+  birthMinute      Int?
+  birthPlace       String
+  latitude         Float
+  longitude        Float
+  timezone         String
+  result           String   // JSON TuViChart
+  slug             String?  @unique
+  isPublic         Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([userId])
 }
