@@ -307,37 +307,42 @@ export default function ChartPage({ params }: { params: { id: string } }) {
   const [transitPositions, setTransitPositions] = useState<PlanetPosition[] | null>(null)
 
   useEffect(() => {
-    if (params.id === 'latest') {
-      // Fallback: load from sessionStorage
-      const stored = sessionStorage.getItem('hd-chart-latest')
-      if (stored) setChart(JSON.parse(stored))
-      return
-    }
-
-    // Load from DB
-    fetch(`/api/human-design/readings/${params.id}`)
-      .then(res => {
-        if (!res.ok) throw new Error('Not found')
-        return res.json()
-      })
-      .then(data => setChart(data.result))
-      .catch(() => {
-        // Try sessionStorage as fallback
+    const loadChart = async () => {
+      if (params.id === 'latest') {
         const stored = sessionStorage.getItem('hd-chart-latest')
         if (stored) setChart(JSON.parse(stored))
-      })
+        return
+      }
+
+      try {
+        const res = await fetch(`/api/human-design/readings/${params.id}`)
+        if (!res.ok) throw new Error('Not found')
+        const data = await res.json()
+        setChart(data.result)
+      } catch {
+        const stored = sessionStorage.getItem('hd-chart-latest')
+        if (stored) setChart(JSON.parse(stored))
+      }
+    }
+    loadChart()
   }, [params.id])
 
   // Fetch transits when toggled on
   useEffect(() => {
-    if (!showTransits) {
-      setTransitPositions(null)
-      return
+    const loadTransits = async () => {
+      if (!showTransits) {
+        setTransitPositions(null)
+        return
+      }
+      try {
+        const res = await fetch('/api/human-design/transits')
+        const data = await res.json()
+        setTransitPositions(data.transits)
+      } catch {
+        setTransitPositions(null)
+      }
     }
-    fetch('/api/human-design/transits')
-      .then(res => res.json())
-      .then(data => setTransitPositions(data.transits))
-      .catch(() => setTransitPositions(null))
+    loadTransits()
   }, [showTransits])
 
   const handleCenterClick = useCallback((centerId: string) => {

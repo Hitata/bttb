@@ -101,22 +101,24 @@ export default function TuViChartPage() {
   const [mobileSheetOpen, setMobileSheetOpen] = useState(false)
 
   useEffect(() => {
-    if (id === 'latest') {
-      const stored = sessionStorage.getItem('tuvi-chart-latest')
-      if (stored) setChart(JSON.parse(stored))
-      return
-    }
-
-    fetch(`/api/tu-vi/readings/${id}`)
-      .then(res => {
-        if (!res.ok) throw new Error('Not found')
-        return res.json()
-      })
-      .then(data => setChart(data.result))
-      .catch(() => {
+    const loadChart = async () => {
+      if (id === 'latest') {
         const stored = sessionStorage.getItem('tuvi-chart-latest')
         if (stored) setChart(JSON.parse(stored))
-      })
+        return
+      }
+
+      try {
+        const res = await fetch(`/api/tu-vi/readings/${id}`)
+        if (!res.ok) throw new Error('Not found')
+        const data = await res.json()
+        setChart(data.result)
+      } catch {
+        const stored = sessionStorage.getItem('tuvi-chart-latest')
+        if (stored) setChart(JSON.parse(stored))
+      }
+    }
+    loadChart()
   }, [id])
 
   const handlePalaceClick = useCallback((index: number) => {

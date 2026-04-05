@@ -24,7 +24,7 @@ export default function CoinCastAnimation({ result, onComplete }: CoinCastAnimat
   const [lineStates, setLineStates] = useState<LineState[]>(Array(6).fill('hidden'))
   const [done, setDone] = useState(false)
   const onCompleteRef = useRef(onComplete)
-  onCompleteRef.current = onComplete
+  useEffect(() => { onCompleteRef.current = onComplete }, [onComplete])
 
   useEffect(() => {
     if (done) return

@@ -20,15 +20,18 @@ function TypeDonut() {
   const r = 70
   const innerR = 45
 
-  let cumAngle = -90
+  const slices = HD_TYPES.reduce<{ t: HdType; startAngle: number; angle: number }[]>((acc, t) => {
+    const prevEnd = acc.length > 0 ? acc[acc.length - 1].startAngle + acc[acc.length - 1].angle : -90
+    acc.push({ t, startAngle: prevEnd, angle: (t.percentage / total) * 360 })
+    return acc
+  }, [])
 
   return (
     <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[200px] mx-auto" xmlns="http://www.w3.org/2000/svg">
-      {HD_TYPES.map((t) => {
-        const angle = (t.percentage / total) * 360
-        const startRad = (cumAngle * Math.PI) / 180
-        const endRad = ((cumAngle + angle) * Math.PI) / 180
-        const midRad = ((cumAngle + angle / 2) * Math.PI) / 180
+      {slices.map(({ t, startAngle, angle }) => {
+        const startRad = (startAngle * Math.PI) / 180
+        const endRad = ((startAngle + angle) * Math.PI) / 180
+        const midRad = ((startAngle + angle / 2) * Math.PI) / 180
         const largeArc = angle > 180 ? 1 : 0
 
         const x1o = cx + r * Math.cos(startRad)
@@ -43,8 +46,6 @@ function TypeDonut() {
         const labelR = r + 14
         const lx = cx + labelR * Math.cos(midRad)
         const ly = cy + labelR * Math.sin(midRad)
-
-        cumAngle += angle
 
         return (
           <g key={t.id}>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 import { SessionProvider } from "@/components/auth/session-provider";
 import { UserButton } from "@/components/auth/user-button";
@@ -32,7 +33,7 @@ export default function RootLayout({
         <SessionProvider>
           <header className="sticky top-0 z-40 flex h-12 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm lg:px-6">
             <div className="flex items-center gap-6">
-              <a href="/" className="text-sm font-bold tracking-tight">BBTB</a>
+              <Link href="/" className="text-sm font-bold tracking-tight">BBTB</Link>
               <div className="hidden sm:flex">
                 <AppNav />
               </div>

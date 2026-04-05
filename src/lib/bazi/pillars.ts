@@ -201,7 +201,7 @@ export function computeTuTru(input: BirthInput): {
   lunarDate: DateInfo
   nongLichDate: DateInfo
 } {
-  let { year, month, day, hour, minute } = input
+  let { year, month, day, hour } = input
 
   // Handle hour 23 (late Tý) — shift to next day
   if (hour === 23) {

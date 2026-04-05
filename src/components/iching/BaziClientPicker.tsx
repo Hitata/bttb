@@ -29,7 +29,8 @@ export function BaziClientPicker({ selected, onChange }: BaziClientPickerProps) 
 
   useEffect(() => {
     if (!open) return
-    setLoading(true)
+    const startLoading = () => setLoading(true)
+    startLoading()
     clearTimeout(debounceRef.current)
     debounceRef.current = setTimeout(() => {
       fetch(`/api/bazi/clients?q=${encodeURIComponent(query)}`)
