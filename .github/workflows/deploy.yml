@@ -13,21 +13,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
         with:
-          bun-version: latest
+          node-version: 20
+          cache: npm
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: npm ci
 
       - name: Generate Prisma client
-        run: bun x prisma generate
+        run: npx prisma generate
 
       - name: Lint
-        run: bun run lint
+        run: npm run lint
 
       - name: Build
-        run: bun run build
+        run: npm run build
         env:
           DATABASE_URL: "file:./dev.db"
           AUTH_SECRET: "ci-build-secret-not-for-production"
