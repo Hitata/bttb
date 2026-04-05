@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import { CaseCard } from '@/components/bazi/cases/CaseCard'
 
+export const dynamic = 'force-dynamic'
+
 export default async function CasesPage() {
   const cases = await prisma.baziCase.findMany({
     where: { isPublished: true },

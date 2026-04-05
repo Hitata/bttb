@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
+
+export const dynamic = 'force-dynamic'
 import { CaseHeroSection } from '@/components/bazi/cases/CaseHeroSection'
 import { BaziChartDisplay } from '@/components/bazi/cases/BaziChartDisplay'
 import { TraitsGrid } from '@/components/bazi/cases/TraitsGrid'
