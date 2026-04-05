@@ -4,13 +4,14 @@ import { prisma } from '@/lib/prisma'
 // GET /api/human-design/readings/[id] — Get a single HD reading
 export async function GET(
   _request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params
   const reading = await prisma.humanDesignReading.findFirst({
     where: {
       OR: [
-        { id: params.id },
-        { slug: params.id },
+        { id },
+        { slug: id },
       ],
     },
   })

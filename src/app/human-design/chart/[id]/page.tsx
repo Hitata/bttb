@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { BodygraphSvg } from '@/components/human-design/BodygraphSvg'
 import { HDPromptGenerator } from '@/components/human-design/HDPromptGenerator'
 import type { HumanDesignChart, PlanetPosition } from '@/lib/human-design/types'
@@ -299,7 +300,8 @@ function DetailPanel({
   return null
 }
 
-export default function ChartPage({ params }: { params: { id: string } }) {
+export default function ChartPage() {
+  const params = useParams<{ id: string }>()
   const [chart, setChart] = useState<HumanDesignChart | null>(null)
   const [detailView, setDetailView] = useState<DetailView>({ kind: 'overview' })
   const [mobileSheetOpen, setMobileSheetOpen] = useState(false)
