@@ -47,6 +47,31 @@ function ChartSummaryPanel({ chart }: { chart: TuViChart }) {
         </div>
       </div>
 
+      {/* Profile: Mệnh Chủ, Thân Chủ */}
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <div className="text-xs font-medium text-muted-foreground mb-0.5">Mệnh Chủ</div>
+          <div className="text-sm">{chart.profile.menhChu}</div>
+        </div>
+        <div>
+          <div className="text-xs font-medium text-muted-foreground mb-0.5">Thân Chủ</div>
+          <div className="text-sm">{chart.profile.thanChu}</div>
+        </div>
+      </div>
+
+      {/* Nạp Âm */}
+      <div>
+        <div className="text-xs font-medium text-muted-foreground mb-0.5">Nạp Âm</div>
+        <div className="text-sm">{chart.profile.napAm.name} ({chart.profile.napAm.element})</div>
+      </div>
+
+      {/* Sinh Khắc */}
+      <div>
+        <div className="text-xs font-medium text-muted-foreground mb-0.5">Sinh Khắc</div>
+        <div className="text-sm">{chart.profile.sinhKhac.direction}</div>
+        <div className="text-xs text-muted-foreground">{chart.profile.sinhKhac.description}</div>
+      </div>
+
       {/* Star count by palace */}
       <div>
         <div className="text-xs font-medium text-muted-foreground mb-1">

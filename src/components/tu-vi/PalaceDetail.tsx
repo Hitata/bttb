@@ -37,6 +37,29 @@ export function PalaceDetail({
         <span className="text-xs text-muted-foreground">{palace.earthlyBranch}</span>
       </div>
 
+      {/* Tuần / Triệt badges */}
+      {(palace.isTuan || palace.isTriet) && (
+        <div className="flex gap-2">
+          {palace.isTuan && (
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-violet-500/10 text-violet-600 font-medium">
+              Tuần — sao bị giảm lực
+            </span>
+          )}
+          {palace.isTriet && (
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-600 font-medium">
+              Triệt — sao bị triệt tiêu
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* Đại Hạn */}
+      {palace.daiHan && (
+        <div className="text-xs text-muted-foreground">
+          Đại Hạn: {palace.daiHan.startAge}–{palace.daiHan.endAge} tuổi
+        </div>
+      )}
+
       {/* Domain */}
       <p className="text-sm leading-relaxed">{palace.domain}</p>
 

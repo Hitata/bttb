@@ -22,7 +22,10 @@ function generatePromptText(chart: TuViChart): string {
             return `    ${s.name} (${s.nameEn}) — ${b.vi}${tuHoa}`
           }).join('\n')
         : '    (trống)'
-      return `  ${p.name} (${p.nameEn}) — ${p.earthlyBranch}\n${starText}`
+      const voids = [p.isTuan && 'TUẦN', p.isTriet && 'TRIỆT'].filter(Boolean)
+      const voidTag = voids.length > 0 ? ` ⚠ ${voids.join(' + ')}` : ''
+      const daiHanTag = p.daiHan ? ` [Đại Hạn: ${p.daiHan.startAge}–${p.daiHan.endAge} tuổi]` : ''
+      return `  ${p.name} (${p.nameEn}) — ${p.earthlyBranch}${voidTag}${daiHanTag}\n${starText}`
     })
     .join('\n\n')
 
@@ -42,6 +45,15 @@ Lunar: ${chart.lunar.lunarYear}/${chart.lunar.lunarMonth}/${chart.lunar.lunarDay
 ┌─ MỆNH CỤC ─────────────────────────────┐
 │  ${chart.profile.cucName} (${chart.profile.menhElement})
 │  Năm: ${chart.profile.yearStem} ${chart.profile.yearBranch}
+│  Mệnh Chủ: ${chart.profile.menhChu}
+│  Thân Chủ: ${chart.profile.thanChu}
+│  Nạp Âm: ${chart.profile.napAm.name} (${chart.profile.napAm.element})
+│  Sinh Khắc: ${chart.profile.sinhKhac.direction} — ${chart.profile.sinhKhac.description}
+└──────────────────────────────────────────┘
+
+┌─ TUẦN / TRIỆT ─────────────────────────┐
+│  Tuần: ${chart.palaces.filter(p => p.isTuan).map(p => p.name).join(', ') || 'N/A'}
+│  Triệt: ${chart.palaces.filter(p => p.isTriet).map(p => p.name).join(', ') || 'N/A'}
 └──────────────────────────────────────────┘
 
 ┌─ TỨ HÓA ────────────────────────────────┐
@@ -52,15 +64,16 @@ ${tuHoaLines}
 ${palaceLines}
 └──────────────────────────────────────────┘
 
-Scope: Lá số Chính Tinh — 14 major stars + Tứ Hóa only. Minor stars (Phụ Tinh) not included.
-
 Please interpret this Tử Vi chart. Focus on:
 1. Mệnh (Destiny) palace — personality, life direction
 2. Quan Lộc (Career) palace — career path, strengths
 3. Tài Bạch (Wealth) palace — financial tendencies
 4. Phu Thê (Marriage) palace — relationships
 5. Key star combinations and Tứ Hóa effects
-6. Overall chart pattern and advice`
+6. Impact of Tuần/Triệt voids on affected palaces
+7. Đại Hạn timing — which life periods are most significant
+8. Mệnh Chủ / Thân Chủ influence and Nạp Âm / Sinh Khắc dynamics
+9. Overall chart pattern and advice`
 }
 
 export function TuViPromptGenerator({ chart }: { chart: TuViChart }) {

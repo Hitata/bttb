@@ -87,8 +87,23 @@ function PalaceCell({
           {isMenh && <span className="text-primary ml-0.5">●</span>}
           {isThan && <span className="text-amber-500 ml-0.5">◐</span>}
         </span>
-        <span className="text-[8px] text-muted-foreground">{palace.earthlyBranch}</span>
+        <div className="flex items-center gap-0.5">
+          {palace.isTuan && (
+            <span className="text-[7px] px-0.5 rounded bg-violet-500/15 text-violet-500 font-medium">Tuần</span>
+          )}
+          {palace.isTriet && (
+            <span className="text-[7px] px-0.5 rounded bg-rose-500/15 text-rose-500 font-medium">Triệt</span>
+          )}
+          <span className="text-[8px] text-muted-foreground">{palace.earthlyBranch}</span>
+        </div>
       </div>
+
+      {/* Đại Hạn age range */}
+      {palace.daiHan && (
+        <div className="text-[7px] text-muted-foreground/70 mb-0.5">
+          {palace.daiHan.startAge}–{palace.daiHan.endAge} tuổi
+        </div>
+      )}
 
       {/* Stars */}
       <div className="space-y-0">
@@ -174,11 +189,13 @@ export function TuViChartGrid({
       </div>
 
       {/* Legend */}
-      <div className="flex items-center justify-center gap-4 mt-2 text-[9px] text-muted-foreground">
+      <div className="flex items-center justify-center gap-3 mt-2 text-[9px] text-muted-foreground flex-wrap">
         <span><span style={{ color: '#c2785c' }}>■</span> Tử Vi group</span>
         <span><span style={{ color: '#2a9d8f' }}>■</span> Thiên Phủ group</span>
         <span>● Mệnh</span>
         <span>◐ Thân</span>
+        <span><span className="text-violet-500">■</span> Tuần</span>
+        <span><span className="text-rose-500">■</span> Triệt</span>
       </div>
     </div>
   )
