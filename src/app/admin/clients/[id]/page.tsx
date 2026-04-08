@@ -3,7 +3,7 @@
 
 import { useState, useEffect, use } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Copy, Check, Plus, Star, Moon } from 'lucide-react'
+import { ArrowLeft, Copy, Check, Plus, Star, Moon, Hexagon } from 'lucide-react'
 
 interface TokenData {
   id: string
@@ -19,6 +19,7 @@ interface ClientDetail {
   name: string
   baziClientId: string | null
   tuViClientId: string | null
+  hdClientId: string | null
   baziClient: {
     name: string
     gender: string
@@ -38,6 +39,17 @@ interface ClientDetail {
     birthHour: number
     cucName: string
     chartSummary: string
+  } | null
+  hdClient: {
+    name: string
+    gender: string
+    birthYear: number
+    birthMonth: number
+    birthDay: number
+    birthHour: number | null
+    birthTimeUnknown: boolean
+    designType: string | null
+    chartSummary: string | null
   } | null
   tokens: TokenData[]
 }
@@ -61,9 +73,9 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
   const router = useRouter()
   const [client, setClient] = useState<ClientDetail | null>(null)
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'bazi' | 'tuvi'>('bazi')
+  const [activeTab, setActiveTab] = useState<'bazi' | 'tuvi' | 'hd'>('bazi')
   const [copiedTokenId, setCopiedTokenId] = useState<string | null>(null)
-  const [generating, setGenerating] = useState(false)
+  const [generating, setGenerating] = useState<string | null>(null)
 
   useEffect(() => {
     async function load() {
@@ -80,6 +92,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
         const data = await res.json()
         setClient(data)
         if (!data.baziClientId && data.tuViClientId) setActiveTab('tuvi')
+        else if (!data.baziClientId && !data.tuViClientId && data.hdClientId) setActiveTab('hd')
       } catch (error) {
         console.error('Error loading client:', error)
       } finally {
@@ -89,8 +102,14 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
     load()
   }, [id, router])
 
-  async function generateToken(clientType: 'bazi' | 'tuvi') {
-    setGenerating(true)
+  async function fetchClient() {
+    const clientRes = await fetch(`/api/admin/clients/${id}`)
+    const data = await clientRes.json()
+    setClient(data)
+  }
+
+  async function generateToken(clientType: 'bazi' | 'tuvi' | 'hd') {
+    setGenerating(clientType)
     try {
       const res = await fetch('/api/admin/tokens', {
         method: 'POST',
@@ -98,14 +117,28 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
         body: JSON.stringify({ clientProfileId: id, clientType }),
       })
       if (res.ok) {
-        const clientRes = await fetch(`/api/admin/clients/${id}`)
-        const data = await clientRes.json()
-        setClient(data)
+        await fetchClient()
       }
     } catch (error) {
       console.error('Error generating token:', error)
     } finally {
-      setGenerating(false)
+      setGenerating(null)
+    }
+  }
+
+  async function handleGenerate(system: string) {
+    setGenerating(system)
+    try {
+      const res = await fetch(`/api/admin/clients/${id}/generate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ system }),
+      })
+      if (res.ok) {
+        await fetchClient()
+      }
+    } finally {
+      setGenerating(null)
     }
   }
 
@@ -119,9 +152,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
   async function revokeToken(tokenId: string) {
     try {
       await fetch(`/api/admin/tokens/${tokenId}`, { method: 'DELETE' })
-      const clientRes = await fetch(`/api/admin/clients/${id}`)
-      const data = await clientRes.json()
-      setClient(data)
+      await fetchClient()
     } catch (error) {
       console.error('Error revoking token:', error)
     }
@@ -130,7 +161,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
   if (loading) return <div className="mx-auto max-w-4xl p-6 text-muted-foreground">Loading...</div>
   if (!client) return <div className="mx-auto max-w-4xl p-6 text-muted-foreground">Client not found</div>
 
-  const birth = client.baziClient ?? client.tuViClient
+  const birth = client.baziClient ?? client.tuViClient ?? client.hdClient
   const birthDate = birth
     ? `${birth.birthDay.toString().padStart(2, '0')}/${birth.birthMonth.toString().padStart(2, '0')}/${birth.birthYear}`
     : ''
@@ -150,6 +181,38 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
         )}
       </div>
 
+      {(!client.baziClientId || !client.tuViClientId || !client.hdClientId) && (
+        <div className="mb-4 flex flex-wrap gap-2">
+          {!client.baziClientId && (
+            <button
+              onClick={() => handleGenerate('bazi')}
+              disabled={!!generating}
+              className="flex items-center gap-1 rounded-md bg-amber-500/10 px-3 py-1.5 text-sm text-amber-600 hover:bg-amber-500/20 disabled:opacity-50"
+            >
+              <Plus size={14} /> {generating === 'bazi' ? 'Generating...' : 'Generate Bazi'}
+            </button>
+          )}
+          {!client.tuViClientId && (
+            <button
+              onClick={() => handleGenerate('tuvi')}
+              disabled={!!generating}
+              className="flex items-center gap-1 rounded-md bg-purple-500/10 px-3 py-1.5 text-sm text-purple-600 hover:bg-purple-500/20 disabled:opacity-50"
+            >
+              <Plus size={14} /> {generating === 'tuvi' ? 'Generating...' : 'Generate Tu-Vi'}
+            </button>
+          )}
+          {!client.hdClientId && (
+            <button
+              onClick={() => handleGenerate('hd')}
+              disabled={!!generating}
+              className="flex items-center gap-1 rounded-md bg-blue-500/10 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-500/20 disabled:opacity-50"
+            >
+              <Plus size={14} /> {generating === 'hd' ? 'Generating...' : 'Generate HD'}
+            </button>
+          )}
+        </div>
+      )}
+
       <div className="mb-4 flex gap-2 border-b">
         <button
           onClick={() => setActiveTab('bazi')}
@@ -167,6 +230,14 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
         >
           <Moon size={14} /> TuVi
         </button>
+        <button
+          onClick={() => setActiveTab('hd')}
+          className={`flex items-center gap-1 px-4 py-2 text-sm font-medium border-b-2 -mb-px ${
+            activeTab === 'hd' ? 'border-foreground text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          <Hexagon size={14} /> HD
+        </button>
       </div>
 
       <div className="mb-8 rounded-lg border bg-card p-4">
@@ -179,7 +250,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
           ) : (
             <p className="text-muted-foreground">No Bazi reading linked.</p>
           )
-        ) : (
+        ) : activeTab === 'tuvi' ? (
           client.tuViClient ? (
             <div>
               <p className="font-medium">{client.tuViClient.cucName}</p>
@@ -187,6 +258,20 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
             </div>
           ) : (
             <p className="text-muted-foreground">No TuVi reading linked.</p>
+          )
+        ) : (
+          client.hdClient ? (
+            <div>
+              <p className="font-medium">{client.hdClient.designType ?? 'Unknown Design Type'}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{client.hdClient.chartSummary}</p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                {client.hdClient.birthTimeUnknown
+                  ? 'Birth time unknown'
+                  : `${client.hdClient.birthDay.toString().padStart(2, '0')}/${client.hdClient.birthMonth.toString().padStart(2, '0')}/${client.hdClient.birthYear}${client.hdClient.birthHour != null ? ` · Hour ${client.hdClient.birthHour}` : ''}`}
+              </p>
+            </div>
+          ) : (
+            <p className="text-muted-foreground">No Human Design reading linked.</p>
           )
         )}
       </div>
@@ -197,7 +282,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
           {client.baziClientId && (
             <button
               onClick={() => generateToken('bazi')}
-              disabled={generating}
+              disabled={!!generating}
               className="flex items-center gap-1 rounded-md bg-amber-500/10 px-3 py-1.5 text-sm text-amber-600 hover:bg-amber-500/20 disabled:opacity-50"
             >
               <Plus size={14} /> Bazi Link
@@ -206,10 +291,19 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
           {client.tuViClientId && (
             <button
               onClick={() => generateToken('tuvi')}
-              disabled={generating}
+              disabled={!!generating}
               className="flex items-center gap-1 rounded-md bg-purple-500/10 px-3 py-1.5 text-sm text-purple-600 hover:bg-purple-500/20 disabled:opacity-50"
             >
               <Plus size={14} /> TuVi Link
+            </button>
+          )}
+          {client.hdClientId && (
+            <button
+              onClick={() => generateToken('hd')}
+              disabled={!!generating}
+              className="flex items-center gap-1 rounded-md bg-blue-500/10 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-500/20 disabled:opacity-50"
+            >
+              <Plus size={14} /> HD Link
             </button>
           )}
         </div>
@@ -229,7 +323,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
                     {status.label}
                   </span>
                   <span className="text-sm">
-                    {token.clientType === 'bazi' ? 'Bazi' : 'TuVi'}
+                    {token.clientType === 'bazi' ? 'Bazi' : token.clientType === 'tuvi' ? 'TuVi' : 'HD'}
                   </span>
                   <span className="text-sm text-muted-foreground">
                     {token._count.messages}/{token.maxMessages} questions
