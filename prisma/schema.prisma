@@ -158,6 +158,7 @@ model BaziClient {
   updatedAt     DateTime @updatedAt
 
   @@index([name])
+  clientProfile ClientProfile?
 }
 
 model Hexagram {
@@ -172,6 +173,29 @@ model Hexagram {
   sage          String
   advisor       String
   balance       String
+}
+
+model TuViClient {
+  id            String   @id @default(cuid())
+  name          String
+  gender        String   // "Nam" | "Nữ"
+  birthYear     Int
+  birthMonth    Int
+  birthDay      Int
+  birthHour     Int      @default(0)
+  birthMinute   Int      @default(0)
+  birthPlace    String
+  latitude      Float
+  longitude     Float
+  timezone      String
+  cucName       String   // e.g. "Thủy Nhị Cục" — Mệnh Cục
+  chartSummary  String   // Short display: nạp âm + mệnh chủ
+  fullChart     String   // JSON TuViChart
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([name])
+  clientProfile ClientProfile?
 }
 
 model TuViReading {
@@ -196,4 +220,51 @@ model TuViReading {
   updatedAt        DateTime @updatedAt
 
   @@index([userId])
+}
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ClientProfile {
+  id            String       @id @default(cuid())
+  name          String
+  baziClientId  String?      @unique
+  tuViClientId  String?      @unique
+  baziClient    BaziClient?  @relation(fields: [baziClientId], references: [id])
+  tuViClient    TuViClient?  @relation(fields: [tuViClientId], references: [id])
+  tokens        ReadingToken[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([name])
+}
+
+model ReadingToken {
+  id              String         @id @default(cuid())
+  clientProfileId String
+  clientType      String
+  sessionId       String?
+  maxMessages     Int            @default(10)
+  expiresAt       DateTime
+  createdAt       DateTime       @default(now())
+  clientProfile   ClientProfile  @relation(fields: [clientProfileId], references: [id])
+  messages        ReadingMessage[]
+
+  @@index([clientProfileId])
+}
+
+model ReadingMessage {
+  id        String       @id @default(cuid())
+  tokenId   String
+  role      String
+  content   String
+  createdAt DateTime     @default(now())
+  token     ReadingToken @relation(fields: [tokenId], references: [id])
+
+  @@index([tokenId])
 }
