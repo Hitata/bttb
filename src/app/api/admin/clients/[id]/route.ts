@@ -12,6 +12,7 @@ export async function GET(
       include: {
         baziClient: true,
         tuViClient: true,
+        hdClient: true,
         tokens: {
           include: {
             _count: { select: { messages: { where: { role: 'client' } } } },
@@ -38,7 +39,7 @@ export async function PATCH(
 ) {
   try {
     const { id } = await params
-    const { baziClientId, tuViClientId } = await request.json()
+    const { baziClientId, tuViClientId, hdClientId } = await request.json()
 
     const existing = await prisma.clientProfile.findUnique({ where: { id } })
     if (!existing) {
@@ -59,12 +60,20 @@ export async function PATCH(
         return NextResponse.json({ error: 'TuViClient already linked to another profile' }, { status: 409 })
       }
     }
+    if (hdClientId) {
+      const hd = await prisma.humanDesignClient.findUnique({ where: { id: hdClientId }, include: { clientProfile: true } })
+      if (!hd) return NextResponse.json({ error: 'HDClient not found' }, { status: 404 })
+      if (hd.clientProfile && hd.clientProfile.id !== id) {
+        return NextResponse.json({ error: 'HDClient already linked to another profile' }, { status: 409 })
+      }
+    }
 
     const updated = await prisma.clientProfile.update({
       where: { id },
       data: {
         ...(baziClientId !== undefined && { baziClientId }),
         ...(tuViClientId !== undefined && { tuViClientId }),
+        ...(hdClientId !== undefined && { hdClientId }),
       },
     })
 
