@@ -11,6 +11,7 @@ export async function GET(request: Request) {
       include: {
         baziClient: { select: { id: true, name: true, gender: true, birthYear: true, birthMonth: true, birthDay: true, dayMaster: true } },
         tuViClient: { select: { id: true, name: true, gender: true, birthYear: true, birthMonth: true, birthDay: true, cucName: true } },
+        hdClient: true,
         tokens: {
           include: {
             _count: { select: { messages: { where: { role: 'client' } } } },
@@ -34,6 +35,7 @@ export async function GET(request: Request) {
         gender: birth?.gender,
         hasBazi: !!p.baziClientId,
         hasTuVi: !!p.tuViClientId,
+        hasHd: !!p.hdClient,
         activeTokens,
         createdAt: p.createdAt,
       }
@@ -48,12 +50,12 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const { name, baziClientId, tuViClientId } = await request.json()
+    const { name, baziClientId, tuViClientId, hdClientId } = await request.json()
 
     if (!name) {
       return NextResponse.json({ error: 'Name is required' }, { status: 400 })
     }
-    if (!baziClientId && !tuViClientId) {
+    if (!baziClientId && !tuViClientId && !hdClientId) {
       return NextResponse.json({ error: 'At least one reading type must be linked' }, { status: 400 })
     }
 
@@ -67,9 +69,14 @@ export async function POST(request: Request) {
       if (!tuvi) return NextResponse.json({ error: 'TuViClient not found' }, { status: 404 })
       if (tuvi.clientProfile) return NextResponse.json({ error: 'TuViClient already linked to another profile' }, { status: 409 })
     }
+    if (hdClientId) {
+      const hd = await prisma.humanDesignClient.findUnique({ where: { id: hdClientId }, include: { clientProfile: true } })
+      if (!hd) return NextResponse.json({ error: 'HDClient not found' }, { status: 404 })
+      if (hd.clientProfile) return NextResponse.json({ error: 'HDClient already linked to another profile' }, { status: 409 })
+    }
 
     const profile = await prisma.clientProfile.create({
-      data: { name, baziClientId, tuViClientId },
+      data: { name, baziClientId, tuViClientId, hdClientId },
     })
 
     return NextResponse.json(profile, { status: 201 })
