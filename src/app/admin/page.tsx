@@ -2,7 +2,13 @@
 
 import { Suspense, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { LogOut, Search, Star, Moon } from 'lucide-react'
+import { LogOut, Search, Star, Moon, Plus, X } from 'lucide-react'
+
+interface UnlinkedClient {
+  id: string
+  name: string
+  type: 'bazi' | 'tuvi'
+}
 
 interface ClientSummary {
   id: string
@@ -50,6 +56,11 @@ function AdminPage() {
   const [clients, setClients] = useState<ClientSummary[]>([])
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(false)
+  const [reloadKey, setReloadKey] = useState(0)
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [unlinked, setUnlinked] = useState<UnlinkedClient[]>([])
+  const [selectedClient, setSelectedClient] = useState<UnlinkedClient | null>(null)
+  const [creating, setCreating] = useState(false)
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
@@ -77,6 +88,41 @@ function AdminPage() {
     router.replace('/admin?login=true')
   }
 
+  async function openAddModal() {
+    setShowAddModal(true)
+    try {
+      const res = await fetch('/api/admin/clients/unlinked')
+      const data = await res.json()
+      setUnlinked(data)
+    } catch (error) {
+      console.error('Error loading unlinked clients:', error)
+    }
+  }
+
+  async function createProfile() {
+    if (!selectedClient) return
+    setCreating(true)
+    try {
+      const body: Record<string, string> = { name: selectedClient.name }
+      if (selectedClient.type === 'bazi') body.baziClientId = selectedClient.id
+      else body.tuViClientId = selectedClient.id
+      const res = await fetch('/api/admin/clients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+      if (res.ok) {
+        setShowAddModal(false)
+        setSelectedClient(null)
+        setReloadKey((k) => k + 1)
+      }
+    } catch (error) {
+      console.error('Error creating profile:', error)
+    } finally {
+      setCreating(false)
+    }
+  }
+
   useEffect(() => {
     if (!isLoggedIn) return
     setLoading(true)
@@ -98,7 +144,7 @@ function AdminPage() {
       }
     }, 200)
     return () => clearTimeout(timeout)
-  }, [isLoggedIn, search, router])
+  }, [isLoggedIn, search, router, reloadKey])
 
   if (!isLoggedIn) {
     return (
@@ -136,10 +182,60 @@ function AdminPage() {
     <div className="mx-auto max-w-4xl p-6">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Admin</h1>
-        <button onClick={handleLogout} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-          <LogOut size={16} /> Log out
-        </button>
+        <div className="flex items-center gap-3">
+          <button onClick={openAddModal} className="flex items-center gap-1 rounded-md bg-foreground px-3 py-1.5 text-sm text-background hover:opacity-90">
+            <Plus size={14} /> Add Client
+          </button>
+          <button onClick={handleLogout} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+            <LogOut size={16} /> Log out
+          </button>
+        </div>
       </div>
+
+      {showAddModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-full max-w-md rounded-lg border bg-card p-6">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Add Client Profile</h2>
+              <button onClick={() => { setShowAddModal(false); setSelectedClient(null) }} className="text-muted-foreground hover:text-foreground">
+                <X size={18} />
+              </button>
+            </div>
+            {unlinked.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No unlinked Bazi or TuVi clients found. Create one via the calculator pages first.</p>
+            ) : (
+              <>
+                <p className="mb-3 text-sm text-muted-foreground">Select an existing Bazi or TuVi client to create a profile:</p>
+                <div className="mb-4 max-h-60 space-y-1 overflow-y-auto">
+                  {unlinked.map((c) => (
+                    <button
+                      key={c.id}
+                      onClick={() => setSelectedClient(c)}
+                      className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm ${
+                        selectedClient?.id === c.id ? 'bg-foreground/10 ring-1 ring-foreground/20' : 'hover:bg-muted/50'
+                      }`}
+                    >
+                      <span>{c.name}</span>
+                      <span className={`rounded-full px-2 py-0.5 text-xs ${
+                        c.type === 'bazi' ? 'bg-amber-500/10 text-amber-600' : 'bg-purple-500/10 text-purple-600'
+                      }`}>
+                        {c.type === 'bazi' ? 'Bazi' : 'TuVi'}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+                <button
+                  onClick={createProfile}
+                  disabled={!selectedClient || creating}
+                  className="w-full rounded-md bg-foreground px-3 py-2 text-sm text-background hover:opacity-90 disabled:opacity-50"
+                >
+                  {creating ? 'Creating...' : 'Create Profile'}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="relative mb-4">
         <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
