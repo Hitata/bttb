@@ -1,10 +1,10 @@
 'use client'
 
-import { Suspense, useState, useEffect, useCallback } from 'react'
+import { Suspense, useState, useEffect, useCallback, useRef } from 'react'
 import dynamic from 'next/dynamic'
 import { useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { BirthInputForm } from '@/components/bazi/BirthInputForm'
+import { BirthInputForm, type BirthFormData } from '@/components/shared/BirthInputForm'
 import { BirthInputSummary } from '@/components/bazi/BirthInputSummary'
 import { ShareLinkBar } from '@/components/bazi/ShareLinkBar'
 import { Save, Check, Loader2, CalendarDays, Users } from 'lucide-react'
@@ -49,10 +49,25 @@ function BaziPageContent() {
   const [savedClient, setSavedClient] = useState(false)
   const [formCollapsed, setFormCollapsed] = useState(false)
 
-  const handleSubmit = useCallback(async (data: BirthInput) => {
+  // Store last form data so save client handler can access location fields
+  const lastFormDataRef = useRef<BirthFormData | null>(null)
+
+  const handleSubmit = useCallback(async (data: BirthFormData) => {
+    lastFormDataRef.current = data
+
+    const input: BirthInput = {
+      name: data.name,
+      gender: data.gender,
+      year: data.birthYear,
+      month: data.birthMonth,
+      day: data.birthDay,
+      hour: data.birthHour,
+      minute: data.birthMinute,
+    }
+
     setIsLoading(true)
     setError(null)
-    setInput(data)
+    setInput(input)
     setSaved(false)
     setSavedClient(false)
 
@@ -60,7 +75,7 @@ function BaziPageContent() {
       const res = await fetch('/api/bazi/calculate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(input),
       })
 
       if (!res.ok) {
@@ -91,14 +106,19 @@ function BaziPageContent() {
     const min = searchParams.get('min')
 
     if (name && gender && y && m && d) {
-      const data: BirthInput = {
+      const data: BirthFormData = {
         name,
         gender: gender as 'male' | 'female',
-        year: Number(y),
-        month: Number(m),
-        day: Number(d),
-        hour: Number(h || 0),
-        minute: Number(min || 0),
+        birthYear: Number(y),
+        birthMonth: Number(m),
+        birthDay: Number(d),
+        birthHour: Number(h || 0),
+        birthMinute: Number(min || 0),
+        birthTimeUnknown: false,
+        birthPlace: '',
+        timezone: 'Asia/Ho_Chi_Minh',
+        latitude: 10.82,
+        longitude: 106.63,
       }
       handleSubmit(data)
     }
@@ -129,6 +149,7 @@ function BaziPageContent() {
 
   const handleSaveClient = async () => {
     if (!result || !input) return
+    const formData = lastFormDataRef.current
     setSavingClient(true)
     try {
       const res = await fetch('/api/bazi/clients', {
@@ -142,6 +163,10 @@ function BaziPageContent() {
           day: input.day,
           hour: input.hour,
           minute: input.minute,
+          birthPlace: formData?.birthPlace,
+          latitude: formData?.latitude,
+          longitude: formData?.longitude,
+          timezone: formData?.timezone,
         }),
       })
       if (res.ok) setSavedClient(true)
@@ -172,11 +197,11 @@ function BaziPageContent() {
   const initialValues = searchParams.get('name') ? {
     name: searchParams.get('name') || '',
     gender: (searchParams.get('gender') || 'male') as 'male' | 'female',
-    year: Number(searchParams.get('y') || 1990),
-    month: Number(searchParams.get('m') || 1),
-    day: Number(searchParams.get('d') || 1),
-    hour: Number(searchParams.get('h') || 0),
-    minute: Number(searchParams.get('min') || 0),
+    birthYear: Number(searchParams.get('y') || 1990),
+    birthMonth: Number(searchParams.get('m') || 1),
+    birthDay: Number(searchParams.get('d') || 1),
+    birthHour: Number(searchParams.get('h') || 0),
+    birthMinute: Number(searchParams.get('min') || 0),
   } : undefined
 
   const hasResult = result && input
@@ -201,7 +226,7 @@ function BaziPageContent() {
             </div>
             {formCollapsed && input
               ? <BirthInputSummary input={input} onEdit={handleExpand} />
-              : <BirthInputForm onSubmit={handleSubmit} isLoading={isLoading} initialValues={initialValues} />
+              : <BirthInputForm onSubmit={handleSubmit} loading={isLoading} defaultValues={initialValues} />
             }
 
             {error && (
@@ -331,6 +356,9 @@ function BaziPageContent() {
                     seasonalStrength={result.analysis.seasonalStrength}
                     stemRootedness={result.analysis.stemRootedness}
                     factions={result.analysis.factions}
+                    positionalInteractions={result.analysis.positionalInteractions}
+                    extremeDynamics={result.analysis.extremeDynamics}
+                    cungVi={result.analysis.cungVi}
                   />
                 </div>
               )}
@@ -347,4 +375,3 @@ function BaziPageContent() {
     </div>
   )
 }
-
