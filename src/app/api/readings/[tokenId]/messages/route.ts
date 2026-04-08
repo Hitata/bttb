@@ -78,7 +78,7 @@ Guidelines:
       prompt: fullPrompt,
       options: {
         systemPrompt,
-        maxTurns: 1,
+        maxTurns: 3,
         model: 'claude-sonnet-4-6',
         permissionMode: 'bypassPermissions',
         ...(token!.sessionId ? { resume: token!.sessionId } : {}),
@@ -89,10 +89,14 @@ Guidelines:
     let sessionId: string | undefined
 
     for await (const msg of conversation) {
-      if (msg.type === 'result' && msg.subtype === 'success') {
-        assistantContent = msg.result || ''
-        // Try to get session_id from the result
-        sessionId = (msg as Record<string, unknown>).session_id as string | undefined
+      if (msg.type === 'result') {
+        if (msg.subtype === 'success') {
+          assistantContent = msg.result || ''
+          sessionId = msg.session_id
+        } else {
+          // error result — log details
+          console.error('Claude error result:', msg.subtype, 'errors' in msg ? msg.errors : '')
+        }
       }
     }
 
