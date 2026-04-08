@@ -340,6 +340,12 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
                     {copiedTokenId === token.id ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
                     {copiedTokenId === token.id ? 'Copied' : 'Copy'}
                   </button>
+                  <button
+                    onClick={() => window.open(`/readings/${token.id}`, '_blank')}
+                    className="rounded-md px-2 py-1 text-sm text-muted-foreground hover:bg-muted"
+                  >
+                    View
+                  </button>
                   {status.label === 'Active' && (
                     <button
                       onClick={() => revokeToken(token.id)}
