@@ -3,6 +3,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { Send, Loader2 } from 'lucide-react'
+import Markdown from 'react-markdown'
 
 interface Message {
   id: string
@@ -103,13 +104,13 @@ export function ChatPanel({
             className={`flex ${msg.role === 'client' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[85%] rounded-lg px-4 py-2.5 text-sm whitespace-pre-wrap ${
+              className={`max-w-[85%] rounded-lg px-4 py-2.5 text-sm ${
                 msg.role === 'client'
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-card border'
+                  ? 'bg-primary text-primary-foreground whitespace-pre-wrap'
+                  : 'bg-card border prose prose-sm prose-neutral dark:prose-invert max-w-none'
               }`}
             >
-              {msg.content}
+              {msg.role === 'client' ? msg.content : <Markdown>{msg.content}</Markdown>}
             </div>
           </div>
         ))}
