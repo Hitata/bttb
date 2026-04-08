@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { LogOut, Search, Star, Moon } from 'lucide-react'
 
@@ -30,7 +30,15 @@ function formatBirthDate(year?: number, month?: number, day?: number): string {
   return `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`
 }
 
-export default function AdminPage() {
+export default function AdminPageWrapper() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center text-muted-foreground">Loading...</div>}>
+      <AdminPage />
+    </Suspense>
+  )
+}
+
+function AdminPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const showLogin = searchParams.get('login') === 'true'
