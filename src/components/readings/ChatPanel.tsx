@@ -1,9 +1,9 @@
-// src/components/readings/ChatPanel.tsx
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Send, Loader2 } from 'lucide-react'
+import { Send } from 'lucide-react'
 import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 interface Message {
   id: string
@@ -19,6 +19,20 @@ interface ChatPanelProps {
   maxMessages: number
   disabled?: boolean
   disabledReason?: string
+}
+
+function TypingIndicator() {
+  return (
+    <div className="flex justify-start">
+      <div className="bg-card border rounded-2xl rounded-tl-md px-4 py-3">
+        <div className="flex items-center gap-1" aria-label="Typing">
+          <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/60 animate-[typing_1.4s_ease-in-out_infinite]" />
+          <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/60 animate-[typing_1.4s_ease-in-out_0.2s_infinite]" />
+          <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/60 animate-[typing_1.4s_ease-in-out_0.4s_infinite]" />
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export function ChatPanel({
@@ -37,6 +51,7 @@ export function ChatPanel({
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const isMaxed = clientCount >= maxMessages
+  const remaining = maxMessages - clientCount
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -92,11 +107,16 @@ export function ChatPanel({
   return (
     <div className="flex flex-col">
       {/* Messages */}
-      <div className="space-y-4 mb-4">
+      <div className="space-y-3 mb-4" role="log" aria-label="Chat messages">
         {messages.length === 0 && !disabled && (
-          <p className="text-center text-sm text-muted-foreground py-8">
-            Ask a follow-up question about your reading.
-          </p>
+          <div className="py-10 text-center">
+            <p className="text-sm text-muted-foreground">
+              Ask a follow-up question about your reading.
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground/70">
+              You have {remaining} question{remaining !== 1 ? 's' : ''} available.
+            </p>
+          </div>
         )}
         {messages.map((msg) => (
           <div
@@ -104,42 +124,36 @@ export function ChatPanel({
             className={`flex ${msg.role === 'client' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[85%] rounded-lg px-4 py-2.5 text-sm ${
+              className={`max-w-[85%] text-sm ${
                 msg.role === 'client'
-                  ? 'bg-primary text-primary-foreground whitespace-pre-wrap'
-                  : 'bg-card border prose prose-sm prose-neutral dark:prose-invert max-w-none'
+                  ? 'rounded-2xl rounded-br-md bg-primary text-primary-foreground px-4 py-2.5 whitespace-pre-wrap'
+                  : 'rounded-2xl rounded-tl-md bg-card border px-4 py-2.5 prose prose-sm prose-neutral dark:prose-invert [&>*:first-child]:mt-0 [&>*:last-child]:mb-0'
               }`}
             >
-              {msg.role === 'client' ? msg.content : <Markdown>{msg.content}</Markdown>}
+              {msg.role === 'client' ? msg.content : <Markdown remarkPlugins={[remarkGfm]}>{msg.content}</Markdown>}
             </div>
           </div>
         ))}
-        {sending && (
-          <div className="flex justify-start">
-            <div className="bg-card border rounded-lg px-4 py-2.5">
-              <Loader2 size={16} className="animate-spin text-muted-foreground" />
-            </div>
-          </div>
-        )}
+        {sending && <TypingIndicator />}
         <div ref={messagesEndRef} />
       </div>
 
       {/* Error */}
       {error && (
-        <p className="text-sm text-destructive mb-2">{error}</p>
+        <p className="text-sm text-destructive mb-2" role="alert">{error}</p>
       )}
 
       {/* Input or status */}
       {disabled ? (
-        <div className="rounded-lg border bg-muted/50 p-4 text-center text-sm text-muted-foreground">
+        <div className="rounded-lg border bg-muted/50 px-4 py-3 text-center text-sm text-muted-foreground">
           {disabledReason}
         </div>
       ) : isMaxed ? (
-        <div className="rounded-lg border bg-muted/50 p-4 text-center text-sm text-muted-foreground">
+        <div className="rounded-lg border bg-muted/50 px-4 py-3 text-center text-sm text-muted-foreground">
           You have used all {maxMessages} questions. Contact your practitioner for a new reading link.
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="flex gap-2">
+        <form onSubmit={handleSubmit} className="flex items-end gap-2">
           <input
             type="text"
             value={input}
@@ -147,13 +161,15 @@ export function ChatPanel({
             placeholder="Type your question..."
             maxLength={2000}
             disabled={sending}
-            className="flex-1 rounded-lg border bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/50 disabled:opacity-50"
+            aria-label="Your question"
+            className="flex-1 rounded-lg border bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground transition-shadow focus:outline-none focus:ring-2 focus:ring-ring/40 focus:border-ring/40 disabled:opacity-50"
             autoFocus
           />
           <button
             type="submit"
             disabled={!input.trim() || sending}
-            className="rounded-lg bg-primary px-4 py-2.5 text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+            aria-label="Send question"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:bg-primary/80 disabled:opacity-40 disabled:pointer-events-none"
           >
             <Send size={16} />
           </button>
@@ -161,9 +177,9 @@ export function ChatPanel({
       )}
 
       {/* Question counter */}
-      {!disabled && !isMaxed && (
+      {!disabled && !isMaxed && messages.length > 0 && (
         <p className="mt-2 text-xs text-muted-foreground text-right">
-          {clientCount}/{maxMessages} questions used
+          {remaining} question{remaining !== 1 ? 's' : ''} remaining
         </p>
       )}
     </div>

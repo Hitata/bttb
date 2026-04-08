@@ -15,13 +15,13 @@ import { getVongTruongSinh } from './life-cycle'
 import { getThanSatForPillar } from './spirit-stars'
 import { HEAVENLY_STEMS, EARTHLY_BRANCHES } from './constants'
 import { analyzeRelationships } from './relationships'
-import { getSeasonalStrength, getStemRootedness, analyzeFactions } from './strength'
+import { getSeasonalStrength, getStemRootedness, analyzeFactions, getPositionalInteractions, analyzeExtremeDynamics, getCungVi } from './strength'
 import type { BaziResult, BirthInput, CurrentYearData, TangCanItem } from './types'
 
 export { generateRawDataForAI, getRandomQuestions, DESTINY_QUESTIONS } from './raw-data-generator'
 export { HEAVENLY_STEMS, EARTHLY_BRANCHES, ELEMENT_COLORS, ELEMENT_BG_COLORS, TEN_GOD_DESCRIPTIONS } from './constants'
 export { analyzeRelationships } from './relationships'
-export { getSeasonalStrength, getStemRootedness, analyzeFactions } from './strength'
+export { getSeasonalStrength, getStemRootedness, analyzeFactions, getPositionalInteractions, analyzeExtremeDynamics, getCungVi } from './strength'
 export type * from './types'
 
 /**
@@ -68,11 +68,19 @@ export function computeBazi(input: BirthInput): BaziResult {
   const stemIndices = [yearCanIndex, monthCanIndex, dayMasterIndex, hourCanIndex]
   const branchIndices = [yearChiIndex, monthChiIndex, dayChiIndex, hourChiIndex]
 
+  const relationships = analyzeRelationships(stemIndices, branchIndices)
+  const seasonalStrength = getSeasonalStrength(monthChiIndex)
+  const stemRootedness = getStemRootedness(stemIndices, branchIndices)
+  const factions = analyzeFactions(stemIndices, branchIndices, monthChiIndex)
+
   const analysis = {
-    relationships: analyzeRelationships(stemIndices, branchIndices),
-    seasonalStrength: getSeasonalStrength(monthChiIndex),
-    stemRootedness: getStemRootedness(stemIndices, branchIndices),
-    factions: analyzeFactions(stemIndices, branchIndices, monthChiIndex),
+    relationships,
+    seasonalStrength,
+    stemRootedness,
+    factions,
+    positionalInteractions: getPositionalInteractions(relationships),
+    extremeDynamics: analyzeExtremeDynamics(stemIndices, branchIndices, seasonalStrength, factions, relationships),
+    cungVi: getCungVi(),
   }
 
   return {

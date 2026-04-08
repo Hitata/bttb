@@ -18,6 +18,17 @@ export async function GET(
     ? profile.baziClient
     : profile.tuViClient
 
+  // Extract tutru from fullChart for bazi clients
+  let tutru = null
+  let chartDate = null
+  if (token!.clientType === 'bazi' && profile.baziClient?.fullChart) {
+    try {
+      const fullChart = JSON.parse(profile.baziClient.fullChart)
+      tutru = fullChart.tutru ?? null
+      chartDate = fullChart.date ?? null
+    } catch { /* ignore parse errors */ }
+  }
+
   return NextResponse.json({
     status,
     tokenId: token!.id,
@@ -27,6 +38,8 @@ export async function GET(
     maxMessages: token!.maxMessages,
     clientMessageCount: token!.messages.filter(m => m.role === 'client').length,
     chartData: clientData,
+    tutru,
+    chartDate,
     messages: token!.messages.map(m => ({
       id: m.id,
       role: m.role,

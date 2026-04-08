@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { CITIES, CUSTOM_CITY_INDEX } from '@/lib/shared/city-presets'
 
@@ -43,6 +43,8 @@ export function BirthInputForm({
   defaultValues,
   showBirthTimeUnknown = false,
 }: BirthInputFormProps) {
+  const nameRef = useRef<HTMLInputElement>(null)
+  useEffect(() => { nameRef.current?.focus() }, [])
   const [name, setName] = useState(defaultValues?.name ?? '')
   const [gender, setGender] = useState<'male' | 'female'>(defaultValues?.gender ?? 'male')
   const [birthDay, setBirthDay] = useState(defaultValues?.birthDay ?? 1)
@@ -108,6 +110,7 @@ export function BirthInputForm({
       <div>
         <label className="mb-1 block text-xs font-medium text-muted-foreground">Họ và tên</label>
         <input
+          ref={nameRef}
           type="text"
           value={name}
           onChange={e => setName(e.target.value)}

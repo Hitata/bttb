@@ -4,6 +4,8 @@ import { prisma } from '@/lib/prisma'
 import { validateToken } from '@/lib/reading-token'
 import { query } from '@anthropic-ai/claude-agent-sdk'
 
+export const maxDuration = 120 // Allow up to 2 minutes for Claude response
+
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ tokenId: string }> }
@@ -89,13 +91,23 @@ Guidelines:
     let sessionId: string | undefined
 
     for await (const msg of conversation) {
-      if (msg.type === 'result') {
+      if (msg.type === 'assistant') {
+        // Log each step: tool calls and text
+        for (const block of msg.message.content) {
+          if (block.type === 'tool_use') {
+            console.log(`[Claude SDK] Tool: ${block.name}`, block.input && typeof block.input === 'object' ? JSON.stringify(block.input).slice(0, 200) : '')
+          } else if (block.type === 'text') {
+            console.log(`[Claude SDK] Text: ${block.text.slice(0, 150)}`)
+          }
+        }
+        console.log(`[Claude SDK] Usage: ${JSON.stringify(msg.message.usage)}`)
+      } else if (msg.type === 'result') {
         if (msg.subtype === 'success') {
           assistantContent = msg.result || ''
           sessionId = msg.session_id
+          console.log(`[Claude SDK] Done. Cost: $${msg.total_cost_usd ?? '?'}, Session: ${sessionId}`)
         } else {
-          // error result — log details
-          console.error('Claude error result:', msg.subtype, 'errors' in msg ? msg.errors : '')
+          console.error('[Claude SDK] Error:', msg.subtype, 'errors' in msg ? msg.errors : '')
         }
       }
     }
