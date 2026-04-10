@@ -1,4 +1,3 @@
-# Replace with your domain
-your-domain.com {
+darsana.trungth.com {
 	reverse_proxy app:3000
 }
