@@ -1,12 +1,11 @@
 import "dotenv/config";
-import { buildDatabaseUrl } from "../src/lib/supabase-db";
 import { execSync } from "child_process";
 import { PrismaClient } from "@prisma/client";
 
 const DB_PATH = "prisma/dev.db";
 
 const pg = new PrismaClient({
-  datasources: { db: { url: buildDatabaseUrl(true) } },
+  datasources: { db: { url: process.env.DIRECT_URL } },
 });
 
 function readTable(table: string): Record<string, unknown>[] {

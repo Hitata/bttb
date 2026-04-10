@@ -30,7 +30,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          DATABASE_URL: "file:./dev.db"
+          DATABASE_URL: "postgresql://build:build@localhost:5432/build"
           AUTH_SECRET: "ci-build-secret-not-for-production"
 
   deploy:

@@ -18,7 +18,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/src/generated ./src/generated
 COPY . .
 
-ARG DATABASE_URL="file:./prod.db"
+ARG DATABASE_URL="postgresql://build:build@localhost:5432/build"
 ARG AUTH_SECRET="build-time-placeholder"
 ENV DATABASE_URL=${DATABASE_URL}
 ENV AUTH_SECRET=${AUTH_SECRET}

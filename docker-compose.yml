@@ -4,10 +4,9 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
-    volumes:
-      - app-data:/app/data
     environment:
-      - DATABASE_URL=file:./data/prod.db
+      - DATABASE_URL=${DATABASE_URL}
+      - DIRECT_URL=${DIRECT_URL}
       - AUTH_SECRET=${AUTH_SECRET}
     networks:
       - web
@@ -27,7 +26,6 @@ services:
       - web
 
 volumes:
-  app-data:
   caddy-data:
   caddy-config:
 

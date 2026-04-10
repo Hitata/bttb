@@ -33,7 +33,7 @@ export default function BaziClientsPage() {
     const timeout = setTimeout(() => {
       fetch(`/api/bazi/clients?q=${encodeURIComponent(search)}`)
         .then(r => r.json())
-        .then(setClients)
+        .then(data => setClients(Array.isArray(data) ? data : []))
         .catch(() => setClients([]))
         .finally(() => setLoading(false))
     }, 200)
