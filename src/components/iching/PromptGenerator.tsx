@@ -199,23 +199,17 @@ export function PromptGenerator({
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
 
-    // Save to DB
-    fetch('/api/iching/readings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        imageHash: result.imageHash,
-        intentionTime: result.intentionTime,
-        lines: result.lines,
-        coins: result.coins,
-        primaryNumber: result.primary.number,
-        changedNumber: result.changed?.number ?? null,
-        nuclearNumber: result.primary.nuclearNumber,
-        prompt: fullPrompt,
-        analysisMode: selectedMode,
-        question,
-      }),
-    }).catch(() => {}) // fire-and-forget
+    // Update existing reading with prompt
+    if (result.readingId) {
+      fetch(`/api/iching/readings/${result.readingId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: fullPrompt,
+          analysisMode: selectedMode,
+        }),
+      }).catch(() => {}) // fire-and-forget
+    }
   }
 
   const previewText = primaryData

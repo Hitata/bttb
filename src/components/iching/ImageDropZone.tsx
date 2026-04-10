@@ -66,6 +66,7 @@ export default function ImageDropZone({ onCasted }: ImageDropZoneProps) {
         body: JSON.stringify({
           imageHash,
           intentionTime: new Date(intentionTime).getTime(),
+          question,
         }),
       })
 

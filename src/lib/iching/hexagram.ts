@@ -5,13 +5,16 @@ import type { LineValue, TrigramData, HexagramName, HexagramInfo } from './types
 // ---------------------------------------------------------------------------
 
 export const TRIGRAMS: TrigramData[] = [
+  // Indexed by binary value: line1 (bottom) = LSB, line3 (top) = MSB
+  // Binary '011' = bottom Yang, mid Yang, top Yin = Đoài ☱ (Lake, yin on top)
+  // Binary '110' = bottom Yin, mid Yang, top Yang = Tốn ☴ (Wind, yin enters below)
   { index: 0, binary: '000', symbol: '☷', name: 'Khôn',  zh: '坤' },
-  { index: 1, binary: '001', symbol: '☶', name: 'Cấn',   zh: '艮' },
+  { index: 1, binary: '001', symbol: '☳', name: 'Chấn',  zh: '震' },
   { index: 2, binary: '010', symbol: '☵', name: 'Khảm',  zh: '坎' },
-  { index: 3, binary: '011', symbol: '☴', name: 'Tốn',   zh: '巽' },
-  { index: 4, binary: '100', symbol: '☳', name: 'Chấn',  zh: '震' },
+  { index: 3, binary: '011', symbol: '☱', name: 'Đoài',  zh: '兌' },
+  { index: 4, binary: '100', symbol: '☶', name: 'Cấn',   zh: '艮' },
   { index: 5, binary: '101', symbol: '☲', name: 'Ly',    zh: '離' },
-  { index: 6, binary: '110', symbol: '☱', name: 'Đoài',  zh: '兌' },
+  { index: 6, binary: '110', symbol: '☴', name: 'Tốn',   zh: '巽' },
   { index: 7, binary: '111', symbol: '☰', name: 'Càn',   zh: '乾' },
 ]
 
@@ -22,15 +25,15 @@ export const TRIGRAMS: TrigramData[] = [
 
 export const KING_WEN: number[][] = [
   //  lower: 0   1   2   3   4   5   6   7
-  //         坤  艮  坎  巽  震  離  兌  乾  (upper)
-  [    2,  23,   8,  20,  16,  35,  45,  11 ],  // 0 坤 Khôn
-  [  15,  52,  39,  53,  62,  56,  31,  33 ],  // 1 艮 Cấn
-  [   7,   4,  29,  59,  40,  64,  47,   6 ],  // 2 坎 Khảm
-  [  46,  18,  48,  57,  32,  50,  28,  44 ],  // 3 巽 Tốn
-  [  24,  27,   3,  42,  51,  21,  17,  25 ],  // 4 震 Chấn
-  [  36,  22,  63,  37,  55,  30,  49,  13 ],  // 5 離 Ly
-  [  19,  41,  60,  61,  54,  38,  58,  10 ],  // 6 兌 Đoài
-  [  12,  26,   5,   9,  34,  14,  43,   1 ],  // 7 乾 Càn
+  //         坤  震  坎  兌  艮  離  巽  乾
+  [    2,  24,   7,  19,  15,  36,  46,  11 ],  // 0 坤 Khôn
+  [   16,  51,  40,  54,  62,  55,  32,  34 ],  // 1 震 Chấn
+  [    8,   3,  29,  60,  39,  63,  48,   5 ],  // 2 坎 Khảm
+  [   45,  17,  47,  58,  31,  49,  28,  43 ],  // 3 兌 Đoài
+  [   23,  27,   4,  41,  52,  22,  18,  26 ],  // 4 艮 Cấn
+  [   35,  21,  64,  38,  56,  30,  50,  14 ],  // 5 離 Ly
+  [   20,  42,  59,  61,  53,  37,  57,   9 ],  // 6 巽 Tốn
+  [   12,  25,   6,  10,  33,  13,  44,   1 ],  // 7 乾 Càn
 ]
 
 // ---------------------------------------------------------------------------

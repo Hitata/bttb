@@ -37,6 +37,7 @@ export interface CastingResponse {
   timestamp: number
   imageHash: string
   intentionTime: number
+  readingId?: string
 }
 
 export interface CastingRequest {
