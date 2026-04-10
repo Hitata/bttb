@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  allowedDevOrigins: ["darsana.trungth.com"],
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },

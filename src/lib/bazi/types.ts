@@ -280,6 +280,46 @@ export interface Faction {
   rank: number            // 1 = strongest faction
 }
 
+// ===== Positional Interaction Priority =====
+
+export type InteractionStrength = 'strongest' | 'strong' | 'weak' | 'blocked'
+
+export interface PositionalInteraction {
+  type: RelationshipType
+  label: string
+  indices: number[]                // Pillar indices (0=year, 1=month, 2=day, 3=hour)
+  positionalStrength: InteractionStrength
+  positionalNote: string           // Vietnamese explanation
+}
+
+// ===== Extreme Element Dynamics (Ngũ Hành Thái Quá) =====
+
+export type ExtremeDynamicType =
+  | 'phanKhac'       // Weak attacks strong → weak gets damaged
+  | 'phanSinh'       // Too-strong source overwhelms weak receiver
+  | 'suyXungVuong'   // Weak clashing strong → stimulates strong
+  | 'hopKhac'        // Both harmonize and clash (e.g. Tỵ-Thân)
+
+export interface ExtremeDynamic {
+  type: ExtremeDynamicType
+  label: string
+  description: string
+  elements: [FiveElement, FiveElement]   // [attacker/source, target]
+  indices: number[]                       // Pillar indices involved
+}
+
+// ===== Cung Vị (Palace Positions) =====
+
+export interface CungVi {
+  pillarIndex: number        // 0=year, 1=month, 2=day, 3=hour
+  pillarName: string         // Vietnamese: "Niên Trụ"
+  canDomain: string          // What the stem represents: "Cha" (father)
+  chiDomain: string          // What the branch represents: "Mẹ" (mother)
+  lifeDomain: string         // Overall life area: "Gia đình gốc"
+  ageRange: string           // "0–17 tuổi"
+  ageDescription: string     // "Ảnh hưởng của cha mẹ"
+}
+
 // ===== Chart Analysis =====
 
 export interface ChartAnalysis {
@@ -287,4 +327,7 @@ export interface ChartAnalysis {
   seasonalStrength: ElementStrength[]
   stemRootedness: StemRootedness[]
   factions: Faction[]
+  positionalInteractions: PositionalInteraction[]
+  extremeDynamics: ExtremeDynamic[]
+  cungVi: CungVi[]
 }

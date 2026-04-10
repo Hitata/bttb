@@ -1,6 +1,6 @@
 'use client'
 
-import type { ElementStrength, StemRootedness, Faction, FiveElement } from '@/lib/bazi/types'
+import type { ElementStrength, StemRootedness, Faction, FiveElement, PositionalInteraction, ExtremeDynamic, CungVi } from '@/lib/bazi/types'
 import { ELEMENT_COLORS } from '@/lib/bazi'
 
 const STATE_COLORS: Record<string, string> = {
@@ -28,14 +28,48 @@ const ELEMENT_CSS_VAR: Record<FiveElement, string> = {
   'Thủy': 'var(--element-water)',
 }
 
+const POSITIONAL_COLORS: Record<string, string> = {
+  strongest: 'text-green-600 dark:text-green-400',
+  strong: 'text-blue-600 dark:text-blue-400',
+  weak: 'text-orange-500 dark:text-orange-400',
+  blocked: 'text-red-500 dark:text-red-400',
+}
+
+const POSITIONAL_LABELS: Record<string, string> = {
+  strongest: 'Rất mạnh',
+  strong: 'Mạnh',
+  weak: 'Yếu',
+  blocked: 'Bị chặn',
+}
+
+const EXTREME_COLORS: Record<string, string> = {
+  phanKhac: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
+  phanSinh: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
+  suyXungVuong: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300',
+  hopKhac: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
+}
+
+const EXTREME_LABELS: Record<string, string> = {
+  phanKhac: 'Phản Khắc',
+  phanSinh: 'Phản Sinh',
+  suyXungVuong: 'Suy Xung Vượng',
+  hopKhac: 'Hợp Khắc',
+}
+
 export default function StrengthPanel({
   seasonalStrength,
   stemRootedness,
   factions,
+  positionalInteractions,
+  extremeDynamics,
+  cungVi,
 }: {
   seasonalStrength: ElementStrength[]
   stemRootedness: StemRootedness[]
   factions: Faction[]
+  positionalInteractions?: PositionalInteraction[]
+  extremeDynamics?: ExtremeDynamic[]
+  cungVi?: CungVi[]
 }) {
   return (
     <div className="space-y-4">
@@ -101,6 +135,63 @@ export default function StrengthPanel({
           ))}
         </div>
       </div>
+
+      {/* Positional Interactions */}
+      {positionalInteractions && positionalInteractions.length > 0 && (
+        <div className="rounded-lg border bg-card p-4">
+          <h3 className="mb-3 text-sm font-semibold">Tương Tác Theo Vị Trí</h3>
+          <div className="space-y-1.5">
+            {positionalInteractions.map((pi, i) => (
+              <div key={i} className="flex items-start gap-2 text-xs">
+                <span className={`shrink-0 font-medium ${POSITIONAL_COLORS[pi.positionalStrength]}`}>
+                  {POSITIONAL_LABELS[pi.positionalStrength]}
+                </span>
+                <div className="min-w-0">
+                  <span>{pi.label}</span>
+                  {pi.positionalNote && (
+                    <span className="ml-1 text-muted-foreground">— {pi.positionalNote}</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Extreme Dynamics */}
+      {extremeDynamics && extremeDynamics.length > 0 && (
+        <div className="rounded-lg border bg-card p-4">
+          <h3 className="mb-3 text-sm font-semibold">Ngũ Hành Thái Quá</h3>
+          <div className="space-y-2">
+            {extremeDynamics.map((ed, i) => (
+              <div key={i} className={`rounded-md px-2.5 py-2 text-xs ${EXTREME_COLORS[ed.type]}`}>
+                <div className="font-medium">{EXTREME_LABELS[ed.type]}: {ed.label}</div>
+                <div className="mt-0.5 opacity-80">{ed.description}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Cung Vị */}
+      {cungVi && (
+        <div className="rounded-lg border bg-card p-4">
+          <h3 className="mb-3 text-sm font-semibold">Cung Vị (Tứ Trụ)</h3>
+          <div className="grid grid-cols-4 gap-2 text-xs">
+            {cungVi.map(cv => (
+              <div key={cv.pillarIndex} className="rounded-md bg-muted p-2 text-center">
+                <div className="font-semibold">{cv.pillarName}</div>
+                <div className="mt-1 text-muted-foreground">{cv.ageRange}</div>
+                <div className="mt-1.5 space-y-0.5">
+                  <div><span className="text-muted-foreground">Can:</span> {cv.canDomain}</div>
+                  <div><span className="text-muted-foreground">Chi:</span> {cv.chiDomain}</div>
+                </div>
+                <div className="mt-1.5 text-muted-foreground leading-tight">{cv.lifeDomain}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -151,6 +151,10 @@ model BaziClient {
   birthDay      Int
   birthHour     Int      @default(0)
   birthMinute   Int      @default(0)
+  birthPlace     String?
+  latitude       Float?
+  longitude      Float?
+  timezone       String?
   dayMaster     String   // e.g. "Đinh Hỏa" — Day Master stem + element
   chartSummary  String   // Short text summary of the chart for display
   fullChart     String   // JSON BaziResult
@@ -198,6 +202,30 @@ model TuViClient {
   clientProfile ClientProfile?
 }
 
+model HumanDesignClient {
+  id               String   @id @default(cuid())
+  name             String
+  gender           String
+  birthYear        Int
+  birthMonth       Int
+  birthDay         Int
+  birthHour        Int?
+  birthMinute      Int?
+  birthTimeUnknown Boolean  @default(false)
+  birthPlace       String?
+  latitude         Float?
+  longitude        Float?
+  timezone         String?
+  designType       String?
+  chartSummary     String?
+  fullChart        String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  clientProfile    ClientProfile?
+
+  @@index([name])
+}
+
 model TuViReading {
   id               String   @id @default(cuid())
   userId           String?
@@ -233,10 +261,12 @@ model AdminUser {
 model ClientProfile {
   id            String       @id @default(cuid())
   name          String
-  baziClientId  String?      @unique
-  tuViClientId  String?      @unique
-  baziClient    BaziClient?  @relation(fields: [baziClientId], references: [id])
-  tuViClient    TuViClient?  @relation(fields: [tuViClientId], references: [id])
+  baziClientId  String?             @unique
+  tuViClientId  String?             @unique
+  hdClientId    String?             @unique
+  baziClient    BaziClient?         @relation(fields: [baziClientId], references: [id])
+  tuViClient    TuViClient?         @relation(fields: [tuViClientId], references: [id])
+  hdClient      HumanDesignClient?  @relation(fields: [hdClientId], references: [id])
   tokens        ReadingToken[]
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
