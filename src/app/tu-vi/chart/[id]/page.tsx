@@ -60,17 +60,21 @@ function ChartSummaryPanel({ chart }: { chart: TuViChart }) {
       </div>
 
       {/* Nạp Âm */}
-      <div>
-        <div className="text-xs font-medium text-muted-foreground mb-0.5">Nạp Âm</div>
-        <div className="text-sm">{chart.profile.napAm.name} ({chart.profile.napAm.element})</div>
-      </div>
+      {chart.profile.napAm && (
+        <div>
+          <div className="text-xs font-medium text-muted-foreground mb-0.5">Nạp Âm</div>
+          <div className="text-sm">{chart.profile.napAm.name} ({chart.profile.napAm.element})</div>
+        </div>
+      )}
 
       {/* Sinh Khắc */}
-      <div>
-        <div className="text-xs font-medium text-muted-foreground mb-0.5">Sinh Khắc</div>
-        <div className="text-sm">{chart.profile.sinhKhac.direction}</div>
-        <div className="text-xs text-muted-foreground">{chart.profile.sinhKhac.description}</div>
-      </div>
+      {chart.profile.sinhKhac && (
+        <div>
+          <div className="text-xs font-medium text-muted-foreground mb-0.5">Sinh Khắc</div>
+          <div className="text-sm">{chart.profile.sinhKhac.direction}</div>
+          <div className="text-xs text-muted-foreground">{chart.profile.sinhKhac.description}</div>
+        </div>
+      )}
 
       {/* Star count by palace */}
       <div>

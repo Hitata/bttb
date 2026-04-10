@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -134,7 +134,7 @@ model IChingReading {
   primaryNumber  Int
   changedNumber  Int?
   nuclearNumber  Int
-  prompt         String   // the generated text prompt
+  prompt         String   @default("") // the generated text prompt
   analysisMode   String   @default("standard") // deep | standard | simple
   createdAt      DateTime @default(now())
 
