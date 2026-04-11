@@ -33,6 +33,14 @@ export function AppNav() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink
+            render={<Link href="/numerology" />}
+            className={navigationMenuTriggerStyle()}
+          >
+            Thần Số
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink
             render={<Link href="/bazi/cases" />}
             className={navigationMenuTriggerStyle()}
           >
