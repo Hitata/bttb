@@ -1,0 +1,1 @@
+ALTER TABLE "BaziClient" ADD COLUMN IF NOT EXISTS "description" TEXT;

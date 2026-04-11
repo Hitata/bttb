@@ -34,6 +34,7 @@ interface ReadingData {
   maxMessages: number
   clientMessageCount: number
   chartData: ChartData | null
+  description: string | null
   tutru: TuTru | null
   chartDate: { solar: { year: number; month: number; day: number }; lunar: { year: number; month: number; day: number } } | null
   messages: Message[]
@@ -176,6 +177,13 @@ export default function ReadingPage({ params }: { params: Promise<{ tokenId: str
           {chart.chartSummary && (
             <p className="mt-1 text-sm text-muted-foreground">{chart.chartSummary}</p>
           )}
+        </div>
+      )}
+
+      {/* Person description */}
+      {data.description && (
+        <div className="mb-6 rounded-lg border bg-card p-4">
+          <p className="text-sm text-muted-foreground leading-relaxed">{data.description}</p>
         </div>
       )}
 

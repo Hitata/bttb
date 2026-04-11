@@ -159,6 +159,7 @@ model BaziClient {
   timezone       String?
   dayMaster     String   // e.g. "Đinh Hỏa" — Day Master stem + element
   chartSummary  String   // Short text summary of the chart for display
+  description   String?  // Short personality description based on chart
   fullChart     String   // JSON BaziResult
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt

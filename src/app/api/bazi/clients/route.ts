@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { computeBazi, HEAVENLY_STEMS } from '@/lib/bazi'
+import { generateDescription } from '@/lib/bazi/description'
 import type { BirthInput } from '@/lib/bazi'
 import { findOrCreateProfile } from '@/lib/shared/auto-profile'
 
@@ -23,6 +24,7 @@ export async function POST(request: Request) {
       // Build chart summary from tứ trụ
       const { tutru } = baziResult
       const chartSummary = `${tutru.thienTru.can}${tutru.thienTru.chi} ${tutru.nguyetTru.can}${tutru.nguyetTru.chi} ${tutru.nhatTru.can}${tutru.nhatTru.chi} ${tutru.thoiTru.can}${tutru.thoiTru.chi}`
+      const description = generateDescription(baziResult)
 
       // Create client WITH location fields (new)
       const client = await tx.baziClient.create({
@@ -34,7 +36,7 @@ export async function POST(request: Request) {
           latitude: latitude ?? null,
           longitude: longitude ?? null,
           timezone: timezone ?? null,
-          dayMaster, chartSummary,
+          dayMaster, chartSummary, description,
           fullChart: JSON.stringify(baziResult),
         },
       })

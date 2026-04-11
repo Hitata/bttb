@@ -1,6 +1,7 @@
 // src/app/api/readings/[tokenId]/route.ts
 import { NextResponse } from 'next/server'
 import { validateToken } from '@/lib/reading-token'
+import { generateDescription } from '@/lib/bazi/description'
 
 export async function GET(
   request: Request,
@@ -21,12 +22,20 @@ export async function GET(
   // Extract tutru from fullChart for bazi clients
   let tutru = null
   let chartDate = null
-  if (token!.clientType === 'bazi' && profile.baziClient?.fullChart) {
-    try {
-      const fullChart = JSON.parse(profile.baziClient.fullChart)
-      tutru = fullChart.tutru ?? null
-      chartDate = fullChart.date ?? null
-    } catch { /* ignore parse errors */ }
+  let description: string | null = null
+  if (token!.clientType === 'bazi' && profile.baziClient) {
+    description = profile.baziClient.description ?? null
+    if (profile.baziClient.fullChart) {
+      try {
+        const fullChart = JSON.parse(profile.baziClient.fullChart)
+        tutru = fullChart.tutru ?? null
+        chartDate = fullChart.date ?? null
+        // Generate description on-the-fly for older clients without one
+        if (!description) {
+          description = generateDescription(fullChart)
+        }
+      } catch { /* ignore parse errors */ }
+    }
   }
 
   return NextResponse.json({
@@ -38,6 +47,7 @@ export async function GET(
     maxMessages: token!.maxMessages,
     clientMessageCount: token!.messages.filter(m => m.role === 'client').length,
     chartData: clientData,
+    description,
     tutru,
     chartDate,
     messages: token!.messages.map(m => ({
