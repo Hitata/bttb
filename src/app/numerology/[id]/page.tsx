@@ -29,11 +29,11 @@ export default function SavedNumerologyReadingPage() {
         return res.json()
       })
       .then(setReading)
-      .catch(() => setError('Kh\u00f4ng t\u00ecm th\u1ea5y l\u00e1 s\u1ed1'))
+      .catch(() => setError('Không tìm thấy lá số'))
   }, [params.id])
 
   if (error) return <div className="container mx-auto max-w-6xl px-4 py-8 text-center text-muted-foreground">{error}</div>
-  if (!reading) return <div className="container mx-auto max-w-6xl px-4 py-8 text-center text-muted-foreground">\u0110ang t\u1ea3i...</div>
+  if (!reading) return <div className="container mx-auto max-w-6xl px-4 py-8 text-center text-muted-foreground">Đang tải...</div>
 
   const result = reading.result
   const currentAge = new Date().getFullYear() - reading.birthYear

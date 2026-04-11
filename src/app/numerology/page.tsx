@@ -18,10 +18,10 @@ const PinnaclesPanel = dynamic(() => import('@/components/numerology/PinnaclesPa
 type TabKey = 'core' | 'cycles' | 'challenges' | 'pinnacles'
 
 const TABS: { key: TabKey; label: string }[] = [
-  { key: 'core', label: 'Con S\u1ed1 Ch\u1ee7 \u0110\u1ea1o' },
-  { key: 'cycles', label: 'Chu K\u1ef3' },
-  { key: 'challenges', label: 'Th\u1eed Th\u00e1ch' },
-  { key: 'pinnacles', label: '\u0110\u1ec9nh Cao' },
+  { key: 'core', label: 'Con Số Chủ Đạo' },
+  { key: 'cycles', label: 'Chu Kỳ' },
+  { key: 'challenges', label: 'Thử Thách' },
+  { key: 'pinnacles', label: 'Đỉnh Cao' },
 ]
 
 interface FormData {
@@ -36,7 +36,7 @@ export default function NumerologyPage() {
     <Suspense fallback={
       <div className="flex min-h-[60vh] items-center justify-center text-muted-foreground">
         <Loader2 className="mr-2 size-4 animate-spin" />
-        \u0110ang t\u1ea3i...
+        Đang tải...
       </div>
     }>
       <NumerologyPageContent />
@@ -193,14 +193,14 @@ function NumerologyPageContent() {
           <div className="lg:sticky lg:top-[72px]">
             <div className="mb-4 flex items-center justify-between">
               <h1 className="text-lg font-semibold tracking-tight lg:text-xl">
-                Th\u1ea7n S\u1ed1 H\u1ecdc
+                Thần Số Học
               </h1>
               <Link
                 href="/numerology/clients"
                 className="flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground transition-colors hover:bg-muted"
               >
                 <Users className="size-3" />
-                Kh\u00e1ch
+                Khách
               </Link>
             </div>
 
@@ -216,7 +216,7 @@ function NumerologyPageContent() {
                   onClick={handleExpand}
                   className="text-xs text-muted-foreground underline-offset-2 hover:underline"
                 >
-                  S\u1eeda th\u00f4ng tin
+                  Sửa thông tin
                 </button>
               </div>
             ) : (
@@ -226,7 +226,7 @@ function NumerologyPageContent() {
                     type="text"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    placeholder="H\u1ecd t\u00ean khai sinh"
+                    placeholder="Họ tên khai sinh"
                     required
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-ring"
                   />
@@ -264,10 +264,10 @@ function NumerologyPageContent() {
                   {isLoading ? (
                     <>
                       <Loader2 className="size-3.5 animate-spin" />
-                      \u0110ang t\u00ednh...
+                      Đang tính...
                     </>
                   ) : (
-                    'T\u00ednh to\u00e1n'
+                    'Tính toán'
                   )}
                 </Button>
               </form>
@@ -291,12 +291,12 @@ function NumerologyPageContent() {
                   {copied ? (
                     <>
                       <Check className="size-3.5" />
-                      \u0110\u00e3 copy link!
+                      Đã copy link!
                     </>
                   ) : (
                     <>
                       <Copy className="size-3.5" />
-                      Copy link chia s\u1ebb
+                      Copy link chia sẻ
                     </>
                   )}
                 </Button>
@@ -310,17 +310,17 @@ function NumerologyPageContent() {
                   {savedClient ? (
                     <>
                       <Check className="size-3.5" />
-                      \u0110\u00e3 l\u01b0u kh\u00e1ch
+                      Đã lưu khách
                     </>
                   ) : savingClient ? (
                     <>
                       <Loader2 className="size-3.5 animate-spin" />
-                      \u0110ang l\u01b0u...
+                      Đang lưu...
                     </>
                   ) : (
                     <>
                       <Save className="size-3.5" />
-                      L\u01b0u kh\u00e1ch h\u00e0ng
+                      Lưu khách hàng
                     </>
                   )}
                 </Button>
@@ -335,17 +335,17 @@ function NumerologyPageContent() {
                     {saved ? (
                       <>
                         <Check className="size-3.5" />
-                        \u0110\u00e3 l\u01b0u
+                        Đã lưu
                       </>
                     ) : saving ? (
                       <>
                         <Loader2 className="size-3.5 animate-spin" />
-                        \u0110ang l\u01b0u...
+                        Đang lưu...
                       </>
                     ) : (
                       <>
                         <Save className="size-3.5" />
-                        L\u01b0u l\u00e1 s\u1ed1
+                        Lưu lá số
                       </>
                     )}
                   </Button>
@@ -363,7 +363,7 @@ function NumerologyPageContent() {
                 <Hash className="size-8 text-muted-foreground" />
               </div>
               <p className="mt-4 text-sm text-muted-foreground">
-                Nh\u1eadp h\u1ecd t\u00ean v\u00e0 ng\u00e0y sinh \u0111\u1ec3 t\u00ednh th\u1ea7n s\u1ed1
+                Nhập họ tên và ngày sinh để tính thần số
               </p>
             </div>
           )}
@@ -371,7 +371,7 @@ function NumerologyPageContent() {
           {isLoading && (
             <div className="flex min-h-[40vh] flex-col items-center justify-center">
               <Loader2 className="size-8 animate-spin text-muted-foreground" />
-              <p className="mt-3 text-sm text-muted-foreground">\u0110ang t\u00ednh to\u00e1n...</p>
+              <p className="mt-3 text-sm text-muted-foreground">Đang tính toán...</p>
             </div>
           )}
 

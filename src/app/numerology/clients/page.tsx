@@ -41,12 +41,12 @@ export default function NumerologyClientsPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-lg font-semibold tracking-tight">Kh\u00e1ch h\u00e0ng</h1>
+        <h1 className="text-lg font-semibold tracking-tight">Khách hàng</h1>
         <Link
           href="/numerology"
           className="rounded-lg border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted"
         >
-          \u2190 T\u00ednh s\u1ed1 m\u1edbi
+          ← Tính số mới
         </Link>
       </div>
 
@@ -55,15 +55,15 @@ export default function NumerologyClientsPage() {
         type="text"
         value={search}
         onChange={(e) => { setSearch(e.target.value); setLoading(true) }}
-        placeholder="T\u00ecm theo t\u00ean..."
+        placeholder="Tìm theo tên..."
         className="mb-4 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-ring"
       />
 
       {loading ? (
-        <div className="py-16 text-center text-sm text-muted-foreground">\u0110ang t\u1ea3i...</div>
+        <div className="py-16 text-center text-sm text-muted-foreground">Đang tải...</div>
       ) : clients.length === 0 ? (
         <div className="py-16 text-center text-sm text-muted-foreground">
-          {search ? 'Kh\u00f4ng t\u00ecm th\u1ea5y' : 'Ch\u01b0a c\u00f3 kh\u00e1ch h\u00e0ng n\u00e0o'}
+          {search ? 'Không tìm thấy' : 'Chưa có khách hàng nào'}
         </div>
       ) : (
         <div className="flex flex-col gap-2">
@@ -77,7 +77,7 @@ export default function NumerologyClientsPage() {
                 <div className="min-w-0 flex-1">
                   <div className="text-sm font-medium">{c.fullName}</div>
                   <div className="mt-0.5 text-xs text-muted-foreground">
-                    S\u1ed1 ch\u1ee7 \u0111\u1ea1o: {c.lifePathNumber}
+                    Số chủ đạo: {c.lifePathNumber}
                     {c.chartSummary && (
                       <>
                         <span className="mx-1.5 opacity-30">&middot;</span>
@@ -88,7 +88,7 @@ export default function NumerologyClientsPage() {
                   <div className="mt-1 text-[11px] text-muted-foreground/60">
                     {c.birthDay}/{c.birthMonth}/{c.birthYear}
                     <span className="mx-1.5 opacity-30">&middot;</span>
-                    L\u01b0u {formatDate(c.createdAt)}
+                    Lưu {formatDate(c.createdAt)}
                   </div>
                 </div>
                 <div className="shrink-0 text-xs text-muted-foreground/30 transition-colors group-hover:text-muted-foreground/60">
