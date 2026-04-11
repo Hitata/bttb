@@ -16,9 +16,10 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  readings      BaziReading[]
-  hdReadings    HumanDesignReading[]
-  tuViReadings  TuViReading[]
+  readings            BaziReading[]
+  hdReadings          HumanDesignReading[]
+  tuViReadings        TuViReading[]
+  numerologyReadings  NumerologyReading[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 }
@@ -264,10 +265,12 @@ model ClientProfile {
   name          String
   baziClientId  String?             @unique
   tuViClientId  String?             @unique
-  hdClientId    String?             @unique
-  baziClient    BaziClient?         @relation(fields: [baziClientId], references: [id])
-  tuViClient    TuViClient?         @relation(fields: [tuViClientId], references: [id])
-  hdClient      HumanDesignClient?  @relation(fields: [hdClientId], references: [id])
+  hdClientId          String?             @unique
+  numerologyClientId  String?             @unique
+  baziClient          BaziClient?         @relation(fields: [baziClientId], references: [id])
+  tuViClient          TuViClient?         @relation(fields: [tuViClientId], references: [id])
+  hdClient            HumanDesignClient?  @relation(fields: [hdClientId], references: [id])
+  numerologyClient    NumerologyClient?   @relation(fields: [numerologyClientId], references: [id])
   tokens        ReadingToken[]
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
@@ -298,4 +301,37 @@ model ReadingMessage {
   token     ReadingToken @relation(fields: [tokenId], references: [id])
 
   @@index([tokenId])
+}
+
+model NumerologyReading {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName   String
+  birthYear  Int
+  birthMonth Int
+  birthDay   Int
+  result     String   // JSON NumerologyResult
+  slug       String?  @unique
+  isPublic   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model NumerologyClient {
+  id             String   @id @default(cuid())
+  fullName       String
+  birthYear      Int
+  birthMonth     Int
+  birthDay       Int
+  lifePathNumber Int
+  chartSummary   String
+  fullChart      String   // JSON NumerologyResult
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  clientProfile  ClientProfile?
+
+  @@index([fullName])
 }
