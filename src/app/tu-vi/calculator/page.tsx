@@ -127,12 +127,7 @@ function TuViCalculatorContent() {
           <h1 className="text-xl font-bold mb-1">Lập Lá Số Tử Vi</h1>
           <p className="text-xs text-muted-foreground italic">Calculate your Purple Star chart</p>
         </div>
-        <Link
-          href="/tu-vi/clients"
-          className="rounded-lg border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted"
-        >
-          Khách hàng →
-        </Link>
+        <span />
       </div>
 
       {error && (

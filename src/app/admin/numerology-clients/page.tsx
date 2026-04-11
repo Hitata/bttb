@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useAdminGuard } from '@/lib/use-admin-guard'
 
 interface ClientSummary {
   id: string
@@ -23,6 +24,7 @@ function formatDate(iso: string): string {
 }
 
 export default function NumerologyClientsPage() {
+  const { isLoading: authLoading, isAuthenticated } = useAdminGuard()
   const [clients, setClients] = useState<ClientSummary[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
@@ -38,15 +40,19 @@ export default function NumerologyClientsPage() {
     return () => clearTimeout(timeout)
   }, [search])
 
+  if (authLoading || !isAuthenticated) {
+    return <div className="flex min-h-[60vh] items-center justify-center text-muted-foreground">Loading...</div>
+  }
+
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-lg font-semibold tracking-tight">Khách hàng</h1>
+        <h1 className="text-lg font-semibold tracking-tight">Khách Thần Số Học</h1>
         <Link
-          href="/numerology"
+          href="/admin"
           className="rounded-lg border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted"
         >
-          ← Tính số mới
+          ← Admin
         </Link>
       </div>
 

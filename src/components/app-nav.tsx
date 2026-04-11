@@ -48,14 +48,6 @@ export function AppNav() {
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink
-            render={<Link href="/readings" />}
-            className={navigationMenuTriggerStyle()}
-          >
-            Lá Số
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
           <NavigationMenuTrigger className={navigationMenuTriggerStyle()}>Học</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="w-48 p-1.5">

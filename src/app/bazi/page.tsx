@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react'
 import { BirthInputForm, type BirthFormData } from '@/components/shared/BirthInputForm'
 import { BirthInputSummary } from '@/components/bazi/BirthInputSummary'
 import { ShareLinkBar } from '@/components/bazi/ShareLinkBar'
-import { Save, Check, Loader2, CalendarDays, Users } from 'lucide-react'
+import { Save, Check, Loader2, CalendarDays } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import type { BaziResult, BirthInput } from '@/lib/bazi'
@@ -216,13 +216,7 @@ function BaziPageContent() {
               <h1 className="text-lg font-semibold tracking-tight lg:text-xl">
                 Lá Số Bát Tự
               </h1>
-              <Link
-                href="/bazi/clients"
-                className="flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground transition-colors hover:bg-muted"
-              >
-                <Users className="size-3" />
-                Khách
-              </Link>
+              <span />
             </div>
             {formCollapsed && input
               ? <BirthInputSummary input={input} onEdit={handleExpand} />

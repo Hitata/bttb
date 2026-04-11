@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useRef } from 'react'
 import Link from 'next/link'
 import { Pencil, Trash2 } from 'lucide-react'
+import { useAdminGuard } from '@/lib/use-admin-guard'
 
 interface ReadingSummary {
   id: string
@@ -53,6 +54,7 @@ function SkeletonRow() {
 }
 
 export default function ReadingsPage() {
+  const { isLoading: authLoading, isAuthenticated } = useAdminGuard()
   const [readings, setReadings] = useState<ReadingSummary[]>([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<'all' | 'bazi' | 'hd' | 'tuvi'>('all')
@@ -138,9 +140,16 @@ export default function ReadingsPage() {
     tuvi: 'Tử Vi',
   } as const
 
+  if (authLoading || !isAuthenticated) {
+    return <div className="flex min-h-[60vh] items-center justify-center text-muted-foreground">Loading...</div>
+  }
+
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 sm:py-12">
-      <h1 className="text-2xl font-semibold tracking-tight mb-1">Lá Số Đã Lưu</h1>
+      <div className="mb-1 flex items-center justify-between">
+        <h1 className="text-2xl font-semibold tracking-tight">Lá Số Đã Lưu</h1>
+        <Link href="/admin" className="rounded-lg border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted">← Admin</Link>
+      </div>
       <p className="text-sm text-muted-foreground mb-8">
         Bát Tự, Human Design, và Tử Vi
       </p>

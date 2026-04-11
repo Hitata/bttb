@@ -2,6 +2,7 @@
 
 import { Suspense, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { LogOut, Search, Star, Moon, Plus, X } from 'lucide-react'
 
 interface UnlinkedClient {
@@ -190,6 +191,14 @@ function AdminPage() {
             <LogOut size={16} /> Log out
           </button>
         </div>
+      </div>
+
+      {/* Quick links */}
+      <div className="mb-6 flex flex-wrap gap-2">
+        <Link href="/admin/readings" className="rounded-md border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted transition-colors">Lá Số Đã Lưu</Link>
+        <Link href="/admin/bazi-clients" className="rounded-md border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted transition-colors">Khách Bát Tự</Link>
+        <Link href="/admin/tu-vi-clients" className="rounded-md border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted transition-colors">Khách Tử Vi</Link>
+        <Link href="/admin/numerology-clients" className="rounded-md border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted transition-colors">Khách Thần Số</Link>
       </div>
 
       {showAddModal && (

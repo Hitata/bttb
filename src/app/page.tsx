@@ -43,16 +43,6 @@ export default async function Home() {
           </p>
         </Link>
 
-        <Link
-          href="/readings"
-          className="rounded-lg border p-6 hover:bg-muted/50 transition-colors text-center"
-        >
-          <div className="text-3xl mb-3">&#128209;</div>
-          <h3 className="text-lg font-semibold">Lá Số Đã Lưu</h3>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Xem lại các lá số đã lưu trước đó
-          </p>
-        </Link>
       </div>
     </div>
   );
