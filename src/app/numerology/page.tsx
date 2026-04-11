@@ -4,7 +4,7 @@ import { Suspense, useState, useEffect, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { Save, Check, Loader2, Hash, Users, Copy } from 'lucide-react'
+import { Save, Check, Loader2, Hash, Users, Copy, BookOpen } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import type { NumerologyResult } from '@/lib/numerology'
@@ -195,13 +195,22 @@ function NumerologyPageContent() {
               <h1 className="text-lg font-semibold tracking-tight lg:text-xl">
                 Thần Số Học
               </h1>
-              <Link
-                href="/numerology/clients"
-                className="flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground transition-colors hover:bg-muted"
-              >
-                <Users className="size-3" />
-                Khách
-              </Link>
+              <div className="flex items-center gap-1.5">
+                <Link
+                  href="/numerology/learn"
+                  className="flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground transition-colors hover:bg-muted"
+                >
+                  <BookOpen className="size-3" />
+                  Học
+                </Link>
+                <Link
+                  href="/numerology/clients"
+                  className="flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground transition-colors hover:bg-muted"
+                >
+                  <Users className="size-3" />
+                  Khách
+                </Link>
+              </div>
             </div>
 
             {formCollapsed && formData ? (
