@@ -15,8 +15,8 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "BBTB App",
-  description: "Next.js + Auth.js + Prisma starter",
+  title: "Bát Tự Tử Bình — Phân tích mệnh lý & phong thuỷ",
+  description: "Công cụ phân tích Bát Tự, Tử Vi, Kinh Dịch và Human Design",
 };
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="vi" suppressHydrationWarning>
       <body
         className={`${beVietnamPro.className} antialiased`}
       >

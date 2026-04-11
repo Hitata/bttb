@@ -158,7 +158,7 @@ export function ChatPanel({
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your question..."
+            placeholder="bạn có muốn hỏi gì thêm ko?"
             maxLength={2000}
             disabled={sending}
             aria-label="Your question"
