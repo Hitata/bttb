@@ -35,7 +35,7 @@ export default function NumerologyPage() {
   return (
     <Suspense fallback={
       <div className="flex min-h-[60vh] items-center justify-center text-muted-foreground">
-        <Loader2 className="mr-2 size-4 animate-spin" />
+        <Loader2 className="mr-2 size-4 animate-spin text-primary" />
         Đang tải...
       </div>
     }>
@@ -274,7 +274,7 @@ function NumerologyPageContent() {
             )}
 
             {error && (
-              <div className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              <div className="mt-3 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
                 {error}
               </div>
             )}
@@ -370,7 +370,7 @@ function NumerologyPageContent() {
 
           {isLoading && (
             <div className="flex min-h-[40vh] flex-col items-center justify-center">
-              <Loader2 className="size-8 animate-spin text-muted-foreground" />
+              <Loader2 className="size-8 animate-spin text-primary" />
               <p className="mt-3 text-sm text-muted-foreground">Đang tính toán...</p>
             </div>
           )}
@@ -385,7 +385,7 @@ function NumerologyPageContent() {
                     onClick={() => setActiveTab(tab.key)}
                     className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
                       activeTab === tab.key
-                        ? 'bg-background text-foreground shadow-sm'
+                        ? 'bg-card text-foreground shadow-[0_0_0_1px_var(--border)]'
                         : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
