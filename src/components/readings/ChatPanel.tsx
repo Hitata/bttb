@@ -127,7 +127,7 @@ export function ChatPanel({
               className={`max-w-[85%] text-sm ${
                 msg.role === 'client'
                   ? 'rounded-2xl rounded-br-md bg-primary text-primary-foreground px-4 py-2.5 whitespace-pre-wrap'
-                  : 'rounded-2xl rounded-tl-md bg-card border px-4 py-2.5 prose prose-sm prose-neutral dark:prose-invert [&>*:first-child]:mt-0 [&>*:last-child]:mb-0'
+                  : 'rounded-2xl rounded-tl-md bg-card border px-4 py-2.5 prose prose-sm prose-neutral [&>*:first-child]:mt-0 [&>*:last-child]:mb-0'
               }`}
             >
               {msg.role === 'client' ? msg.content : <Markdown remarkPlugins={[remarkGfm]}>{msg.content}</Markdown>}

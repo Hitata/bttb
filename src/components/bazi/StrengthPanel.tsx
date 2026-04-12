@@ -4,18 +4,18 @@ import type { ElementStrength, StemRootedness, Faction, FiveElement, PositionalI
 import { ELEMENT_COLORS } from '@/lib/bazi'
 
 const STATE_COLORS: Record<string, string> = {
-  'Vượng': 'text-green-600 dark:text-green-400',
-  'Tướng': 'text-blue-600 dark:text-blue-400',
-  'Hưu': 'text-gray-500 dark:text-gray-400',
-  'Tù': 'text-orange-500 dark:text-orange-400',
-  'Tử': 'text-red-500 dark:text-red-400',
+  'Vượng': 'text-green-600',
+  'Tướng': 'text-blue-600',
+  'Hưu': 'text-muted-foreground',
+  'Tù': 'text-orange-500',
+  'Tử': 'text-red-500',
 }
 
 const ROOT_LABELS: Record<string, { text: string; color: string }> = {
-  strong: { text: 'Gốc vững', color: 'text-green-600 dark:text-green-400' },
-  medium: { text: 'Có gốc', color: 'text-blue-600 dark:text-blue-400' },
-  weak: { text: 'Gốc yếu', color: 'text-orange-500 dark:text-orange-400' },
-  none: { text: 'Hư phù', color: 'text-red-500 dark:text-red-400' },
+  strong: { text: 'Gốc vững', color: 'text-green-600' },
+  medium: { text: 'Có gốc', color: 'text-blue-600' },
+  weak: { text: 'Gốc yếu', color: 'text-orange-500' },
+  none: { text: 'Hư phù', color: 'text-red-500' },
 }
 
 const PILLAR_NAMES = ['Năm', 'Tháng', 'Ngày', 'Giờ']
@@ -29,10 +29,10 @@ const ELEMENT_CSS_VAR: Record<FiveElement, string> = {
 }
 
 const POSITIONAL_COLORS: Record<string, string> = {
-  strongest: 'text-green-600 dark:text-green-400',
-  strong: 'text-blue-600 dark:text-blue-400',
-  weak: 'text-orange-500 dark:text-orange-400',
-  blocked: 'text-red-500 dark:text-red-400',
+  strongest: 'text-green-600',
+  strong: 'text-blue-600',
+  weak: 'text-orange-500',
+  blocked: 'text-red-500',
 }
 
 const POSITIONAL_LABELS: Record<string, string> = {
@@ -43,10 +43,10 @@ const POSITIONAL_LABELS: Record<string, string> = {
 }
 
 const EXTREME_COLORS: Record<string, string> = {
-  phanKhac: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
-  phanSinh: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
-  suyXungVuong: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300',
-  hopKhac: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
+  phanKhac: 'bg-red-100 text-red-800',
+  phanSinh: 'bg-orange-100 text-orange-800',
+  suyXungVuong: 'bg-amber-100 text-amber-800',
+  hopKhac: 'bg-purple-100 text-purple-800',
 }
 
 const EXTREME_LABELS: Record<string, string> = {

@@ -44,7 +44,7 @@ export function ChallengesPanel({ challenges, currentAge }: ChallengesPanelProps
               <div className="mt-1 text-[10px] text-muted-foreground">{ageRange}</div>
               <div className="text-[10px] font-medium">
                 {c.label}
-                {isMain && <span className="ml-0.5 text-amber-600 dark:text-amber-400">(Chinh)</span>}
+                {isMain && <span className="ml-0.5 text-amber-600">(Chinh)</span>}
               </div>
             </button>
           )

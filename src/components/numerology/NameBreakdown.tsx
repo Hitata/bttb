@@ -20,8 +20,8 @@ export function NameBreakdown({ breakdown }: NameBreakdownProps) {
                   key={i}
                   className={`flex flex-col items-center rounded px-2 py-1 text-xs ${
                     l.type === 'vowel'
-                      ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-300'
-                      : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'bg-secondary text-secondary-foreground'
                   }`}
                 >
                   <span className="font-medium">{l.letter}</span>

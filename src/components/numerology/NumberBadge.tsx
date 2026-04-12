@@ -20,7 +20,7 @@ export function NumberBadge({ value, size = 'md' }: NumberBadgeProps) {
     <div
       className={`inline-flex items-center justify-center rounded-full font-bold ${sizeClasses[size]} ${
         isMaster
-          ? 'bg-amber-100 text-amber-800 ring-2 ring-amber-400 dark:bg-amber-900/40 dark:text-amber-300 dark:ring-amber-500'
+          ? 'bg-amber-100 text-amber-800 ring-2 ring-amber-400'
           : 'bg-muted text-foreground'
       }`}
     >
