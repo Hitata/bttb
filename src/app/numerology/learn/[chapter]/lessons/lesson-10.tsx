@@ -47,7 +47,7 @@ export function Lesson10() {
                   {n}
                 </span>
                 <div>
-                  <h5 className="font-medium text-xs">Năm {n}: {meaning?.nameVi}</h5>
+                  <h5 className="font-semibold text-xs">Năm {n}: {meaning?.nameVi}</h5>
                   <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
                     {meaning?.asPersonalYear}
                   </p>

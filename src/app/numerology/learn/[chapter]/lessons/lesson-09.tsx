@@ -24,14 +24,14 @@ export function Lesson09() {
         <h4 className="font-semibold text-sm mb-3">Ý nghĩa</h4>
         <div className="space-y-3">
           <div className="rounded-lg border p-3">
-            <h5 className="font-medium text-sm">Năng lượng nửa sau cuộc đời</h5>
+            <h5 className="font-semibold text-sm">Năng lượng nửa sau cuộc đời</h5>
             <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
               Số Trưởng Thành không hoạt động rõ ràng ở tuổi trẻ. Khi bạn tích lũy đủ kinh nghiệm sống,
               năng lượng này bắt đầu bộc lộ và định hướng bạn trong giai đoạn trưởng thành.
             </p>
           </div>
           <div className="rounded-lg border p-3">
-            <h5 className="font-medium text-sm">Hợp nhất bản chất và biểu đạt</h5>
+            <h5 className="font-semibold text-sm">Hợp nhất bản chất và biểu đạt</h5>
             <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
               Vì được tính từ Đường Đời (bạn là ai) + Biểu Đạt (bạn thể hiện ra sao),
               Số Trưởng Thành đại diện cho sự hợp nhất giữa bản chất và khả năng —
@@ -39,7 +39,7 @@ export function Lesson09() {
             </p>
           </div>
           <div className="rounded-lg border p-3">
-            <h5 className="font-medium text-sm">Bổ sung hoặc chuyển hướng</h5>
+            <h5 className="font-semibold text-sm">Bổ sung hoặc chuyển hướng</h5>
             <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
               Nếu Số Trưởng Thành hài hòa với Đường Đời, nửa sau cuộc đời sẽ cảm thấy tự nhiên.
               Nếu khác biệt, bạn có thể trải qua sự chuyển hướng lớn — đổi nghề, đổi ưu tiên, khám phá khía cạnh mới.

@@ -23,21 +23,21 @@ export function Lesson01() {
         <h4 className="font-semibold text-sm mb-3">Ý tưởng cốt lõi</h4>
         <div className="space-y-3">
           <div className="rounded-lg border p-3">
-            <h5 className="font-medium text-sm">Mỗi số mang một năng lượng</h5>
+            <h5 className="font-semibold text-sm">Mỗi số mang một năng lượng</h5>
             <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
               Từ 1 đến 9, mỗi con số đại diện cho một nguyên mẫu (archetype) — một bộ tính cách,
               điểm mạnh, và thử thách riêng. Số 11, 22, 33 là &ldquo;số bậc thầy&rdquo; với năng lượng khuếch đại.
             </p>
           </div>
           <div className="rounded-lg border p-3">
-            <h5 className="font-medium text-sm">Rút gọn về bản chất</h5>
+            <h5 className="font-semibold text-sm">Rút gọn về bản chất</h5>
             <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
               Phép tính cơ bản của thần số học là rút gọn (reduce) — cộng các chữ số lại cho đến khi
               còn một chữ số duy nhất. Ví dụ: 1990 → 1+9+9+0 = 19 → 1+9 = 10 → 1+0 = 1.
             </p>
           </div>
           <div className="rounded-lg border p-3">
-            <h5 className="font-medium text-sm">Hai nguồn dữ liệu</h5>
+            <h5 className="font-semibold text-sm">Hai nguồn dữ liệu</h5>
             <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
               <strong>Ngày sinh</strong> — cho biết bạn là ai về mặt bản chất (không thay đổi).
               <br />

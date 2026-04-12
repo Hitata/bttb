@@ -28,12 +28,12 @@ export function Lesson12() {
               </span>
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h5 className="font-medium text-xs">{item.name}</h5>
+                  <h5 className="font-semibold text-xs">{item.name}</h5>
                   <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
                     {item.priority}
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-0.5">{item.question}</p>
+                <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{item.question}</p>
               </div>
             </div>
           ))}
@@ -44,7 +44,7 @@ export function Lesson12() {
         <h4 className="font-semibold text-sm mb-3">Cách tổng hợp</h4>
         <div className="space-y-3">
           <div className="rounded-lg border p-4">
-            <h5 className="font-medium text-sm mb-1">1. Xác định bản chất cốt lõi</h5>
+            <h5 className="font-semibold text-sm mb-1">1. Xác định bản chất cốt lõi</h5>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Bắt đầu với <strong>Số Đường Đ��i</strong> — đây là nền tảng.
               Sau đó xem Số Biểu Đạt có hài hòa hay xung đột không.
@@ -53,7 +53,7 @@ export function Lesson12() {
           </div>
 
           <div className="rounded-lg border p-4">
-            <h5 className="font-medium text-sm mb-1">2. Tìm mâu thuẫn nội tâm</h5>
+            <h5 className="font-semibold text-sm mb-1">2. Tìm mâu thuẫn nội tâm</h5>
             <p className="text-xs text-muted-foreground leading-relaxed">
               So sánh <strong>Linh Hồn</strong> (muốn gì) v��i <strong>Nhân Cách</strong> (thể hiện ra sao).
               Nếu khác nhau nhiều, người này có thể cảm thấy &ldquo;không phải mình&rdquo; trong mắt người khác.
@@ -62,7 +62,7 @@ export function Lesson12() {
           </div>
 
           <div className="rounded-lg border p-4">
-            <h5 className="font-medium text-sm mb-1">3. Xem hướng phát triển</h5>
+            <h5 className="font-semibold text-sm mb-1">3. Xem hướng phát triển</h5>
             <p className="text-xs text-muted-foreground leading-relaxed">
               <strong>Số Trưởng Thành</strong> cho biết đích đến dài hạn.
               <strong> Thử Thách</strong> hiện tại cho biết cần vượt qua gì.
@@ -71,7 +71,7 @@ export function Lesson12() {
           </div>
 
           <div className="rounded-lg border p-4">
-            <h5 className="font-medium text-sm mb-1">4. Đặt trong bối cảnh thời gian</h5>
+            <h5 className="font-semibold text-sm mb-1">4. Đặt trong bối cảnh thời gian</h5>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Cuối cùng, xem <strong>Năm Cá Nhân</strong> hiện tại để hiểu năng lượng ngắn hạn.
               Năm 1? Bắt đầu mới. Năm 9? Kết thúc và buông bỏ.
