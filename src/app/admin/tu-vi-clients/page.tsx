@@ -49,15 +49,7 @@ export default function TuViClientsPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-lg font-semibold tracking-tight">Khách Tử Vi</h1>
-        <Link
-          href="/admin"
-          className="rounded-lg border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted"
-        >
-          ← Admin
-        </Link>
-      </div>
+      <h1 className="mb-6 text-lg font-semibold tracking-tight">Khách Tử Vi</h1>
 
       <input
         type="text"

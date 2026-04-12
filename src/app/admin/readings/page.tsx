@@ -146,10 +146,7 @@ export default function ReadingsPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 sm:py-12">
-      <div className="mb-1 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight">Lá Số Đã Lưu</h1>
-        <Link href="/admin" className="rounded-lg border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted">← Admin</Link>
-      </div>
+      <h1 className="text-2xl font-semibold tracking-tight mb-1">Lá Số Đã Lưu</h1>
       <p className="text-sm text-muted-foreground mb-8">
         Bát Tự, Human Design, và Tử Vi
       </p>

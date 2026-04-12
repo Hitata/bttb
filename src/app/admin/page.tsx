@@ -149,7 +149,7 @@ function AdminPage() {
 
   if (!isLoggedIn) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center px-4">
         <form onSubmit={handleLogin} className="w-full max-w-sm space-y-4 rounded-lg border bg-card p-6">
           <h1 className="text-xl font-semibold">Admin Login</h1>
           {loginError && <p className="text-sm text-red-500">{loginError}</p>}
@@ -180,8 +180,9 @@ function AdminPage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl p-6">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="mx-auto max-w-4xl px-4 py-6 sm:p-6">
+      {/* Header */}
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-semibold">Admin</h1>
         <div className="flex items-center gap-3">
           <button onClick={openAddModal} className="flex items-center gap-1 rounded-md bg-foreground px-3 py-1.5 text-sm text-background hover:opacity-90">
@@ -193,17 +194,9 @@ function AdminPage() {
         </div>
       </div>
 
-      {/* Quick links */}
-      <div className="mb-6 flex flex-wrap gap-2">
-        <Link href="/admin/readings" className="rounded-md border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted transition-colors">Lá Số Đã Lưu</Link>
-        <Link href="/admin/bazi-clients" className="rounded-md border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted transition-colors">Khách Bát Tự</Link>
-        <Link href="/admin/tu-vi-clients" className="rounded-md border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted transition-colors">Khách Tử Vi</Link>
-        <Link href="/admin/numerology-clients" className="rounded-md border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted transition-colors">Khách Thần Số</Link>
-      </div>
-
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-md rounded-lg border bg-card p-6">
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 sm:items-center">
+          <div className="w-full max-w-md rounded-t-xl border bg-card p-6 sm:rounded-lg">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold">Add Client Profile</h2>
               <button onClick={() => { setShowAddModal(false); setSelectedClient(null) }} className="text-muted-foreground hover:text-foreground">
@@ -262,49 +255,93 @@ function AdminPage() {
       ) : clients.length === 0 ? (
         <p className="text-muted-foreground">No clients found.</p>
       ) : (
-        <div className="overflow-hidden rounded-lg border">
-          <table className="w-full text-sm">
-            <thead className="border-b bg-muted/50">
-              <tr>
-                <th className="px-4 py-3 text-left font-medium">Name</th>
-                <th className="px-4 py-3 text-left font-medium">Birth Date</th>
-                <th className="px-4 py-3 text-left font-medium">Gender</th>
-                <th className="px-4 py-3 text-left font-medium">Readings</th>
-                <th className="px-4 py-3 text-left font-medium">Active Links</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clients.map((client) => (
-                <tr
-                  key={client.id}
-                  onClick={() => router.push(`/admin/clients/${client.id}`)}
-                  className="cursor-pointer border-b last:border-0 hover:bg-muted/30"
-                >
-                  <td className="px-4 py-3 font-medium">{client.name}</td>
-                  <td className="px-4 py-3 text-muted-foreground">
-                    {formatBirthDate(client.birthYear, client.birthMonth, client.birthDay)}
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground">{normalizeGender(client.gender)}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex gap-2">
-                      {client.hasBazi && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-xs text-amber-600">
-                          <Star size={12} /> Bazi
-                        </span>
-                      )}
-                      {client.hasTuVi && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-purple-500/10 px-2 py-0.5 text-xs text-purple-600">
-                          <Moon size={12} /> TuVi
-                        </span>
+        <>
+          {/* Desktop table */}
+          <div className="hidden overflow-hidden rounded-lg border sm:block">
+            <table className="w-full text-sm">
+              <thead className="border-b bg-muted/50">
+                <tr>
+                  <th className="px-4 py-3 text-left font-medium">Name</th>
+                  <th className="px-4 py-3 text-left font-medium">Birth Date</th>
+                  <th className="px-4 py-3 text-left font-medium">Gender</th>
+                  <th className="px-4 py-3 text-left font-medium">Readings</th>
+                  <th className="px-4 py-3 text-left font-medium">Active Links</th>
+                </tr>
+              </thead>
+              <tbody>
+                {clients.map((client) => (
+                  <tr
+                    key={client.id}
+                    onClick={() => router.push(`/admin/clients/${client.id}`)}
+                    className="cursor-pointer border-b last:border-0 hover:bg-muted/30"
+                  >
+                    <td className="px-4 py-3 font-medium">{client.name}</td>
+                    <td className="px-4 py-3 text-muted-foreground">
+                      {formatBirthDate(client.birthYear, client.birthMonth, client.birthDay)}
+                    </td>
+                    <td className="px-4 py-3 text-muted-foreground">{normalizeGender(client.gender)}</td>
+                    <td className="px-4 py-3">
+                      <div className="flex gap-2">
+                        {client.hasBazi && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-xs text-amber-600">
+                            <Star size={12} /> Bazi
+                          </span>
+                        )}
+                        {client.hasTuVi && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-purple-500/10 px-2 py-0.5 text-xs text-purple-600">
+                            <Moon size={12} /> TuVi
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-muted-foreground">{client.activeTokens}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile cards */}
+          <div className="space-y-2 sm:hidden">
+            {clients.map((client) => (
+              <div
+                key={client.id}
+                onClick={() => router.push(`/admin/clients/${client.id}`)}
+                className="cursor-pointer rounded-lg border p-3 active:bg-muted/50"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <div className="font-medium text-sm">{client.name}</div>
+                    <div className="mt-0.5 text-xs text-muted-foreground">
+                      {formatBirthDate(client.birthYear, client.birthMonth, client.birthDay)}
+                      {normalizeGender(client.gender) && (
+                        <> · {normalizeGender(client.gender)}</>
                       )}
                     </div>
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground">{client.activeTokens}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  </div>
+                  <span className="shrink-0 text-xs text-muted-foreground/40">→</span>
+                </div>
+                <div className="mt-2 flex items-center gap-2">
+                  {client.hasBazi && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] text-amber-600">
+                      <Star size={10} /> Bazi
+                    </span>
+                  )}
+                  {client.hasTuVi && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-purple-500/10 px-2 py-0.5 text-[10px] text-purple-600">
+                      <Moon size={10} /> TuVi
+                    </span>
+                  )}
+                  {client.activeTokens > 0 && (
+                    <span className="text-[10px] text-muted-foreground">
+                      {client.activeTokens} link{client.activeTokens > 1 ? 's' : ''}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   )
