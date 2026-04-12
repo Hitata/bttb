@@ -71,7 +71,7 @@ export default function BaziClientsPage() {
             <Link
               key={c.id}
               href={`/bazi?name=${encodeURIComponent(c.name)}&gender=${c.gender}&y=${c.birthYear}&m=${c.birthMonth}&d=${c.birthDay}&h=${c.birthHour}&min=0`}
-              className="group rounded-xl border border-border bg-card p-4 transition-all hover:border-ring/30 hover:bg-accent/50"
+              className="group rounded-xl border border-border bg-card p-4 transition-all hover:bg-secondary/60"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">

@@ -23,19 +23,19 @@ interface ReadingSummary {
 const SYSTEM_LABELS = {
   bazi: {
     name: 'Bát Tự',
-    className: 'bg-[oklch(0.58_0.14_42/0.1)] text-[oklch(0.58_0.14_42)]',
+    className: 'bg-amber-500/10 text-amber-700',
     href: (id: string) => `/bazi/${id}`,
     api: '/api/bazi/readings',
   },
   hd: {
     name: 'Human Design',
-    className: 'bg-[oklch(0.58_0.1_175/0.1)] text-[oklch(0.52_0.1_175)]',
+    className: 'bg-teal-500/10 text-teal-700',
     href: (id: string) => `/human-design/chart/${id}`,
     api: '/api/human-design/readings',
   },
   tuvi: {
     name: 'Tử Vi',
-    className: 'bg-[oklch(0.5_0.1_290/0.1)] text-[oklch(0.45_0.1_290)]',
+    className: 'bg-purple-500/10 text-purple-700',
     href: (id: string) => `/tu-vi/chart/${id}`,
     api: '/api/tu-vi/readings',
   },
@@ -43,7 +43,7 @@ const SYSTEM_LABELS = {
 
 function SkeletonRow() {
   return (
-    <div className="rounded-lg p-4 ring-1 ring-foreground/5 animate-pulse">
+    <div className="rounded-lg border border-border p-4 animate-pulse">
       <div className="flex items-center gap-2 mb-2.5">
         <div className="h-5 w-14 rounded-md bg-muted" />
         <div className="h-5 w-44 rounded-md bg-muted" />
@@ -165,8 +165,8 @@ export default function ReadingsPage() {
             onClick={() => setFilter(f)}
             className={`text-sm px-3 py-2 rounded-md whitespace-nowrap transition-all duration-150 min-h-[44px] ${
               filter === f
-                ? 'bg-primary/10 text-primary font-medium'
-                : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                ? 'bg-secondary text-foreground font-medium'
+                : 'text-foreground-secondary hover:text-foreground hover:bg-secondary/60'
             }`}
           >
             {FILTER_LABELS[f]}
@@ -277,7 +277,7 @@ export default function ReadingsPage() {
             return (
               <div
                 key={key}
-                className="group relative rounded-lg ring-1 ring-foreground/[0.06] hover:ring-foreground/[0.12] transition-[box-shadow] duration-150"
+                className="group relative rounded-lg border border-border hover:bg-secondary/40 transition-colors duration-150"
               >
                 <Link href={sys.href(r.id)} className="flex items-center gap-3 p-3.5 pr-24 sm:pr-28">
                   <div className="min-w-0 flex-1">

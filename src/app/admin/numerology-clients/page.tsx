@@ -69,7 +69,7 @@ export default function NumerologyClientsPage() {
             <Link
               key={c.id}
               href={`/numerology?name=${encodeURIComponent(c.fullName)}&y=${c.birthYear}&m=${c.birthMonth}&d=${c.birthDay}`}
-              className="group rounded-xl border border-border bg-card p-4 transition-all hover:border-ring/30 hover:bg-accent/50"
+              className="group rounded-xl border border-border bg-card p-4 transition-all hover:bg-secondary/60"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">

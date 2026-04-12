@@ -149,16 +149,16 @@ function AdminPage() {
 
   if (!isLoggedIn) {
     return (
-      <div className="flex min-h-screen items-center justify-center px-4">
-        <form onSubmit={handleLogin} className="w-full max-w-sm space-y-4 rounded-lg border bg-card p-6">
+      <div className="flex min-h-screen items-center justify-center bg-background px-4">
+        <form onSubmit={handleLogin} className="w-full max-w-sm space-y-4 rounded-lg border border-border bg-card p-8 shadow-sm">
           <h1 className="text-xl font-semibold">Admin Login</h1>
-          {loginError && <p className="text-sm text-red-500">{loginError}</p>}
+          {loginError && <p className="text-sm text-destructive">{loginError}</p>}
           <input
             type="text"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full rounded-md border bg-background px-3 py-2"
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-ring placeholder:text-muted-foreground/50"
             autoFocus
           />
           <input
@@ -166,11 +166,11 @@ function AdminPage() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-md border bg-background px-3 py-2"
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-ring placeholder:text-muted-foreground/50"
           />
           <button
             type="submit"
-            className="w-full rounded-md bg-foreground px-3 py-2 text-background hover:opacity-90"
+            className="w-full rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Log in
           </button>
@@ -185,7 +185,7 @@ function AdminPage() {
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-semibold">Admin</h1>
         <div className="flex items-center gap-3">
-          <button onClick={openAddModal} className="flex items-center gap-1 rounded-md bg-foreground px-3 py-1.5 text-sm text-background hover:opacity-90">
+          <button onClick={openAddModal} className="flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">
             <Plus size={14} /> Add Client
           </button>
           <button onClick={handleLogout} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
@@ -196,7 +196,7 @@ function AdminPage() {
 
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 sm:items-center">
-          <div className="w-full max-w-md rounded-t-xl border bg-card p-6 sm:rounded-lg">
+          <div className="w-full max-w-md rounded-t-xl border border-border bg-card p-6 sm:rounded-lg">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold">Add Client Profile</h2>
               <button onClick={() => { setShowAddModal(false); setSelectedClient(null) }} className="text-muted-foreground hover:text-foreground">
@@ -213,8 +213,8 @@ function AdminPage() {
                     <button
                       key={c.id}
                       onClick={() => setSelectedClient(c)}
-                      className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm ${
-                        selectedClient?.id === c.id ? 'bg-foreground/10 ring-1 ring-foreground/20' : 'hover:bg-muted/50'
+                      className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm transition-colors ${
+                        selectedClient?.id === c.id ? 'bg-secondary border border-border' : 'hover:bg-secondary/60'
                       }`}
                     >
                       <span>{c.name}</span>
@@ -229,7 +229,7 @@ function AdminPage() {
                 <button
                   onClick={createProfile}
                   disabled={!selectedClient || creating}
-                  className="w-full rounded-md bg-foreground px-3 py-2 text-sm text-background hover:opacity-90 disabled:opacity-50"
+                  className="w-full rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
                 >
                   {creating ? 'Creating...' : 'Create Profile'}
                 </button>
@@ -257,9 +257,9 @@ function AdminPage() {
       ) : (
         <>
           {/* Desktop table */}
-          <div className="hidden overflow-hidden rounded-lg border sm:block">
+          <div className="hidden overflow-hidden rounded-lg border border-border sm:block">
             <table className="w-full text-sm">
-              <thead className="border-b bg-muted/50">
+              <thead className="border-b border-border bg-secondary/40">
                 <tr>
                   <th className="px-4 py-3 text-left font-medium">Name</th>
                   <th className="px-4 py-3 text-left font-medium">Birth Date</th>
@@ -273,7 +273,7 @@ function AdminPage() {
                   <tr
                     key={client.id}
                     onClick={() => router.push(`/admin/clients/${client.id}`)}
-                    className="cursor-pointer border-b last:border-0 hover:bg-muted/30"
+                    className="cursor-pointer border-b border-border last:border-0 hover:bg-secondary/50"
                   >
                     <td className="px-4 py-3 font-medium">{client.name}</td>
                     <td className="px-4 py-3 text-muted-foreground">
@@ -307,7 +307,7 @@ function AdminPage() {
               <div
                 key={client.id}
                 onClick={() => router.push(`/admin/clients/${client.id}`)}
-                className="cursor-pointer rounded-lg border p-3 active:bg-muted/50"
+                className="cursor-pointer rounded-lg border border-border p-3 transition-colors active:bg-secondary/50"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 flex-1">

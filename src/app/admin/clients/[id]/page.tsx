@@ -213,34 +213,34 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
         </div>
       )}
 
-      <div className="mb-4 flex gap-2 border-b">
+      <div className="mb-4 flex gap-2 border-b border-border">
         <button
           onClick={() => setActiveTab('bazi')}
-          className={`flex items-center gap-1 px-4 py-2 text-sm font-medium border-b-2 -mb-px ${
-            activeTab === 'bazi' ? 'border-foreground text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'
+          className={`flex items-center gap-1 px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors ${
+            activeTab === 'bazi' ? 'border-primary text-foreground' : 'border-transparent text-foreground-secondary hover:text-foreground'
           }`}
         >
           <Star size={14} /> Bazi
         </button>
         <button
           onClick={() => setActiveTab('tuvi')}
-          className={`flex items-center gap-1 px-4 py-2 text-sm font-medium border-b-2 -mb-px ${
-            activeTab === 'tuvi' ? 'border-foreground text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'
+          className={`flex items-center gap-1 px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors ${
+            activeTab === 'tuvi' ? 'border-primary text-foreground' : 'border-transparent text-foreground-secondary hover:text-foreground'
           }`}
         >
           <Moon size={14} /> TuVi
         </button>
         <button
           onClick={() => setActiveTab('hd')}
-          className={`flex items-center gap-1 px-4 py-2 text-sm font-medium border-b-2 -mb-px ${
-            activeTab === 'hd' ? 'border-foreground text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'
+          className={`flex items-center gap-1 px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors ${
+            activeTab === 'hd' ? 'border-primary text-foreground' : 'border-transparent text-foreground-secondary hover:text-foreground'
           }`}
         >
           <Hexagon size={14} /> HD
         </button>
       </div>
 
-      <div className="mb-8 rounded-lg border bg-card p-4">
+      <div className="mb-8 rounded-lg border border-border bg-card p-4">
         {activeTab === 'bazi' ? (
           client.baziClient ? (
             <div>
@@ -317,7 +317,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
             const status = getTokenStatus(token)
             const expiryDate = new Date(token.expiresAt).toLocaleDateString()
             return (
-              <div key={token.id} className="flex items-center justify-between rounded-lg border p-3">
+              <div key={token.id} className="flex items-center justify-between rounded-lg border border-border p-3 hover:bg-secondary/40 transition-colors">
                 <div className="flex items-center gap-3">
                   <span className={`rounded-full px-2 py-0.5 text-xs ${status.color}`}>
                     {status.label}
@@ -335,14 +335,14 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => copyLink(token.id)}
-                    className="flex items-center gap-1 rounded-md px-2 py-1 text-sm text-muted-foreground hover:bg-muted"
+                    className="flex items-center gap-1 rounded-md px-2 py-1 text-sm text-muted-foreground hover:bg-secondary transition-colors"
                   >
                     {copiedTokenId === token.id ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
                     {copiedTokenId === token.id ? 'Copied' : 'Copy'}
                   </button>
                   <button
                     onClick={() => window.open(`/readings/${token.id}`, '_blank')}
-                    className="rounded-md px-2 py-1 text-sm text-muted-foreground hover:bg-muted"
+                    className="rounded-md px-2 py-1 text-sm text-muted-foreground hover:bg-secondary transition-colors"
                   >
                     View
                   </button>
