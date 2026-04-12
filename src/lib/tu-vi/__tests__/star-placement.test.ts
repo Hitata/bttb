@@ -191,8 +191,8 @@ describe('Tứ Hóa placement', () => {
     expect(th).toEqual([
       { starId: 'ThaiDuong', type: 'loc' },
       { starId: 'VuKhuc', type: 'quyen' },
-      { starId: 'ThienDong', type: 'khoa' },
-      { starId: 'ThaiAm', type: 'ky' },
+      { starId: 'ThaiAm', type: 'khoa' },
+      { starId: 'ThienDong', type: 'ky' },
     ])
   })
 

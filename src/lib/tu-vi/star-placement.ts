@@ -101,7 +101,7 @@ const TU_HOA_TABLE: readonly (readonly [string, string, string, string])[] = [
   ['ThaiAm', 'ThienDong', 'ThienCo', 'CuMon'],          // Đinh
   ['ThamLang', 'ThaiAm', 'HuuBat', 'ThienCo'],          // Mậu
   ['VuKhuc', 'ThamLang', 'ThienLuong', 'VanKhuc'],      // Kỷ
-  ['ThaiDuong', 'VuKhuc', 'ThienDong', 'ThaiAm'],       // Canh
+  ['ThaiDuong', 'VuKhuc', 'ThaiAm', 'ThienDong'],        // Canh (Trung Châu)
   ['CuMon', 'ThaiDuong', 'VanKhuc', 'VanXuong'],        // Tân
   ['ThienLuong', 'TuVi', 'ThienPhu', 'VuKhuc'],         // Nhâm
   ['PhaQuan', 'CuMon', 'ThaiAm', 'ThamLang'],           // Quý
