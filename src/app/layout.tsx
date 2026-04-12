@@ -29,10 +29,10 @@ export default function RootLayout({
         className={`${beVietnamPro.className} antialiased`}
       >
         <SessionProvider>
-          <header className="sticky top-0 z-40 flex h-12 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm lg:px-6">
+          <header className="sticky top-0 z-40 flex h-12 items-center justify-between border-b border-border bg-[#f5f4ed]/80 px-4 backdrop-blur-sm lg:px-6">
             <div className="flex items-center gap-6">
               <MobileNav />
-              <Link href="/" className="text-sm font-bold tracking-tight">BBTB</Link>
+              <Link href="/" className="text-sm font-semibold tracking-tight">BBTB</Link>
               <div className="hidden sm:flex">
                 <AppNav />
               </div>
