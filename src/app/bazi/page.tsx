@@ -27,7 +27,7 @@ export default function BaziPage() {
   return (
     <Suspense fallback={
       <div className="flex min-h-[60vh] items-center justify-center text-muted-foreground">
-        <Loader2 className="mr-2 size-4 animate-spin" />
+        <Loader2 className="mr-2 size-4 animate-spin text-primary" />
         Đang tải...
       </div>
     }>
@@ -303,7 +303,7 @@ function BaziPageContent() {
 
           {isLoading && (
             <div className="flex min-h-[40vh] flex-col items-center justify-center">
-              <Loader2 className="size-8 animate-spin text-muted-foreground" />
+              <Loader2 className="size-8 animate-spin text-primary" />
               <p className="mt-3 text-sm text-muted-foreground">Đang tính toán...</p>
             </div>
           )}
