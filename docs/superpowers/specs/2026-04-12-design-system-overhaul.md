@@ -56,7 +56,7 @@
 | `--text-on-dark` | `#faf9f5` | Ivory |
 | `--text-on-dark-secondary` | `#b0aea5` | Warm Silver |
 | `--focus-blue` | `#3898ec` | Focus Blue |
-| `--ring-subtle` | `#dedc01` | Ring Subtle |
+| `--ring-subtle` | `#dedcd1` | Ring Subtle (corrected — DESIGN.md value `#dedc01` is neon yellow, likely a typo) |
 | `--ring-deep` | `#c2c0b6` | Ring Deep |
 | `--coral-accent` | `#d97757` | Coral Accent |
 | `--dark-warm` | `#3d3d3a` | Dark Warm |
@@ -85,11 +85,74 @@
 
 **Update radius scale:**
 - Base: 8px (`--radius: 0.5rem`)
-- Tailwind scale: sm=4px, md=6px, lg=8px, xl=12px, 2xl=16px, 3xl=24px, 4xl=32px
+- Override the Tailwind multipliers in `@theme` to produce exact target values:
+  - `--radius-sm`: 4px (0.25rem)
+  - `--radius-md`: 6px (0.375rem)
+  - `--radius-lg`: 8px (0.5rem) — same as base
+  - `--radius-xl`: 12px (0.75rem)
+  - `--radius-2xl`: 16px (1rem)
+  - `--radius-3xl`: 24px (1.5rem)
+  - `--radius-4xl`: 32px (2rem)
+- Note: This is a global cascade — current base is 0.625rem (10px). All existing `rounded-*` usage will shrink slightly.
+
+### Typography Scale (Be Vietnam Pro adaptation)
+
+Since we're using a single sans-serif font instead of DESIGN.md's serif/sans split, all heading weights shift to 600 (instead of serif 500) for comparable visual presence.
+
+| Role | Size | Weight | Line Height | Notes |
+|---|---|---|---|---|
+| Display / Hero | 64px (4rem) | 600 | 1.10 | Maximum impact |
+| Section Heading | 52px (3.25rem) | 600 | 1.20 | Feature section anchors |
+| Sub-heading Large | 36px (2.25rem) | 600 | 1.30 | Secondary section markers |
+| Sub-heading | 32px (2rem) | 600 | 1.10 | Card titles, feature names |
+| Sub-heading Small | 25px (1.56rem) | 600 | 1.20 | Smaller section titles |
+| Feature Title | 20px (1.25rem) | 600 | 1.20 | Small feature headings |
+| Body Large | 20px (1.25rem) | 400 | 1.60 | Intro paragraphs |
+| Body / Nav | 17px (1.06rem) | 400–500 | 1.00–1.60 | Navigation links, UI text |
+| Body Standard | 16px (1rem) | 400–500 | 1.25–1.60 | Standard body, button text |
+| Body Small | 15px (0.94rem) | 400–500 | 1.00–1.60 | Compact body text |
+| Caption | 14px (0.88rem) | 400 | 1.43 | Metadata, descriptions |
+| Label | 12px (0.75rem) | 400–500 | 1.25–1.60 | Badges, small labels (letter-spacing 0.12px) |
+| Overline | 10px (0.63rem) | 400 | 1.60 | Uppercase overline labels (letter-spacing 0.5px) |
+
+### dark: Class Removal Strategy
+
+When the `.dark` block and `@custom-variant dark` are removed, all `dark:` Tailwind classes across the codebase become inert dead code. This must be handled explicitly:
+
+1. **Search all files in `src/` for `dark:` class usage**
+2. For each instance, **remove the `dark:` variant class**
+3. **Audit the remaining light-mode class** — if it uses a cool-toned Tailwind default (e.g., `bg-slate-100`, `text-gray-500`), replace with the warm palette token equivalent (e.g., `bg-secondary`, `text-muted-foreground`)
+4. For components that will render inside `.section-dark` wrappers, ensure they use **token-based Tailwind classes** (`bg-card`, `text-foreground`, `border-border`) rather than hardcoded color utilities, so the scoped CSS variable overrides take effect
+
+### Ngu Hanh Dark Element Colors
+
+The dark-mode element color variants currently live in the `.dark` block. Move them into the `.section-dark` utility class:
+
+```css
+.section-dark {
+  /* ...existing token overrides... */
+  --element-wood: #4A9E72;
+  --element-wood-light: #78C49E;
+  --element-fire: #D86050;
+  --element-fire-light: #F0A080;
+  --element-earth: #C89E3C;
+  --element-earth-light: #E0C070;
+  --element-water: #4896AE;
+  --element-water-light: #7ABECE;
+  --element-metal: #98908A;
+  --element-metal-light: #CBC4B8;
+  --iching-moving: #DA7756;
+  --iching-moving-glow: rgba(218, 119, 86, 0.35);
+}
+```
+
+### Sidebar Tokens
+
+The 7 sidebar tokens (`--sidebar`, `--sidebar-foreground`, etc.) are currently unused by any page. Remove them from `:root` and the `@theme` block to reduce token surface area. If a sidebar is added later, tokens can be re-introduced.
 
 **Keep unchanged:**
-- Ngu Hanh element colors (both sets kept for section-dark contexts)
-- I Ching accent colors
+- Ngu Hanh element colors (light set at `:root`, dark set in `.section-dark`)
+- I Ching accent colors (light at `:root`, dark in `.section-dark`)
 - Chart palette colors
 - Be Vietnam Pro font stack
 - Tailwind v4 setup, shadcn imports, tw-animate-css
@@ -149,6 +212,23 @@
 - Links: Near Black `#141413` default
 - Hover: foreground-primary, no underline
 - Dropdown content: Ivory surface, Border Cream border, 12px radius
+
+### Inputs & Forms
+
+- Background: Parchment `#f5f4ed` or white `#ffffff`
+- Text: Near Black `#141413`
+- Padding: compact vertical (~6px 12px)
+- Border: `1px solid #f0eee6` (Border Cream)
+- Focus: ring with Focus Blue `#3898ec` border-color — the only cool color moment
+- Radius: 12px (generously rounded per DESIGN.md)
+- Applies to: BirthInputForm, admin login, search inputs, select dropdowns
+
+### Tailwind Typography Plugin
+
+For prose content (e.g., `ChatPanel.tsx` reading responses, learning page content):
+- Remove `dark:prose-invert` classes
+- Add a `.section-dark .prose` override in globals.css that inverts prose colors to Ivory/Warm Silver
+- Ensure prose links use Coral Accent `#d97757` in dark sections
 
 ---
 
@@ -240,6 +320,19 @@
 - `src/components/app-nav.tsx`
 - `src/components/mobile-nav.tsx`
 
+### Domain component modifications
+
+All files under these directories need: (1) remove `dark:` variant classes, (2) replace cool-toned Tailwind utilities (slate, gray, blue, zinc, neutral, stone) with warm design-system tokens.
+
+- `src/components/bazi/*.tsx` — StrengthPanel, RelationshipsPanel, BaziPillarTable, DaiVanSection, FengShuiCompass, ThanSatTable, ThaiMenhCung, EnergyColorProfile, RawDataExport, CurrentYearPanel, etc.
+- `src/components/numerology/*.tsx` — NumberBadge, NameBreakdown, ChallengesPanel, CoreNumbersPanel, CyclesPanel, PinnaclesPanel, etc.
+- `src/components/human-design/*.tsx` — BodygraphSvg, ProfileMatrix, CenterDetailCard, LineArchetypeStack, etc.
+- `src/components/iching/*.tsx` — ImageDropZone, CoinCastAnimation, HexagramResult, etc.
+- `src/components/tu-vi/*.tsx` — TuViChart, PalaceDetail, TuViPromptGenerator, etc.
+- `src/components/readings/*.tsx` — ChatPanel (including prose-invert handling), etc.
+- `src/components/shared/*.tsx` — BirthInputForm, etc.
+- `src/components/auth/*.tsx` — UserButton, SessionProvider (remove ThemeProvider import if referenced)
+
 ### Page modifications
 - `src/app/page.tsx`
 - `src/app/bazi/page.tsx`
@@ -248,6 +341,7 @@
 - `src/app/iching/page.tsx`
 - `src/app/human-design/page.tsx`
 - `src/app/numerology/page.tsx`
+- `src/app/numerology/learn/page.tsx`
 - `src/app/numerology/learn/[chapter]/page.tsx`
 - `src/app/admin/page.tsx`
 - `src/app/admin/layout.tsx`
