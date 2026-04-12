@@ -61,15 +61,15 @@ function ChapterIChingGates() {
           en: 'The I Ching provides the deepest structural scaffolding. The 64 Gates correspond 1:1 with the 64 hexagrams using King Wen sequence numbering. However, the arrangement on the Rave Mandala follows the Fu Xi binary sequence — complementary hexagrams sit 180° apart. Each hexagram occupies exactly 5°37\'30" of arc.',
         }}
       />
-      <div className="rounded-lg border p-4 space-y-3">
+      <div className="bg-card border border-border rounded-lg p-4 space-y-3">
         <div className="text-xs font-semibold text-muted-foreground">Điểm Khác Biệt Quan Trọng</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-          <div className="rounded bg-muted/50 p-3">
+          <div className="bg-secondary rounded p-3">
             <div className="font-semibold mb-1">Kinh Dịch truyền thống</div>
             <p>Hệ thống bói toán động — hào động biến quẻ này thành quẻ khác. Bản chất là về sự thay đổi.</p>
             <p className="text-muted-foreground italic mt-1">Dynamic oracular system — moving lines transform hexagrams. Essentially about change.</p>
           </div>
-          <div className="rounded bg-muted/50 p-3">
+          <div className="bg-secondary rounded p-3">
             <div className="font-semibold mb-1">Human Design</div>
             <p>Dùng quẻ như mô tả tính cách cố định từ lúc sinh. Cơ chế biến đổi (hào động) bị loại bỏ hoàn toàn.</p>
             <p className="text-muted-foreground italic mt-1">Uses hexagrams as fixed personality descriptors determined at birth. Transformational mechanics entirely stripped away.</p>
@@ -108,7 +108,7 @@ function ChapterKabbalahBodygraph() {
           />
         </div>
       </div>
-      <div className="rounded-lg border p-4 text-sm">
+      <div className="bg-card border border-border rounded-lg p-4 text-sm">
         <div className="text-xs font-semibold text-muted-foreground mb-2">So Sánh Cấu Trúc / Structural Comparison</div>
         <div className="grid grid-cols-2 gap-4 text-xs">
           <div>
@@ -196,7 +196,7 @@ function ChapterAstrologyCalculation() {
       />
       <DualCalculationDiagram />
 
-      <div className="rounded-lg border p-4 text-sm space-y-2">
+      <div className="bg-card border border-border rounded-lg p-4 text-sm space-y-2">
         <div className="text-xs font-semibold text-muted-foreground">Ràng Buộc 88° & Profile</div>
         <p className="text-xs">
           Mỗi hào trong một Cổng chiếm khoảng 0.9375°. Offset 88° tương đương ~3.87 hào dịch chuyển, nên Design luôn cách Personality 2 hoặc 3 hào. Điều này giới hạn chỉ có <span className="font-bold">12 Profile</span> hợp lệ từ 36 tổ hợp lý thuyết.
@@ -221,7 +221,7 @@ function ChapterFiveTypes() {
       />
       <TypeCards />
 
-      <div className="rounded-lg bg-muted/50 p-4 text-sm space-y-2">
+      <div className="bg-secondary border border-border rounded-lg p-4 text-sm space-y-2">
         <div className="text-xs font-semibold text-muted-foreground">Hiểu Lầm Phổ Biến / Common Misconception</div>
         <p className="text-xs">
           Hệ thống cho rằng ~70% nhân loại là Generator/MG nhưng sống như thể họ là Manifestor — cố gắng khởi xướng thay vì phản hồi — tạo ra thất vọng mãn tính.
@@ -278,7 +278,7 @@ function ChapterPhilosophy() {
         }}
       />
 
-      <div className="rounded-lg border-2 border-dashed p-6 text-center space-y-2">
+      <div className="bg-card border border-border rounded-lg p-6 text-center space-y-2">
         <div className="text-3xl opacity-30">∞</div>
         <p className="text-sm font-medium">
           &ldquo;Mọi thứ đều được xác định, nhưng quan sát cơ chế lại giải phóng.&rdquo;
@@ -312,9 +312,9 @@ function Section({
 }) {
   return (
     <div>
-      <h2 className="text-lg font-bold">{title.vn}</h2>
-      <p className="text-xs text-muted-foreground italic mb-2">{title.en}</p>
-      <p className="text-sm leading-relaxed">{description.vn}</p>
+      <h2 className="text-lg font-semibold">{title.vn}</h2>
+      <p className="text-xs text-foreground-secondary italic mb-2">{title.en}</p>
+      <p className="text-base leading-relaxed">{description.vn}</p>
       <p className="text-xs text-muted-foreground italic mt-1 leading-relaxed">{description.en}</p>
     </div>
   )
@@ -384,8 +384,8 @@ export default function ChapterPage() {
           </span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold">{chapter.title.vn}</h1>
-        <p className="text-muted-foreground mt-1 text-sm italic">{chapter.title.en}</p>
-        <p className="text-muted-foreground mt-1 text-sm">{chapter.subtitle.vn}</p>
+        <p className="text-foreground-secondary mt-1 text-sm italic">{chapter.title.en}</p>
+        <p className="text-foreground-secondary mt-1 text-sm">{chapter.subtitle.vn}</p>
       </div>
 
       {/* Chapter sidebar — chapter list */}
@@ -409,7 +409,7 @@ export default function ChapterPage() {
       {Content ? <Content /> : <p className="text-muted-foreground">Nội dung đang được xây dựng...</p>}
 
       {/* Navigation */}
-      <div className="flex justify-between items-center mt-12 pt-6 border-t">
+      <div className="flex justify-between items-center mt-12 pt-6 border-t border-border">
         {prev ? (
           <Link href={`/human-design/${prev.slug}`}>
             <Button variant="ghost" size="sm" className="gap-1">
