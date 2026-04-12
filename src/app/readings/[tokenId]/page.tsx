@@ -135,8 +135,8 @@ export default function ReadingPage({ params }: { params: Promise<{ tokenId: str
   const TypeIcon = data.clientType === 'bazi' ? Star : Moon
   const typeLabel = data.clientType === 'bazi' ? 'Bát Tự' : 'Tử Vi'
   const typeColor = data.clientType === 'bazi'
-    ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400'
-    : 'bg-purple-500/10 text-purple-700 dark:text-purple-400'
+    ? 'bg-amber-500/10 text-amber-700'
+    : 'bg-purple-500/10 text-purple-700'
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">

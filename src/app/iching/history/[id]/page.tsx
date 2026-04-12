@@ -134,7 +134,7 @@ export default function ReadingDetailPage({ params }: { params: Promise<{ id: st
             className={[
               'rounded-lg border px-5 py-2.5 text-[13px] transition-all',
               copied
-                ? 'border-green-500/30 bg-green-500/10 text-green-600 dark:text-green-400'
+                ? 'border-green-500/30 bg-green-500/10 text-green-600'
                 : 'border-border bg-card/50 text-muted-foreground hover:bg-card hover:text-foreground/70',
             ].join(' ')}
           >

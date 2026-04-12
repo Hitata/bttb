@@ -40,9 +40,9 @@ export function Lesson02() {
         </p>
         <div className="flex gap-3">
           {[11, 22, 33].map((n) => (
-            <div key={n} className="flex-1 rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-950/20 p-3 text-center">
-              <div className="text-lg font-bold text-amber-700 dark:text-amber-400">{n}</div>
-              <div className="text-[10px] text-amber-600 dark:text-amber-500 mt-1">
+            <div key={n} className="flex-1 rounded-lg border border-amber-200 bg-amber-50 p-3 text-center">
+              <div className="text-lg font-bold text-amber-700">{n}</div>
+              <div className="text-[10px] text-amber-600 mt-1">
                 = {n === 11 ? '2 khuếch đại' : n === 22 ? '4 khuếch đại' : '6 khuếch đại'}
               </div>
             </div>
@@ -82,7 +82,7 @@ function ReductionExample({ number }: { number: number }) {
         ))}
         <span className="text-primary font-bold">→ {current}</span>
         {MASTER_NUMBERS.has(current) && (
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400">
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700">
             Số Bậc Thầy
           </span>
         )}
@@ -133,7 +133,7 @@ function ReductionCalculator() {
             ))}
             <span className="text-primary font-bold text-base">→ {result}</span>
             {MASTER_NUMBERS.has(result) && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400">
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700">
                 Số Bậc Thầy
               </span>
             )}

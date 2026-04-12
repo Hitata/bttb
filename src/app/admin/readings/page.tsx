@@ -23,19 +23,19 @@ interface ReadingSummary {
 const SYSTEM_LABELS = {
   bazi: {
     name: 'Bát Tự',
-    className: 'bg-[oklch(0.58_0.14_42/0.1)] text-[oklch(0.58_0.14_42)] dark:bg-[oklch(0.65_0.14_42/0.15)] dark:text-[oklch(0.65_0.14_42)]',
+    className: 'bg-[oklch(0.58_0.14_42/0.1)] text-[oklch(0.58_0.14_42)]',
     href: (id: string) => `/bazi/${id}`,
     api: '/api/bazi/readings',
   },
   hd: {
     name: 'Human Design',
-    className: 'bg-[oklch(0.58_0.1_175/0.1)] text-[oklch(0.52_0.1_175)] dark:bg-[oklch(0.65_0.1_175/0.15)] dark:text-[oklch(0.7_0.1_175)]',
+    className: 'bg-[oklch(0.58_0.1_175/0.1)] text-[oklch(0.52_0.1_175)]',
     href: (id: string) => `/human-design/chart/${id}`,
     api: '/api/human-design/readings',
   },
   tuvi: {
     name: 'Tử Vi',
-    className: 'bg-[oklch(0.5_0.1_290/0.1)] text-[oklch(0.45_0.1_290)] dark:bg-[oklch(0.55_0.1_290/0.15)] dark:text-[oklch(0.7_0.1_290)]',
+    className: 'bg-[oklch(0.5_0.1_290/0.1)] text-[oklch(0.45_0.1_290)]',
     href: (id: string) => `/tu-vi/chart/${id}`,
     api: '/api/tu-vi/readings',
   },

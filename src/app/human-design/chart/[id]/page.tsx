@@ -391,7 +391,7 @@ export default function ChartPage() {
             onClick={() => setShowTransits(!showTransits)}
             className={`text-xs px-2.5 py-1 rounded-md border transition-colors ${
               showTransits
-                ? 'bg-teal-500/10 border-teal-500/40 text-teal-600 dark:text-teal-400'
+                ? 'bg-teal-500/10 border-teal-500/40 text-teal-600'
                 : 'border-border text-muted-foreground hover:bg-muted'
             }`}
           >
@@ -403,7 +403,7 @@ export default function ChartPage() {
 
       {/* Birth time unknown warning */}
       {chart.birthTimeUnknown && (
-        <div className="mb-4 text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 rounded-md px-3 py-2">
+        <div className="mb-4 text-xs text-amber-600 bg-amber-50 rounded-md px-3 py-2">
           Giờ sinh chưa xác định — biểu đồ có thể chưa chính xác
         </div>
       )}

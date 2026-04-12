@@ -20,7 +20,7 @@ export function Lesson08() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="rounded-lg border p-4">
           <div className="flex items-center gap-2 mb-2">
-            <span className="flex size-8 items-center justify-center rounded-full bg-rose-100 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400 text-sm font-bold">
+            <span className="flex size-8 items-center justify-center rounded-full bg-rose-100 text-rose-700 text-sm font-bold">
               ♥
             </span>
             <h4 className="font-semibold text-sm">Số Linh Hồn</h4>
@@ -34,7 +34,7 @@ export function Lesson08() {
         </div>
         <div className="rounded-lg border p-4">
           <div className="flex items-center gap-2 mb-2">
-            <span className="flex size-8 items-center justify-center rounded-full bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400 text-sm font-bold">
+            <span className="flex size-8 items-center justify-center rounded-full bg-blue-100 text-blue-700 text-sm font-bold">
               ◆
             </span>
             <h4 className="font-semibold text-sm">Số Nhân Cách</h4>
@@ -59,8 +59,8 @@ export function Lesson08() {
                 key={letter}
                 className={`text-xs px-2 py-1 rounded border font-mono ${
                   isVowel
-                    ? 'bg-rose-50 border-rose-200 text-rose-700 dark:bg-rose-950/20 dark:border-rose-900/50 dark:text-rose-400'
-                    : 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-950/20 dark:border-blue-900/50 dark:text-blue-400'
+                    ? 'bg-rose-50 border-rose-200 text-rose-700'
+                    : 'bg-blue-50 border-blue-200 text-blue-700'
                 }`}
               >
                 {letter}
@@ -69,9 +69,9 @@ export function Lesson08() {
           })}
         </div>
         <p className="text-xs text-muted-foreground leading-relaxed">
-          <span className="text-rose-600 dark:text-rose-400">Nguyên âm: A, E, I, O, U, Y</span>
+          <span className="text-rose-600">Nguyên âm: A, E, I, O, U, Y</span>
           {' · '}
-          <span className="text-blue-600 dark:text-blue-400">Phụ âm: tất cả còn lại</span>
+          <span className="text-blue-600">Phụ âm: tất cả còn lại</span>
         </p>
         <p className="text-xs text-muted-foreground leading-relaxed mt-1">
           <strong>Lưu ý về Y:</strong> Trong hệ thống Pythagorean, Y mặc định là nguyên âm.
@@ -122,15 +122,15 @@ function SoulPersonalityCalculator() {
                   <div key={j} className="flex flex-col items-center gap-0.5">
                     <span className={`text-xs ${
                       l.type === 'vowel'
-                        ? 'text-rose-600 dark:text-rose-400 font-medium'
-                        : 'text-blue-600 dark:text-blue-400'
+                        ? 'text-rose-600 font-medium'
+                        : 'text-blue-600'
                     }`}>
                       {l.letter}
                     </span>
                     <span className={`text-[10px] px-1.5 py-0.5 rounded border font-mono ${
                       l.type === 'vowel'
-                        ? 'bg-rose-50 border-rose-200 dark:bg-rose-950/20 dark:border-rose-900/50'
-                        : 'bg-blue-50 border-blue-200 dark:bg-blue-950/20 dark:border-blue-900/50'
+                        ? 'bg-rose-50 border-rose-200'
+                        : 'bg-blue-50 border-blue-200'
                     }`}>
                       {l.value}
                     </span>
@@ -143,7 +143,7 @@ function SoulPersonalityCalculator() {
           <div className="grid grid-cols-2 gap-3 pt-2 border-t">
             {soul && (
               <div className="flex items-center gap-2">
-                <span className="inline-flex size-8 items-center justify-center rounded-full bg-rose-100 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400 text-sm font-bold">
+                <span className="inline-flex size-8 items-center justify-center rounded-full bg-rose-100 text-rose-700 text-sm font-bold">
                   {soul.value}
                 </span>
                 <div>
@@ -154,7 +154,7 @@ function SoulPersonalityCalculator() {
             )}
             {personality && (
               <div className="flex items-center gap-2">
-                <span className="inline-flex size-8 items-center justify-center rounded-full bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400 text-sm font-bold">
+                <span className="inline-flex size-8 items-center justify-center rounded-full bg-blue-100 text-blue-700 text-sm font-bold">
                   {personality.value}
                 </span>
                 <div>

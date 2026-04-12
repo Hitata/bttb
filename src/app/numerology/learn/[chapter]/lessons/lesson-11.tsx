@@ -178,13 +178,13 @@ function TimelineCalculator() {
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="flex size-6 items-center justify-center rounded-full bg-orange-100 text-orange-700 dark:bg-orange-950/30 dark:text-orange-400 text-[10px] font-bold">
+                      <span className="flex size-6 items-center justify-center rounded-full bg-orange-100 text-orange-700 text-[10px] font-bold">
                         {ch.number}
                       </span>
                       <span className="text-[10px] text-muted-foreground">Thử thách</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="flex size-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 text-[10px] font-bold">
+                      <span className="flex size-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">
                         {pin.number}
                       </span>
                       <span className="text-[10px] text-muted-foreground">Đỉnh cao</span>

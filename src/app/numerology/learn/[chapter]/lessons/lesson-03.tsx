@@ -31,7 +31,7 @@ export function Lesson03() {
         </div>
       </div>
 
-      <div className="rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-950/20 p-4">
+      <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
         <h4 className="font-semibold text-sm mb-2">Lỗi thường gặp</h4>
         <ul className="text-xs text-muted-foreground leading-relaxed space-y-2">
           <li>
@@ -67,7 +67,7 @@ function WorkedExample({ month, day, year }: { month: number; day: number; year:
           {result.value}
         </span>
         {result.isMaster && (
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400">
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700">
             Số Bậc Thầy
           </span>
         )}
@@ -143,7 +143,7 @@ function LifePathCalculator() {
               {result.value}
             </span>
             {result.isMaster && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400">
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700">
                 Số Bậc Thầy
               </span>
             )}
