@@ -27,7 +27,7 @@ interface BirthInputFormProps {
 }
 
 const inputClass =
-  'h-8 w-full rounded-md border bg-background px-2.5 text-sm outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary/30'
+  'h-8 w-full rounded-xl border border-border bg-background px-2.5 text-sm outline-none transition-colors focus:border-focus-blue focus:ring-1 focus:ring-focus-blue/30'
 
 const currentYear = new Date().getFullYear()
 
@@ -108,7 +108,7 @@ export function BirthInputForm({
     <form onSubmit={handleSubmit} className="space-y-2.5">
       {/* Name */}
       <div>
-        <label className="mb-1 block text-xs font-medium text-muted-foreground">Họ và tên</label>
+        <label className="mb-1 block text-xs font-medium text-foreground-secondary">Họ và tên</label>
         <input
           ref={nameRef}
           type="text"
@@ -122,7 +122,7 @@ export function BirthInputForm({
 
       {/* Gender */}
       <div>
-        <label className="mb-1 block text-xs font-medium text-muted-foreground">Giới tính</label>
+        <label className="mb-1 block text-xs font-medium text-foreground-secondary">Giới tính</label>
         <select
           value={gender}
           onChange={e => setGender(e.target.value as 'male' | 'female')}
@@ -136,7 +136,7 @@ export function BirthInputForm({
       {/* Birth date row */}
       <div className="grid grid-cols-3 gap-2">
         <div>
-          <label className="mb-1 block text-xs font-medium text-muted-foreground">Ngày</label>
+          <label className="mb-1 block text-xs font-medium text-foreground-secondary">Ngày</label>
           <select
             value={birthDay}
             onChange={e => setBirthDay(Number(e.target.value))}
@@ -148,7 +148,7 @@ export function BirthInputForm({
           </select>
         </div>
         <div>
-          <label className="mb-1 block text-xs font-medium text-muted-foreground">Tháng</label>
+          <label className="mb-1 block text-xs font-medium text-foreground-secondary">Tháng</label>
           <select
             value={birthMonth}
             onChange={e => setBirthMonth(Number(e.target.value))}
@@ -160,7 +160,7 @@ export function BirthInputForm({
           </select>
         </div>
         <div>
-          <label className="mb-1 block text-xs font-medium text-muted-foreground">Năm</label>
+          <label className="mb-1 block text-xs font-medium text-foreground-secondary">Năm</label>
           <input
             type="number"
             value={birthYear}
@@ -175,12 +175,12 @@ export function BirthInputForm({
       {/* Birth time unknown checkbox */}
       {showBirthTimeUnknown && (
         <div>
-          <label className="mb-1 flex items-center gap-2 text-xs font-medium text-muted-foreground">
+          <label className="mb-1 flex items-center gap-2 text-xs font-medium text-foreground-secondary">
             <input
               type="checkbox"
               checked={birthTimeUnknown}
               onChange={e => setBirthTimeUnknown(e.target.checked)}
-              className="rounded border-muted-foreground/30"
+              className="rounded border border-border"
             />
             Không biết giờ sinh
             <span className="italic">— Birth time unknown</span>
@@ -191,7 +191,7 @@ export function BirthInputForm({
       {/* Birth time row */}
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="mb-1 block text-xs font-medium text-muted-foreground">Giờ</label>
+          <label className="mb-1 block text-xs font-medium text-foreground-secondary">Giờ</label>
           <select
             value={birthTimeUnknown ? 12 : birthHour}
             onChange={e => setBirthHour(Number(e.target.value))}
@@ -204,7 +204,7 @@ export function BirthInputForm({
           </select>
         </div>
         <div>
-          <label className="mb-1 block text-xs font-medium text-muted-foreground">Phút</label>
+          <label className="mb-1 block text-xs font-medium text-foreground-secondary">Phút</label>
           <select
             value={birthTimeUnknown ? 0 : birthMinute}
             onChange={e => setBirthMinute(Number(e.target.value))}
@@ -220,7 +220,7 @@ export function BirthInputForm({
 
       {/* Birth place */}
       <div>
-        <label className="mb-1 block text-xs font-medium text-muted-foreground">Nơi sinh</label>
+        <label className="mb-1 block text-xs font-medium text-foreground-secondary">Nơi sinh</label>
         <select
           value={cityIndex}
           onChange={e => handleCityChange(Number(e.target.value))}
@@ -236,7 +236,7 @@ export function BirthInputForm({
       {isCustomCity && (
         <div className="space-y-2">
           <div>
-            <label className="mb-1 block text-xs font-medium text-muted-foreground">Múi giờ (IANA)</label>
+            <label className="mb-1 block text-xs font-medium text-foreground-secondary">Múi giờ (IANA)</label>
             <input
               type="text"
               value={customTz}
@@ -247,7 +247,7 @@ export function BirthInputForm({
           </div>
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="mb-1 block text-xs font-medium text-muted-foreground">Vĩ độ</label>
+              <label className="mb-1 block text-xs font-medium text-foreground-secondary">Vĩ độ</label>
               <input
                 type="number"
                 step="any"
@@ -258,7 +258,7 @@ export function BirthInputForm({
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-medium text-muted-foreground">Kinh độ</label>
+              <label className="mb-1 block text-xs font-medium text-foreground-secondary">Kinh độ</label>
               <input
                 type="number"
                 step="any"
