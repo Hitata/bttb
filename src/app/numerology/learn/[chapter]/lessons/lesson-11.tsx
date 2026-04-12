@@ -80,7 +80,7 @@ export function Lesson11() {
             </tbody>
           </table>
         </div>
-        <p className="text-xs text-muted-foreground mt-2">
+        <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
           TT = Thử Thách, ĐC = Đ��nh Cao. Tất cả đều rút gọn sau khi tính.
         </p>
       </div>
