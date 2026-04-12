@@ -53,6 +53,7 @@ export interface Star {
 export interface Palace {
   readonly position: number         // 0-11 (Earthly Branch index)
   readonly earthlyBranch: EarthlyBranch
+  readonly heavenlyStem: HeavenlyStem // Can Cung — palace stem
   readonly name: string             // Vietnamese palace name
   readonly nameEn: string
   readonly domain: string           // Life domain description
@@ -60,11 +61,19 @@ export interface Palace {
   readonly daiHan?: DaiHanPeriod    // Major 10-year period
   readonly isTuan?: boolean         // In Tuần void
   readonly isTriet?: boolean        // In Triệt void
+  readonly trangSinhLabel?: string  // Tràng Sinh cycle stage name
+  readonly tieuHan?: boolean        // Is current Tiểu Hạn palace for viewing year
 }
 
 export interface DaiHanPeriod {
   readonly startAge: number
   readonly endAge: number
+}
+
+export interface PillarInfo {
+  readonly can: HeavenlyStem
+  readonly chi: EarthlyBranch
+  readonly napAm?: NapAmInfo
 }
 
 export interface TuViProfile {
@@ -79,6 +88,12 @@ export interface TuViProfile {
   readonly thanChu: string          // Ruling star of Thân
   readonly napAm: NapAmInfo         // Nạp Âm of birth year
   readonly sinhKhac: SinhKhacResult // Mệnh vs Cục relationship
+  readonly tuTru: {                 // Four Pillars (Can Chi)
+    readonly year: PillarInfo
+    readonly month: PillarInfo
+    readonly day: PillarInfo
+    readonly hour: PillarInfo
+  }
 }
 
 export interface NapAmInfo {
@@ -104,6 +119,16 @@ export interface TuanTriet {
   readonly triet: readonly [number, number]  // Two palace indices in Triệt
 }
 
+export interface LuuNienInfo {
+  readonly viewingYear: number
+  readonly yearStem: HeavenlyStem
+  readonly yearBranch: EarthlyBranch
+  readonly age: number
+  readonly tieuHanPalace: number    // Palace index for this year's Tiểu Hạn
+  readonly tuHoa: readonly { readonly type: TuHoaType; readonly starId: string; readonly starName: string }[]
+  readonly tuanTriet: TuanTriet
+}
+
 export interface TuViChart {
   readonly input: TuViBirthInput
   readonly lunar: LunarDate
@@ -111,5 +136,6 @@ export interface TuViChart {
   readonly palaces: readonly Palace[]
   readonly tuHoa: readonly { readonly type: TuHoaType; readonly starId: string; readonly starName: string }[]
   readonly tuanTriet: TuanTriet
+  readonly luuNien?: LuuNienInfo    // Annual transit data for viewing year
   readonly scope: 'full'
 }

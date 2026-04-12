@@ -6,8 +6,11 @@
 import type {
   TuViBirthInput, TuViChart, Palace, Star,
   EarthlyBranch, HeavenlyStem, TuHoaType, DaiHanPeriod,
+  PillarInfo, LuuNienInfo,
 } from './types'
 import { solarToLunar } from '../bazi/solar-lunar'
+import { getYearPillar, getMonthPillar, getDayPillar, getHourPillar, getNaYin } from '../bazi/pillars'
+import { HEAVENLY_STEMS as BAZI_STEMS, EARTHLY_BRANCHES as BAZI_BRANCHES } from '../bazi/constants'
 import { EARTHLY_BRANCHES, HEAVENLY_STEMS, PALACE_NAMES, CUC_INFO, hourToBranchIndex } from './palace-data'
 import { STAR_BY_ID } from './star-descriptions'
 import { getStarBrightness } from './star-brightness'
@@ -32,10 +35,54 @@ import {
   placeThienThuongSu, placeDauQuan,
 } from './star-placement'
 
-export type { TuViBirthInput, TuViChart, Palace, Star } from './types'
+export type { TuViBirthInput, TuViChart, Palace, Star, PillarInfo, LuuNienInfo } from './types'
 export type { StarBrightness, CucType, TuHoaType, EarthlyBranch, TuanTriet, DaiHanPeriod, NapAmInfo, SinhKhacResult } from './types'
 
-export function computeTuVi(input: TuViBirthInput): TuViChart {
+// Can Cung: assign Heavenly Stem to each palace branch using Five Tiger method
+function getPalaceStem(yearStemIndex: number, branchIndex: number): HeavenlyStem {
+  // Five Tiger Escape: year stem → starting stem for Dần(2)
+  const yearCanMod = yearStemIndex % 5
+  const denStartStem = (yearCanMod * 2 + 2) % 10
+  // Dần=2, so offset from Dần
+  const stemIndex = (denStartStem + ((branchIndex - 2 + 12) % 12)) % 10
+  return HEAVENLY_STEMS[stemIndex] as HeavenlyStem
+}
+
+// Tràng Sinh cycle stage labels
+const TRANG_SINH_LABELS = [
+  'Tràng Sinh', 'Mộc Dục', 'Quan Đới', 'Lâm Quan', 'Đế Vượng', 'Suy',
+  'Bệnh', 'Tử', 'Mộ', 'Tuyệt', 'Thai', 'Dưỡng',
+]
+
+function getTrangSinhLabel(cuc: number, direction: 1 | -1, branchIndex: number): string {
+  // Same start logic as placeTrangSinhRing
+  let start: number
+  switch (cuc) {
+    case 6: start = 2; break   // Hỏa → Dần
+    case 4: start = 5; break   // Kim → Tỵ
+    case 2: start = 8; break   // Thủy → Thân
+    case 5: start = 8; break   // Thổ → Thân
+    case 3: start = 11; break  // Mộc → Hợi
+    default: start = 2
+  }
+  const offset = ((branchIndex - start) * direction + 12) % 12
+  return TRANG_SINH_LABELS[offset]
+}
+
+// Tiểu Hạn: which palace governs the current year
+function calculateTieuHan(
+  menhPos: number, yearBranchIndex: number, viewingYearBranch: number, direction: 1 | -1
+): number {
+  // Tiểu Hạn starts at the birth year branch position relative to Mệnh
+  // and advances by 1 palace each year in the direction
+  const birthOffset = ((yearBranchIndex - menhPos) % 12 + 12) % 12
+  const startPalace = ((menhPos + birthOffset * direction) % 12 + 12) % 12
+  // Each subsequent year moves by direction
+  const yearDiff = ((viewingYearBranch - yearBranchIndex) % 12 + 12) % 12
+  return ((startPalace + yearDiff * direction) % 12 + 12) % 12
+}
+
+export function computeTuVi(input: TuViBirthInput, viewingYear?: number): TuViChart {
   // 1. Convert solar → lunar
   const lunar = solarToLunar(input.year, input.month, input.day)
   const effectiveLunarMonth = lunar.lunarMonth
@@ -206,7 +253,34 @@ export function computeTuVi(input: TuViBirthInput): TuViChart {
     daiHanByBranch.set(p.branchIndex, { startAge: p.startAge, endAge: p.endAge })
   }
 
-  // 18. Build 12 palaces with all stars, brightness, Đại Hạn, Tuần/Triệt
+  // 18. Compute Lưu Niên transit data (if viewing year provided)
+  let luuNien: LuuNienInfo | undefined
+  let tieuHanPalaceIndex: number | undefined
+  if (viewingYear) {
+    const vyStemIndex = getYearStemIndex(viewingYear)
+    const vyBranchIndex = getYearBranchIndex(viewingYear)
+    const vyTuHoa = placeTuHoa(vyStemIndex).map(({ starId, type }) => ({
+      type,
+      starId,
+      starName: STAR_BY_ID[starId]?.name ?? starId,
+    }))
+    const vyTriet = calculateTriet(vyStemIndex)
+    const vyTuan = calculateTuan(vyStemIndex, vyBranchIndex)
+    const age = viewingYear - input.year + 1 // Vietnamese age
+    tieuHanPalaceIndex = calculateTieuHan(menhPos, yearBranchIndex, vyBranchIndex, direction)
+
+    luuNien = {
+      viewingYear,
+      yearStem: HEAVENLY_STEMS[vyStemIndex] as HeavenlyStem,
+      yearBranch: EARTHLY_BRANCHES[vyBranchIndex] as EarthlyBranch,
+      age,
+      tieuHanPalace: tieuHanPalaceIndex,
+      tuHoa: vyTuHoa,
+      tuanTriet: { tuan: vyTuan, triet: vyTriet },
+    }
+  }
+
+  // 19. Build 12 palaces with all stars, brightness, Đại Hạn, Tuần/Triệt, Can Cung, Tràng Sinh
   const palaces: Palace[] = []
   for (let i = 0; i < 12; i++) {
     const branchIndex = ((menhPos - i) % 12 + 12) % 12
@@ -234,6 +308,7 @@ export function computeTuVi(input: TuViBirthInput): TuViChart {
     palaces.push({
       position: branchIndex,
       earthlyBranch: EARTHLY_BRANCHES[branchIndex],
+      heavenlyStem: getPalaceStem(yearStemIndex, branchIndex),
       name: palaceDef.name,
       nameEn: palaceDef.nameEn,
       domain: palaceDef.domain,
@@ -241,17 +316,34 @@ export function computeTuVi(input: TuViBirthInput): TuViChart {
       daiHan: daiHanByBranch.get(branchIndex),
       isTuan: tuan[0] === branchIndex || tuan[1] === branchIndex,
       isTriet: triet[0] === branchIndex || triet[1] === branchIndex,
+      trangSinhLabel: getTrangSinhLabel(cuc, direction, branchIndex),
+      tieuHan: tieuHanPalaceIndex === branchIndex ? true : undefined,
     })
   }
 
-  // 19. Build Tứ Hóa summary
+  // 20. Build Tứ Hóa summary
   const tuHoa = tuHoaAssignments.map(({ starId, type }) => ({
     type,
     starId,
     starName: STAR_BY_ID[starId]?.name ?? starId,
   }))
 
-  // 20. Profile with Mệnh Chủ, Thân Chủ, Nạp Âm, Sinh Khắc
+  // 21. Compute Four Pillars (Tứ Trụ)
+  const yearP = getYearPillar(input.year, input.month, input.day)
+  const monthP = getMonthPillar(input.year, input.month, input.day)
+  const dayP = getDayPillar(input.year, input.month, input.day)
+  const hourP = getHourPillar(dayP.can, input.hour)
+
+  function buildPillarInfo(can: number, chi: number): PillarInfo {
+    const naYin = getNaYin(can, chi)
+    return {
+      can: BAZI_STEMS[can].name as HeavenlyStem,
+      chi: BAZI_BRANCHES[chi].name as EarthlyBranch,
+      napAm: { name: naYin.name, element: naYin.element as 'Kim' | 'Mộc' | 'Thủy' | 'Hỏa' | 'Thổ' },
+    }
+  }
+
+  // 22. Profile with Mệnh Chủ, Thân Chủ, Nạp Âm, Sinh Khắc, Tứ Trụ
   const napAm = getNapAm(yearStemIndex, yearBranchIndex)
   const sinhKhac = calculateSinhKhac(napAm.element, cucInfo.element)
 
@@ -275,10 +367,17 @@ export function computeTuVi(input: TuViBirthInput): TuViChart {
       thanChu: STAR_BY_ID[getThanChu(yearBranchIndex)]?.name ?? getThanChu(yearBranchIndex),
       napAm,
       sinhKhac,
+      tuTru: {
+        year: buildPillarInfo(yearP.can, yearP.chi),
+        month: buildPillarInfo(monthP.can, monthP.chi),
+        day: buildPillarInfo(dayP.can, dayP.chi),
+        hour: buildPillarInfo(hourP.can, hourP.chi),
+      },
     },
     palaces,
     tuHoa,
     tuanTriet: { tuan, triet },
+    luuNien,
     scope: 'full',
   }
 }

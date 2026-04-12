@@ -43,7 +43,8 @@ export async function POST(request: Request) {
       birthPlace: birthPlace || '',
     }
 
-    const result = computeTuVi(input)
+    const viewingYear = body.viewingYear ? Number(body.viewingYear) : undefined
+    const result = computeTuVi(input, viewingYear)
 
     return NextResponse.json(result)
   } catch (error) {
