@@ -36,7 +36,7 @@ const LUNAR_INFO = [
 ]
 
 const LUNAR_BASE_YEAR = 1900
-// Jan 31, 1900 was the start of the first lunar month of year 1900
+// Jan 30, 1900 was the start of the first lunar month of year 1900
 
 /**
  * Get number of days in a lunar year
@@ -81,8 +81,8 @@ export function solarToLunar(year: number, month: number, day: number): {
   lunarDay: number
   isLeapMonth: boolean
 } {
-  // Base date: Jan 31 1900 = lunar 1/1/1900
-  const baseDate = new Date(1900, 0, 31) // months are 0-indexed in JS
+  // Base date: Jan 30 1900 = lunar 1/1/1900 (Gregorian start of that lunar year)
+  const baseDate = new Date(1900, 0, 30) // months are 0-indexed in JS
   const targetDate = new Date(year, month - 1, day)
   let offset = Math.floor((targetDate.getTime() - baseDate.getTime()) / 86400000)
 
