@@ -7,9 +7,6 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env.DIRECT_URL,
-  },
-  seed: {
-    command: "npx tsx prisma/seed-hexagrams.ts",
+    url: process.env.DIRECT_URL!,
   },
 });

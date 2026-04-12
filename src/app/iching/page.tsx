@@ -33,10 +33,14 @@ export default function IChing() {
         <ImageDropZone onCasted={handleCasted} />
       )}
       {state === 'casting' && result && (
-        <CoinCastAnimation result={result} onComplete={handleAnimationComplete} />
+        <div className="min-h-[calc(100vh-48px)] flex items-center justify-center bg-background">
+          <CoinCastAnimation result={result} onComplete={handleAnimationComplete} />
+        </div>
       )}
       {state === 'result' && result && (
-        <HexagramResult result={result} question={question} onCastAgain={handleCastAgain} />
+        <div className="section-dark min-h-[calc(100vh-48px)]">
+          <HexagramResult result={result} question={question} onCastAgain={handleCastAgain} />
+        </div>
       )}
     </div>
   )
